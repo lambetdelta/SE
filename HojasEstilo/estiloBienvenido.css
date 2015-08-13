@@ -1,0 +1,113 @@
+@charset "utf-8";
+*{
+	margin:0px;/*eliminar borde*/
+	padding:0px
+}
+body{
+	width:100%;
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,179,96,1) 31%, rgba(0,179,96,1) 31%, rgba(0,179,96,1) 62%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(31%,rgba(0,179,96,1)), color-stop(31%,rgba(0,179,96,1)), color-stop(62%,rgba(0,179,96,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* IE10+ */
+	background: linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	height:900px;
+	margin:auto;}
+
+header {/*Encabezado*/
+	height:120px;
+	width:90%; 
+	position:relative;
+	margin: auto;
+}	
+img.centrar{	
+    display: block;
+	margin: auto;
+	border:none;
+	position: relative;
+}
+@font-face{
+	font-family:"Escolar";
+	src:url(../Fuentes/Walkway_Black.eot), url(../Fuentes/Walkway_Black.ttf);}
+	
+article.Escolar{
+	font-size: 22px}
+.Mensagge{
+	width:90%;
+	position:relative;
+	margin: auto;
+	height:80%;}
+	
+.fecha{
+	position:relative;
+	width:90%;
+	height:80px;
+	color:#333;
+	margin:auto;
+	font-size:16px;
+	font-size:22px;}
+.frase{
+	height:20px;
+	width:80%;
+	position:relative;
+	margin:3% auto 0px auto;
+	font-size:14px;
+	color:#333;
+	text-align:center;}
+.Pie{
+	height:80px;
+	width:90%;
+	background-color:#FFF;
+	margin: auto;
+	position: relative;
+	bottom:0px;}
+.imgRight{
+	top:0px;
+	right:10px;
+	position:absolute}
+.Contacto{
+	top:5px;
+	right:20%;
+	left:20%;
+	position:absolute;
+	text-align:center}
+.message_erro{
+	height:90%;
+	width:100%;
+	margin:0 100px 70px 70px;
+	font-size:24px}	
+	
+.Body_error{
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,179,96,1) 31%, rgba(0,179,96,1) 31%, rgba(0,179,96,1) 62%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(31%,rgba(0,179,96,1)), color-stop(31%,rgba(0,179,96,1)), color-stop(62%,rgba(0,179,96,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* IE10+ */
+	background: linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 31%,rgba(0,179,96,1) 62%,rgba(255,255,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	width:100%;
+	height:680px;
+	}		
+	
+a.ir_perfil{
+	background:#008049 url(../Imagenes/gradient.png) repeat-x;
+	text-decoration:none;
+	color: #FFF;
+	font-size:38px;
+	border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	padding: 5px 20px 5px 25px;
+	position:absolute;
+	right:10%;
+	bottom:10%;}		
+a.ir_perfil:hover {
+	color: #FDF944
+}		
+
+		
+				
+	

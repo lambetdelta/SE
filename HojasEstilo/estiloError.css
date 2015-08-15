@@ -15,34 +15,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#686868', end
 	height:600px;
 	}
 	
-header {/*Encabezado*/
-	height:120px;
+header {
 	width:100%; 
 }	
 img.centrar{	
     display: block;
 	margin: auto;
 	border:none;
-	position:relative
+	position:relative;
 }
 
 
 footer {
 	position: relative;
-	/* Altura total del footer en px con valor negativo */
 	height: 75px; 
-	padding:0px 0px;
 	clear: both;
 	text-align: center;
-	background-color:#FFF;
 	width:100%}
 	
 section {
-	/* Definimos el padding inferior:
-	60px del pie de pagina mas 10px de separacion
-	*/
-	padding-bottom: 60px;
-	/* Definimos un padding superior */
-	padding-top:30px;
-	height:390px
+	
+	height:480px
 }

@@ -13,7 +13,6 @@ sec_session_start();
 <script src="js/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="js/jquery.jrumble.1.3.min.js" type="text/javascript"></script>
 <script type="text/JavaScript" src="js/bootstrap.js"></script>
-<script type="text/JavaScript" src="js/pgwslideshow.min.js"></script>
 <script type="text/javascript">
 $("document").ready(function() { 
 	var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
@@ -618,7 +617,7 @@ datepicker_esp();
 		y: 10,
 		rotation: 4
 	});
-	$('.pgwSlideshow').pgwSlideshow();
+	
 
 	$("#img_posgrado,#img_ingenieria").hover(function(){
 			$(this).trigger('startRumble');
@@ -661,8 +660,6 @@ $("document").ready(function() {
 <link href="HojasEstilo/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="HojasEstilo/estiloPerfil.css" rel="stylesheet" type="text/css" />
 <link href="HojasEstilo/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="HojasEstilo/pgwslideshow.css" rel="stylesheet" type="text/css" />
-<link href="HojasEstilo/pgwslideshow_light.css" rel="stylesheet" type="text/css" />
 </head>
 <body> 
 <div class="Banner">
@@ -968,7 +965,7 @@ $("document").ready(function() {
                 <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_empresa" style="top:22%; display:none" />
                 <div class="row">
                     <form  id="frm_empresa" style="text-align:center">
-                    	<h1 style="font-size:22px;text align:center">FORMULARIO DE DATOS DE LA EMPRESA</h1>
+                    	<h1 style="font-size:22px;text-align:center">FORMULARIO DE DATOS DE LA EMPRESA</h1>
                      	<img src="Imagenes/cancelar.png" id="img_cancelar_empresa" title="CERRAR FORMULARIO"  class="cancelar" style="width:35px; height:35px"/><br>
                     	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <input  class="frm_empresa" name="nombre" placeholder="NOMBRE DE LA EMPRESA" maxlength="30" title="NOMBRE DE LA EMPRESA"  required="required"/><br />
@@ -1120,26 +1117,26 @@ $("document").ready(function() {
                 </div>
                 <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">	
-                <div id="div_noticias">
-	              	 <ul class="pgwSlideshow">
-					    <li>
-					        <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
-					            <img src="noticias/noticia_1.png" alt="Monaco">
-					        </a>
-					    </li>
-					    <li>
-					        <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
-					            <img src="noticias/noticia_3.png" alt="Monaco">
-					        </a>
-					    </li>
-					    <li>
-					        <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
-					            <img src="noticias/noticia_2.png" alt="Monaco">
-					        </a>
-					    </li>
-					</ul>
-				</div>
-				</div>
+                    <div id="div_noticias">
+                        <ul class="pgwSlideshow">
+                           <li>
+                               <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
+                                   <img src="noticias/noticia_1.png" alt="Monaco">
+                               </a>
+                           </li>
+                           <li>
+                               <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
+                                   <img src="noticias/noticia_3.png" alt="Monaco">
+                               </a>
+                           </li>
+                           <li>
+                               <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
+                                   <img src="noticias/noticia_2.png" alt="Monaco">
+                               </a>
+                           </li>
+                         </ul>
+                    </div>
+		</div>
                 </div>
                 <div class="row">
 	                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">	

@@ -298,13 +298,13 @@ function guardar_dt_academicos(no_control){//guarda nueva carrera
 		});//fin de done
 	}//fin de function principal;	
 function confirmar(no_control,registro){ 
-   $("#dialogo").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#dialogo").dialog({ 
+		width: 250,  
 		height: 250,
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {
@@ -368,14 +368,14 @@ function actualizar_carrera(no_control,registro){
 	
 function alert_(title,dialog,ancho){ 
 var alert_=dialog;
-   alert_.dialog({ <!--  ------> muestra la ventana  -->
+   alert_.dialog({ 
    		open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).show(); },
-		width:ancho,  <!-- -------------> ancho de la ventana -->
+		width:ancho,  
 		height: 250,
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		title:title,
 		position: { my: "center", at: "center", of: '#center_diag' }
 		});
@@ -383,14 +383,14 @@ var alert_=dialog;
 	  	
 function alert_Bloq(title,dialog){ 
 var alert_=dialog;
-   alert_.dialog({ <!--  ------> muestra la ventana  -->
+   alert_.dialog({ 
   		open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).hide(); },//ocultar boton de cerrar ventana
-		width:250,  <!-- -------------> ancho de la ventana -->
+		width:250,  
 		height: 100,
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		title:title,
 		position: { my: "center", at: "center", of: '#center_diag' }
 		});
@@ -458,14 +458,14 @@ function borrar_idioma(no_control,registro){//borrar carrera
 	};	
 	
 function confirmar_idioma(no_control,registro){//preguntar borrado de idioma 
-   $("#dialogo_idioma").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#dialogo_idioma").dialog({ 
+		width: 250,  
 		height: 250,
 		title:"BORRAR",
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {
@@ -599,14 +599,14 @@ function borrar_sw(no_control,registro){//borrar sw
 };
 
 function confirmar_sw(no_control,registro){//preguntar borrado de sw 
-   $("#dialogo_sw").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#dialogo_sw").dialog({
+		width: 250,  
 		height: 250,
 		title:"BORRAR ",
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {
@@ -875,14 +875,14 @@ function borrar_empresa(no_control,registro){//borrar empresa
 
 
 function confirmar_empresa(no_control,registro){//preguntar borrado de empresa 
-   $("#borrar_empresa").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#borrar_empresa").dialog({ 
+		width: 250,  
 		height: 250,
 		title:"BORRAR ",
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale",
+		resizable: "false", 
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {
@@ -984,14 +984,14 @@ function borrar_historial(no_control,registro){//borrar empresa
 		});//fin de done
 }	
 function confirmar_historial(no_control,registro){//preguntar borrado de empresa 
-   $("#div_borrar_historial").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#div_borrar_historial").dialog({ 
+		width: 250,  
 		height: 250,
 		title:"BORRAR",
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false",
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {
@@ -1118,14 +1118,14 @@ function borrar_social(no_control,registro){//borrar empresa
 }	
 
 function confirmar_social(no_control,registro){//preguntar borrado de empresa 
-   $("#div_borrar_social").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#div_borrar_social").dialog({ 
+		width: 250,  
 		height: 250,
 		title:"BORRAR",
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale",
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {
@@ -1177,14 +1177,14 @@ function borrar_posgrado(no_control,registro){//borrar empresa
 }		
 
 function confirmar_posgrado(no_control,registro){//preguntar borrado de empresa 
-   $("#div_borrar_posgrado").dialog({ <!--  ------> muestra la ventana  -->
-		width: 250,  <!-- -------------> ancho de la ventana -->
+   $("#div_borrar_posgrado").dialog({ 
+		width: 250,  
 		height: 250,
 		title:"BORRAR",
-		show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-		hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-		resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-		modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
+		show: "scale", 
+		hide: "scale", 
+		resizable: "false", 
+		modal: "true", 
 		position: { my: "center", at: "center", of: '#center_diag' },
 		buttons: {
 			ACEPTAR: function() {

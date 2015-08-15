@@ -1,15 +1,17 @@
-
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">   
+        <meta name="viewport" content="width=device-width; initial-scale=1.0">
         <meta charset="UTF-8">
         <title>Error en la contraseña</title>
     <link href="HojasEstilo/estiloError.css" rel="stylesheet" type="text/css">
+    <link href="HojasEstilo/bootstrap.css" rel="stylesheet" type="text/css">
     </head>
     <body class="FondoPrincipal">
     	<header>
     	<figure>
-        	<img src="Imagenes/banner_ittj.png"  class="centrar"/>
+        	<img src="Imagenes/banner_ittj.png"  class="img-responsive centrar"/>
          </figure>
     </header>
     	<section style="color:#FFF">
@@ -24,7 +26,7 @@ if (! $error) {
         <p class="error"><?php echo $error; ?></p> 
         <a href="index.php"><p>Por favor intente de nuevo</p></a>
         	<figure>
-            	<img src="Imagenes/explode.png" class="centrar"/>
+            	<img src="Imagenes/explode.png" class="img-responsive centrar"/>
         	</figure> 
         </section>
         <footer>

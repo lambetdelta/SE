@@ -618,7 +618,7 @@ datepicker_esp();
 		rotation: 4
 	});
 	
-
+        
 	$("#img_posgrado,#img_ingenieria").hover(function(){
 			$(this).trigger('startRumble');
 		}, function(){
@@ -660,6 +660,7 @@ $("document").ready(function() {
 <link href="HojasEstilo/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="HojasEstilo/estiloPerfil.css" rel="stylesheet" type="text/css" />
 <link href="HojasEstilo/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body> 
 <div class="Banner">
@@ -1114,29 +1115,6 @@ $("document").ready(function() {
 	                    </form>
 	                    </div>
 	                </div>
-                </div>
-                <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">	
-                    <div id="div_noticias">
-                        <ul class="pgwSlideshow">
-                           <li>
-                               <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
-                                   <img src="noticias/noticia_1.png" alt="Monaco">
-                               </a>
-                           </li>
-                           <li>
-                               <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
-                                   <img src="noticias/noticia_3.png" alt="Monaco">
-                               </a>
-                           </li>
-                           <li>
-                               <a href="http://en.wikipedia.org/wiki/Monaco" target="_blank">
-                                   <img src="noticias/noticia_2.png" alt="Monaco">
-                               </a>
-                           </li>
-                         </ul>
-                    </div>
-		</div>
                 </div>
                 <div class="row">
 	                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">	

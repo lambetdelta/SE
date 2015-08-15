@@ -196,7 +196,7 @@ margin-left: 20px;
 	margin:0px 5% auto 5%;
 	background-color:#FFF; 
 	width:90%; 
-	height:98%;}
+	height:70%;}
 	
 @font-face{
 	font-family:"OpenSans";
@@ -650,10 +650,6 @@ img.elimnar_empresa:hover{/*animar img*/
 	padding:2%;
 	font-size:22px;
 	text-align:center;}	
-#div_noticias{
-	margin:auto;
-	border: 5px solid #999;
-}
 .maps{
 	position: relative;
     width: 100%;

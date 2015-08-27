@@ -623,7 +623,7 @@ datepicker_esp();
 			$(this).trigger('startRumble');
 		}, function(){
 			$(this).trigger('stopRumble');
-		});
+		});       
 	
   });
 </script>
@@ -671,18 +671,18 @@ $("document").ready(function() {
 </div>
 <div class="div_social" id="div_botones_social_escritorio">
 	<div id="div_redsocial">
+            <ul>
+                <li><a  class="social gmail" target="_blank" href="https://plus.google.com/share?url=http://www.ittlajomulco.edu.mx"></a></li>
 		
-			<a target="_blank" href="https://plus.google.com/share?url=http://www.ittlajomulco.edu.mx"><img id="img_gmail" src="Imagenes/social/gmail.png"  class="social"/></a>
+                <li><a class="social linkedin" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://www.ittlajomulco.edu.mx"></a></li>
 		
-			<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://www.ittlajomulco.edu.mx"><img id="img_Linkedin" src="Imagenes/social/Linkedin.png"  class="social"/></a>
+                <li><a class="social facebook" target="_blank" href="http://facebook.com/sharer.php?u=http://www.ittlajomulco.edu.mx"></a></li>
 		
-			<a target="_blank" href="http://facebook.com/sharer.php?u=http://www.ittlajomulco.edu.mx"><img id="img_face" src="Imagenes/social/facebook.png"  class="social"/></a>
+                <li><a class="social tumblr" target="_blank" href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"></a></li>
 		
-			<a  target="_blank" href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"><img id="img_tumblr" src="Imagenes/social/tumblr.png"  class="social"/></a>
-		
-			<a target="_blank" href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"><img id="img_twitter" src="Imagenes/social/twitter.png"  class="social"/></a>
-	
-	</div>
+                <li><a class="social twitter" target="_blank" href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"></a> </li>          
+           </ul>
+        </div>
 </div>	
 <div class="tab">
     <nav role="navigation" class="navbar navbar-default tabs font" style="margin-bottom:0px; border:none">
@@ -705,14 +705,16 @@ $("document").ready(function() {
                 <li><a href="#cuarto" title="Tus Anteriores trabajos">HISTORIAL</a></li>
                 <li><a href="#quinto" title="Tu universidad y mas...">ITTJ</a></li>
             </ul>
-
+            <ul class="nav navbar-nav navbar-right">
+                <li><a  href="#primero" onclick="salir()" title="Cerrar sesión y salir">SALIR</a></li>
+            </ul>    
         </div>
     </nav>
 </div>    
 <div id="ayuda_diag">
 		<p>1.-CUANDO LLENES TUS DATOS, TODOS LOS CAMPOS SON REQUERIDOS, DE FALTAR UNO, EL SISTEMA NO TE PERMITIRÁ ENVIAR LOS DATOS. </p>
         <p>2.-LOS DATOS SE LLENAN POR SECCIONES POR LO QUE NO ES NECESARIO LLENARLOS TODOS EL MISMO DÍA. </p>
-        <p>3.-SI NO DISPONES DE UN DATOS ES PREFERIBLE CONTINUAR OTRO DÍA. </p>
+        <p>3.-SI NO DISPONES DE UN DATO ES PREFERIBLE CONTINUAR OTRO DÍA. </p>
         <p>4.-CUALQUIER DUDA, COMENTARIO O SUGERENCIA EN LA PESTAÑA ITTJ</p>
         <p>5.-SI OCURRE UN ERROR NOTIFICARLO EN LA PESTAÑA ITTJ</p>
 </div>
@@ -739,33 +741,33 @@ $("document").ready(function() {
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
-                        		<input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="30"  title="NOMBRE" onKeyPress="return validar_texto(event)" required/>
+                        		<input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="30"  title="NOMBRE" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu nombre por favor."/>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
-                        		<input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="20"  title="APELLIDO PATERNO" onKeyPress="return validar_texto(event)" required/>
+                        		<input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="20"  title="APELLIDO PATERNO" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu apellido por favor."/>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
-                       			<input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="20"  title="APELLIDO MATERNO" onKeyPress="return validar_texto(event)" required/>
+                       			<input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="20"  title="APELLIDO MATERNO" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu apellido por favor."/>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         <div class="form-group">
-                            <input name="curp" type="text"  placeholder="CURP" maxlength="18" class="text_2" title="CURP" required/>
+                            <input name="curp" type="text"  placeholder="CURP" maxlength="18" class="text_2" title="CURP" required data-validation-required-message="Proporciona tu CURP por favor."/>
                             <a href="http://consultas.curp.gob.mx/CurpSP/" target="_blank" title="CONSULTAR CURP"><img src="Imagenes/ayuda.png"/></a>
-                            <input type="text" id="datepicker" name="fecha_nac"  readonly="readonly" class="text_2" placeholder="FECHA DE NACIMIENTO"  title="FECHA DE NACIMIENTO" required/>
+                            <input type="text" id="datepicker" name="fecha_nac"  readonly="readonly" class="text_2" placeholder="FECHA DE NACIMIENTO"  title="FECHA DE NACIMIENTO" required data-validation-required-message="fecha de nacimineto por favor."/>
                           
-                            <input name="tel" type="tel"  placeholder="TELÉFONO" maxlength="15" class="text_2" title="TELEFONO" required/>
+                            <input name="tel" type="tel"  placeholder="TELÉFONO" maxlength="15" class="text_2" title="TELEFONO" required data-validation-required-message="Proporciona tu telefono por favor."/>
                            
-                            <input name="email" type="email" placeholder="EMAIL" maxlength="30" class="text_2"  title="EMAIL"  required="required"/>
+                            <input name="email" type="email" placeholder="EMAIL" maxlength="30" class="text_2"  title="EMAIL"  required data-validation-required-message="Proporciona tu email por favor."/>
                            <p style="text-align:center; font-size:22px">DOMICILIO</p>
-                           <input  id="calle" name="calle" type="text" placeholder="CALLE" maxlength="30" class="text_2"  title="CALLE" required />
-                           <input name="no_casa" placeholder="No:CASA" maxlength="10" class="text_2" title="No:CASA"  id="no_casa" required/>
+                           <input  id="calle" name="calle" type="text" placeholder="CALLE" maxlength="30" class="text_2"  title="CALLE" required data-validation-required-message="Proporciona tu calle por favor." />
+                           <input name="no_casa" placeholder="No:CASA" maxlength="10" class="text_2" title="No:CASA"  id="no_casa" required data-validation-required-message="Proporciona tu no:casa por favor."/>
                        </div>
                    </div>
                    </div>
@@ -1127,7 +1129,7 @@ $("document").ready(function() {
                 <br /><br />
                 <div class="row">
                 	<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-	                <div id="div_contacto">
+                            <div id="div_contacto">
 	                <?php 
 					list($fechaCon,$direccion,$cargo,$domicilio,$email,$web)=datos();
 				    ?>
@@ -1152,7 +1154,7 @@ $("document").ready(function() {
 		
 			<a href="http://facebook.com/sharer.php?u=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/facebook.png"  class="social"/></a>
 		
-			<a   href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/tumblr.png"  class="social"/></a>
+			<a   href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/tumblr_b.png"  class="social"/></a>
 		
 			<a href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/twiter.png"  class="social"/></a>
 	

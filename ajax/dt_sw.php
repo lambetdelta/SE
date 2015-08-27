@@ -9,7 +9,7 @@ if (isset ($_POST['no_control'])){
 	if ($num>0){
 		echo '<h2 style="text-align:center">Nombre</h2>';
 			echo '<div class="table-responsive">';
-			echo'<table style="width:100%;border:none" class="table table-hover table-condensed table-responsive" >'; 
+			echo'<table style="width:100%;border:none; margin-bottom:50px" class="table table-hover table-condensed table-responsive" >'; 
 			while($fila=$registros->fetch_assoc()){///mostrar cada registro en su div individual
 			echo '<tr style="border:hidden">';
 			echo'<td class="td_sw"><b>'.$fila['nombre_sw'].'</b></td>';

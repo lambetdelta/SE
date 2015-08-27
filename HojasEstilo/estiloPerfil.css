@@ -125,35 +125,89 @@ a.active{ /*estilo del tab cuando esta activo*/
 		width:50px;
 		position: fixed;
 		z-index: 1;
-		top:40%;
+		top:30%;
 	}
         img.social{
-	width:40px;
-	height:40px;
-	margin:0px 0px 10px 0px;
-	transition:1s ease;
+            width:40px;
+            height:40px;
+            margin:0px 0px 10px 0px;
+            transition:1s ease;
                     }
+        a.social{
+            padding:20px 36px 20px 20px;
+            transition: 0.5s;
+    }
+        a.social:hover{
+         padding:20px 70px 20px 20px;
+        border-radius:0px 8px 8px 0px}
+        #div_redsocial ul li{
+            list-style: none;
+            margin-bottom: 40px;
+        }
 }
-
+.facebook{
+    background:#286090 url(../Imagenes/social/facebookW.png) no-repeat center;
+}
+.facebook:hover{
+    background:#FFF url(../Imagenes/social/facebook_.png) no-repeat right;
+}
+.gmail{
+    background:#FFF url(../Imagenes/social/gmail_r.png) no-repeat center;
+}
+.gmail:hover{
+    background:#ff3333 url(../Imagenes/social/gmail_b.png) no-repeat right;
+}
+.linkedin{
+    background:#FFF url(../Imagenes/social/linkedin_b.png) no-repeat center;
+}
+.linkedin:hover{
+    background: #000000 url(../Imagenes/social/linkedin_w.png) no-repeat right;
+}
+.tumblr{
+    background:#FFF url(../Imagenes/social/tumblr_b.png) no-repeat center;
+}
+.tumblr:hover{
+    background: #160761 url(../Imagenes/social/tumblr_w.png) no-repeat right;
+}
+.twitter{
+    background:#FFF url(../Imagenes/social/twitter_a.png) no-repeat center;
+}
+.twitter:hover{
+    background:#00BCD4 url(../Imagenes/social/twitter_w.png) no-repeat right;
+}
 @media(max-width:767px ){	
 	#div_redsocial{
-		width:270px;
+		width:300px;
 		right:20px;
 		margin:0px auto 0px auto;
-
+               
                         }
 	#div_botones_social_escritorio{
 		position: fixed;
 		z-index: 1;
 		top:90%;
 		width: 100%;
+                
                                         }
         img.social{
-	width:40px;
-	height:40px;
-	margin:0px 10px 0px 0px;
-	transition:1s ease;
+            width:40px;
+            height:40px;
+            margin:0px 10px 0px 0px;
+            transition:1s ease;
                     }
+        a.social{
+            padding:0px 25px 40px 25px;
+            transition: 0.5s;
+                }
+        #div_redsocial ul{
+        overflow: hidden; 
+        list-style: none;
+                    }    
+        #div_redsocial ul li{
+            float: left;
+            height: 60px;
+            margin-right:2%;
+        }                  
 }
 
 img.social:hover{

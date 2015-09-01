@@ -140,6 +140,7 @@ a.active{ /*estilo del tab cuando esta activo*/
         a.social:hover{
          padding:20px 70px 20px 20px;
         border-radius:0px 8px 8px 0px}
+        
         #div_redsocial ul li{
             list-style: none;
             margin-bottom: 40px;

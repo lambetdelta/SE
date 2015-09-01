@@ -1258,4 +1258,5 @@ function guardar_residencia(no_control){//guardar nuevo idioma
 			setTimeout('$("#frm_residencia").show();',1500);
 		}
 		});//fin de done
-	}//fin de function principal; 	  	
+	}//fin de function principal;
+       

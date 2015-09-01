@@ -673,14 +673,15 @@ $("document").ready(function() {
 	<div id="div_redsocial">
             <ul>
                 <li><a  class="social gmail" target="_blank" href="https://plus.google.com/share?url=http://www.ittlajomulco.edu.mx"></a></li>
+                
+                <li><a  class="social twitter" target="_blank" href="https://plus.google.com/share?url=http://www.ittlajomulco.edu.mx"></a></li>
 		
                 <li><a class="social linkedin" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http://www.ittlajomulco.edu.mx"></a></li>
 		
                 <li><a class="social facebook" target="_blank" href="http://facebook.com/sharer.php?u=http://www.ittlajomulco.edu.mx"></a></li>
-		
+                
                 <li><a class="social tumblr" target="_blank" href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"></a></li>
-		
-                <li><a class="social twitter" target="_blank" href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"></a> </li>          
+		          
            </ul>
         </div>
 </div>	
@@ -1154,7 +1155,7 @@ $("document").ready(function() {
 		
 			<a href="http://facebook.com/sharer.php?u=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/facebook.png"  class="social"/></a>
 		
-			<a   href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/tumblr_b.png"  class="social"/></a>
+			<a   href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/tumblr.png"  class="social"/></a>
 		
 			<a href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/twiter.png"  class="social"/></a>
 	

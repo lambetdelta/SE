@@ -18,7 +18,7 @@ sec_session_start();
 <script type="text/JavaScript" src="js/bootstrap.js"></script>
 <script type="text/JavaScript" src="js/respond.min.js"></script>
 </head>
-<body class="degradado">
+<body class="degradado"> 
 <script type="text/javascript">
    navegador();     
 </script>
@@ -34,7 +34,7 @@ sec_session_start();
                     <h1 style="color:#FFF">Sesión</h1>
                     <input type="text" placeholder="Ingrese No: de Control" name="No_control" id="No_control"/><br />
                     <input type="password" placeholder="Ingrese Contraseña"  name="password" id="password"/><br />
-                    <input type="submit" value="Iniciar" />
+                    <input type="submit" value="Iniciar" onclick="formhash(this.form, this.form.password);" />
                 </form>    
 			</div>
         </div>

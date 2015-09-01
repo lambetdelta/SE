@@ -36,9 +36,11 @@ function login($N_control, $password, $mysqli) {
         // Obtiene las variables del resultado.
         $stmt->bind_result($No_control, $pass, $nombre,$salt);
         $stmt->fetch();
- 
+        
         // Hace el hash de la contraseña con una sal única.
-      
+        $password = hash('sha512', $password . $salt);
+        $_SESSION['$password']=$password;
+        $_SESSION['$pass']=$pass;
         if ($stmt->num_rows == 1) {
             // Si el usuario existe, revisa si la cuenta está bloqueada
             // por muchos intentos de conexión.
@@ -71,8 +73,8 @@ function login($N_control, $password, $mysqli) {
                     // La contraseña no es correcta.
                     // Se graba este intento en la base de datos.
                     $now = time();
-                    $mysqli->query("INSERT INTO login_attempts(i_egresadofk, time)
-                                    VALUES ('$egresado_id', '$now')");
+//                    $mysqli->query("INSERT INTO login_attempts(no_controlfk, time)
+//                                    VALUES ('$N_control', '$now')");
                     return false;
                 }
             }
@@ -726,3 +728,21 @@ function actualizar_residencia($mysqli,$no_control,$residencia){//borrar social
 						return false;
 }
 };
+function salt($length,$uc,$n,$sc)
+{
+    $source = 'abcdefghijklmnopqrstuvwxyz';
+    if($uc==1) $source .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if($n==1) $source .= '1234567890';
+    if($sc==1) $source .= '|@#~$%()=^*+[]{}-_';
+    if($length>0){
+        $rstr = "";
+        $source = str_split($source,1);
+        for($i=1; $i<=$length; $i++){
+            mt_srand((double)microtime() * 1000000);
+            $num = mt_rand(1,count($source));
+            $rstr .= $source[$num-1];
+        }
+ 
+    }
+    return $rstr;
+}

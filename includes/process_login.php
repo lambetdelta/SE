@@ -4,9 +4,9 @@ include_once 'functions.php';
  
 sec_session_start(); // manera personalizada segura de iniciar sesión PHP.
  
-if (isset($_POST['No_control'], $_POST['password'])) {
+if (isset($_POST['No_control'], $_POST['p'])) {
     $N_control = $_POST['No_control'];
-    $password = $_POST['password']; // La contraseña con hash
+    $password = $_POST['p']; // La contraseña con hash
  
     if (login($N_control, $password, $mysqli) == true) {
         // Inicio de sesión exitosa

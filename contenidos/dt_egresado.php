@@ -1,6 +1,7 @@
 <?php 
 include_once '../includes/functions.php';
 include_once '../includes/db_connect.php';
+
 sleep(3);
 if (isset ($_POST['no_control'])){
 	$no_control=$_POST['no_control'];

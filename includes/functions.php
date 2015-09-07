@@ -746,3 +746,95 @@ function salt($length,$uc,$n,$sc)
     }
     return $rstr;
 }
+
+function anti_xss($form){//limpiar formularios recibidos 
+        foreach ($form as &$valor):
+            $valor=  strip_tags($valor);
+            // General   
+            $valor=str_replace("<","",$valor);   
+            $valor=str_replace(">","",$valor);   
+            $valor=str_replace("{","",$valor);   
+            $valor=str_replace("}","",$valor);   
+            $valor=str_replace("[","",$valor);   
+            $valor=str_replace("]","",$valor);   
+            $valor=str_replace("(","",$valor);   
+            $valor=str_replace(")","",$valor);   
+            $valor=str_replace("/","",$valor);   
+            $valor=str_replace("\\","",$valor);   
+
+            // PHP   
+
+            $valor= str_replace("function" , "" , $valor);   
+            $valor= str_replace("php" , "" , $valor);   
+            $valor= str_replace("echo" , "" , $valor);   
+            $valor= str_replace("print" , "" , $valor);   
+            $valor= str_replace("return" , "" , $valor);   
+
+            // HTML   
+
+            $valor= str_replace("html" , "" , $valor);   
+            $valor= str_replace("body" , "" , $valor);   
+            $valor= str_replace("head" , "" , $valor);   
+
+            // JS   
+
+            $valor= str_replace("script" , "" , $valor);   
+
+            // Ajax y Otros   
+
+            $valor= str_replace("xml" , "" , $valor);   
+            $valor= str_replace("version" , "" , $valor);   
+            $valor= str_replace("encoding" , "" , $valor);   
+
+            // CSS   
+
+            $valor= str_replace("style" , "" , $valor); 
+        endforeach;
+        unset($valor);
+        return $form;
+}
+
+function anti_xss_cad($cadena){//limpiar cadenas recibidas
+            $valor=$cadena;
+            $valor=  strip_tags($valor);
+            // General   
+            $valor=str_replace("<","",$valor);   
+            $valor=str_replace(">","",$valor);   
+            $valor=str_replace("{","",$valor);   
+            $valor=str_replace("}","",$valor);   
+            $valor=str_replace("[","",$valor);   
+            $valor=str_replace("]","",$valor);   
+            $valor=str_replace("(","",$valor);   
+            $valor=str_replace(")","",$valor);   
+            $valor=str_replace("/","",$valor);   
+            $valor=str_replace("\\","",$valor);   
+
+            // PHP   
+
+            $valor= str_replace("function" , "" , $valor);   
+            $valor= str_replace("php" , "" , $valor);   
+            $valor= str_replace("echo" , "" , $valor);   
+            $valor= str_replace("print" , "" , $valor);   
+            $valor= str_replace("return" , "" , $valor);   
+
+            // HTML   
+
+            $valor= str_replace("html" , "" , $valor);   
+            $valor= str_replace("body" , "" , $valor);   
+            $valor= str_replace("head" , "" , $valor);   
+
+            // JS   
+
+            $valor= str_replace("script" , "" , $valor);   
+
+            // Ajax y Otros   
+
+            $valor= str_replace("xml" , "" , $valor);   
+            $valor= str_replace("version" , "" , $valor);   
+            $valor= str_replace("encoding" , "" , $valor);   
+
+            // CSS   
+
+            $valor= str_replace("style" , "" , $valor); 
+            return $valor;
+}

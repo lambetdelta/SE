@@ -1,10 +1,31 @@
 <?php
 
 include_once 'includes/functions.php';
-echo 'salt'.$cad=salt(128,FALSE,TRUE, FALSE).'<br>';
-$pass=  hash('sha512','123');
-$password = hash('sha512', $pass.'7czl8buuz8xny7dlod1jcumsd6336u1rphnwd7vu6at7kwua0hlhmq7pnejortu00zwztm510yldfrdh4g09d30a225jomo9d6r2m2s6uts6hj3ii5vefx6s92zqg7m1');
-echo 'este es el password que se envia por web'.$pass;
-echo '<br>este es el password final guardado en bd'.$password;
+//$cad=salt(128,FALSE,TRUE, FALSE).'<br>';
+//$pass=  hash('sha512','123');
+//$password = hash('sha512', $pass.$cad);
+//echo '<br>este es el salt '.$cad;
+//echo 'este es el password que se envia por web '.$pass;
+//echo '<br>este es el password final guardado en bd '.$password;
+////
+//$arra=['uno'=>'0','dos'=>'1','tres'=>'2','cuatro'=>'3'];
 
-if (strcmp ($pass ,'3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2'  ) == 0) { echo'si'; }
+//foreach ($arra as &$valor):
+//    $valor=$valor+1;  
+//endforeach;
+//
+//foreach ($arra as $id=>$valor):
+//    echo '<br>este es el valor'.$valor;   
+//endforeach;
+
+$array = array(1, 2, 3, 4);
+
+
+foreach ($array as &$valor) {
+    $valor = $valor * 2;
+}
+unset($valor);
+
+foreach ($array as $id=>$val):
+    echo '<br>este es el id'.$id.'este es el valor'.$val;   
+endforeach;

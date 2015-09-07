@@ -870,7 +870,7 @@ $("document").ready(function() {
                                         	<input type="text" id="dp_academico_inicio" title="FECHA DE INICIO" readonly name="fecha_inicio" placeholder="FECHA DE INICIO" style="width:80%"  class="frm_acedemico_"required/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        	<input type="text" id="dp_academico_fin"   title="FECHA DE TERMINO" readonly name="fecha_fin" placeholder="FECHA DE TERMINO"  style="width:80%"class="frm_acedemico_" required />
+                                        	<input type="text" id="dp_academico_fin"   title="FINALIZACIÓN" readonly name="fecha_fin" placeholder="FECHA DE TERMINO"  style="width:80%"class="frm_acedemico_" required />
                                         </div>
                                     </div>
                                     <input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
@@ -960,7 +960,7 @@ $("document").ready(function() {
         	<div id="dialogo_empresa" class="ventana" title="¿Estas Seguro?">  
 			</div>
             <div id="borrar_empresa" class="ventana" title="¿Estas Seguro?">
-            	<p>LA EMPRESA SE BORRARA DE MANERA PERMANETE Y PASARA A TU HISTORIAL LABORAL, DICHA ACCIÓN UNA VEZ TERMINADA ES IREVERSIBLE</p>  
+            	<p>LA EMPRESA SE BORRARA DE MANERA PERMANETE Y PASARA A TU HISTORIAL LABORAL, DICHA ACCIÓN UNA VEZ TERMINADA ES IRREVERSIBLE</p>  
 			</div>
             <div class="row">
        	 	<div id="div_empresa">
@@ -1047,15 +1047,15 @@ $("document").ready(function() {
 	    <div id="tercero">
         	<div id="dialogo_social"></div>
             <div id="div_borrar_social" style="display:none">
-            	<p>ESTÁ ASOCIACIÓN SE BORRA DE MANERA PERMANTE EN EL SISTEMA,DICHA ACCIÓN ES IREVERSIBLE UNA VEZ ACEPTADA</p>
+            	<p>ESTÁ ASOCIACIÓN SE BORRA DE MANERA PERMANTE EN EL SISTEMA,DICHA ACCIÓN ES IRREVERSIBLE UNA VEZ ACEPTADA</p>
             </div>
         	<img src="Imagenes/loading.gif" class="cargando" style="display:none" id="img_cargando_social" />
         	<div id="div_dt_social">
             </div>
             <div id="div_frm_social">
-	            <div class"row">
+                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_social" style="top:10%;" />
+	            <div class="row">
 	            	<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
-		            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_social" style="top:10%; display:none" />
 		            	<form id="frm_social" style="text-align:center;">
 		                    <h2 style="font-size:22px;">FORMULARIO PARA ASOCIACIONES SOCIALES</h2>
 		                    <img id="img_cerrar_frm_social" class="cancelar" src="Imagenes/cancelar.png" title="CERRAR FORMULARIO" /><br>
@@ -1080,9 +1080,9 @@ $("document").ready(function() {
             </div>
             <img src="Imagenes/loading.gif" class="cargando" style="display:none" id="img_cargando_historial" />
             <div id="div_frm_historial">
+                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_historial" style="top:15%; display:none" />
             	<div class="row">
             		<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
-		                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_historial" style="top:22%; display:none" />
 		                <form id="frm_historial" style="text-align:center">
 		                	<label style="font-size:22px;">FORMULARIO DE HISTORIAL EMPRESARIAL</label><br />
 		                	<img id="img_cerrar_frm_historial" class="cancelar" src="Imagenes/cancelar.png" title="CERRAR FORMULARIO" /><br>

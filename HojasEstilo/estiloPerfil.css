@@ -120,12 +120,12 @@ a.active{ /*estilo del tab cuando esta activo*/
 	background:#7CEE6C url(../Imagenes/gradient.png) repeat-x;}	
 .tab a:hover{/*estilo del tab cuando esta en hover*/
 	background-color:#F00;}	
-@media(min-width:768px ){	
+@media(min-width:1163px ){	
 	#div_redsocial{
 		width:50px;
 		position: fixed;
 		z-index: 1;
-		top:30%;
+		top:35%;
 	}
         img.social{
             width:40px;
@@ -176,7 +176,7 @@ a.active{ /*estilo del tab cuando esta activo*/
 .twitter:hover{
     background:#00BCD4 url(../Imagenes/social/twitter_w.png) no-repeat right;
 }
-@media(max-width:767px ){	
+@media(max-width:1162px ){	
 	#div_redsocial{
 		width:300px;
 		right:20px;

@@ -349,7 +349,7 @@ function actualizar_carrera(no_control,registro){
 		if(data=='1'){//exito
 			$("#img_enviar_academico").hide();
 			limpiaForm($("#frm_dt_academico"));
-			alert_('DATOS ACTUALIZADOS',$('#alert_academico'),250);
+			alert_('ACTUALIZADOS',$('#alert_academico'),250);
 			show_dt_academicos();
 			dt_academicos(no_control);
 			setTimeout('$("#frm_dt_academico").show();$("#div_carrera_actualizar").show();$("#titlo_carrera").show();',2000);
@@ -554,7 +554,7 @@ function guardar_sw(no_control){//guardar nuevo idioma
 		if(data=='1'){//exito
 			$("#img_enviar_sw").hide();
 			limpiaForm($("#frm_sw"));
-			alert_('SOFTWARE AGREGADO',$('#alert_academico'),250);
+			alert_('AGREGADO',$('#alert_academico'),250);
 			show_SW();
 			dt_SW(no_control);
 			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
@@ -749,7 +749,7 @@ function actualizar_empresa(no_control,registro){
 		if(data=='1'){//exito
 			$("#img_enviar_empresa").hide();
 			limpiaForm($("#frm_empresa")); 
-			alert_('DATOS ACTUALIZADOS',$('#dialogo_empresa'),250);
+			alert_('ACTUALIZADO',$('#dialogo_empresa'),250);
 			show_empresa();
 			dt_empresa(no_control);
 			setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
@@ -941,7 +941,7 @@ function actualizar_historial(no_control,registro){//actualizar historial
 		if(data=='1'){//exito
 			$("#img_enviar_historial").hide();
 			limpiaForm($("#frm_historial")); 
-			alert_('DATOS ACTUALIZADOS',$('#dialogo_historial'),250);
+			alert_('ACTUALIZADO',$('#dialogo_historial'),250);
 			mostrar();
 			show_historial();
 			dt_historial(no_control);
@@ -1076,7 +1076,7 @@ function guardar_social(no_control){//guardar nueva mpresa
 		if(data=='1'){//exito
 			$("#img_enviar_social").hide();
 			limpiaForm($("#frm_social")); 
-			alert_('ASOCIACIÓN AGREGADA',$('#dialogo_social'),250);
+			alert_('EXITO',$('#dialogo_social'),250);
 			show_social();
 			dt_social(no_control);
 			setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
@@ -1217,7 +1217,7 @@ function guardar_posgrado(no_control){//guardar nuevo idioma
 	 	if(respuesta.respuesta == 'done'){
 			$("#img_enviar_posgrado").hide();
 			limpiaForm($("#frm_posgrado")); 
-			alert_('POSGRADO AGREGADO',$('#alert_academico'),250);
+			alert_('POSGRADO AGREGADO',$('#alert_academico'),300);
 			show_posgrado();
 			dt_posgrado(no_control);
 			setTimeout('$("#frm_posgrado").show();',1500);

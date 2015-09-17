@@ -1035,8 +1035,8 @@ $("document").ready(function() {
                     </form><br /><br />
                     </div>
                 <div class="row">    		
-                <div id="div_dt_empresa_editar">
-                </div>
+                    <div id="div_dt_empresa_editar">
+                    </div>
                 </div>            
                 </div>
                 <div id="div_dt_empresa">
@@ -1146,7 +1146,7 @@ $("document").ready(function() {
 </div>
 </div>
 <div class="row">
-<div class="div_social" id="div_botones_social_mobil">
+    <div class="div_social" id="div_botones_social_mobil">
 	<div id="div_redsocial_mobil" style="margin:0px auto 0px auto;width:270px">
 		
 			<a href="https://plus.google.com/share?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/gmail.png"  class="social"/></a>
@@ -1157,10 +1157,10 @@ $("document").ready(function() {
 		
 			<a   href="http://www.tumblr.com/share/link?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/tumblr.png"  class="social"/></a>
 		
-			<a href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/twiter.png"  class="social"/></a>
+			<a href="http://twitter.com/share?url=http://www.ittlajomulco.edu.mx"><img src="Imagenes/social/twitter.png"  class="social"/></a>
 	
-</div>
-</div>
+        </div>
+    </div>
 </div>
 </body>   
 </html>    

@@ -18,7 +18,7 @@ sec_session_start();
 <script type="text/JavaScript" src="js/bootstrap.js"></script>
 <script type="text/JavaScript" src="js/respond.min.js"></script>
 </head>
-<body class="degradado"> 
+    <body class="degradado" id="body"> 
 <script type="text/javascript">
    navegador();     
 </script>
@@ -28,23 +28,75 @@ sec_session_start();
          </figure>
     </header>
     <section>
-   		<div class="row">
-        	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-                <form method="post" action="includes/process_login.php" name="login_form">
-                    <h1 style="color:#FFF">Sesión</h1>
-                    <input type="text" placeholder="Ingrese No: de Control" name="No_control" id="No_control"/><br />
-                    <input type="password" placeholder="Ingrese Contraseña"  name="password" id="password"/><br />
-                    <input type="submit" value="Iniciar" onclick="formhash(this.form, this.form.password);" />
-                </form>    
-			</div>
+        <div class="row" >
+            <div id="div-seleccion" class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12" style="margin-top: 5px">
+                <div id="egresado" class="animacion" title="EGRESADO">
+                        <span id="span-egresado"class="titulo">Egresado</span>
+                    </div>
+                    <div id="adm" class="animacion" title="ADMINISTRADOR">
+                        <span id="span-adm" class="titulo">Administrador</span>
+                    </div>
+            </div>
+        </div>
+        <div class="row" >
+            <div  id="contenedor" class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12" >
+                <div id="frm_egresado" style="display:none">
+                    <form method="post" action="includes/process_login.php" name="login_form" class="egresado">
+                        <h1>Sesión</h1>
+                        <input type="text" maxlength="8"class="egresado"placeholder="Ingrese No: de Control" name="No_control" id="No_control"/><br />
+                        <input type="password" maxlength="20" class="egresado" placeholder="Ingrese Contraseña"  name="password" id="password"/><br />
+                        <input type="submit" class="egresado" value="Iniciar" onclick="formhash(this.form, this.form.password);" />
+                    </form>
+                </div>    
+                <div id="frm_administrador" style="display: none" >
+                       <div id="icono-adm" class="icono-adm">
+                           <div class="span-adm"><span>Administrador</span></div>     
+                       </div>
+                       <div id="login">
+                           <form id="form_sesion" method="post"class="form-sesion" action="includes/process_adm.php">
+                               <input id="usuario" class="adm" name="usuario" title="Usuario" placeholder="Usuario" type="text" maxlength="20"></input><br>
+                               <input id="password" class="adm" name="password" title="Password" placeholder="Password" type="password" maxlenght="20"></input><br>
+                               <input  type="submit" class="adm" name="enviar" title="Enviar" value="Entrar" onclick="formhash(this.form, this.form.password);"></input>
+                           </form>
+                       </div>   
+               </div>    
+            </div>
         </div>
     </section>
-<footer >
-<div class="define">
-	<figure>
-    	<a href="http://www.ittlajomulco.edu.mx/"> <img src="Imagenes/logo_ittj.png" width="73" height="76"  class="centrar"/></a>
-	</figure>
- </div>
-</footer>
 </body>
+    <script>
+$(document).ready(function(){
+    $("#icono-adm").click(function(){//animacion frm adm
+        $(this).removeClass('icono-adm');
+        $(this).addClass('icono-adm-hover');
+        $("#form_sesion").fadeIn(1000);
+    });
+    
+    $("#adm,#egresado").click(function(){//mostrar formularios
+        var id=$(this).attr('id');
+        if(id=='egresado')
+        {
+            $('#frm_administrador').hide();
+            $('#frm_egresado').fadeIn();
+        }
+        else
+        {
+           $('#frm_egresado').hide(); 
+           $('#frm_administrador').fadeIn();
+        }
+    });
+    $("#adm").hover(function(){//animacion de span adm
+       $("#span-adm").css('visibility','visible'); 
+    },function(){
+       $("#span-adm").css('visibility','hidden');
+    });
+    
+    $("#egresado").hover(function(){//animacion de span agresado
+       $("#span-egresado").css('visibility','visible'); 
+    },function(){
+       $("#span-egresado").css('visibility','hidden');
+    });
+    
+});
+</script>
 </html>

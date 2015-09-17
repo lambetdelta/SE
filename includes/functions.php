@@ -36,11 +36,8 @@ function login($N_control, $password, $mysqli) {
         // Obtiene las variables del resultado.
         $stmt->bind_result($No_control, $pass, $nombre,$salt);
         $stmt->fetch();
-        
         // Hace el hash de la contraseña con una sal única.
         $password = hash('sha512', $password . $salt);
-        $_SESSION['$password']=$password;
-        $_SESSION['$pass']=$pass;
         if ($stmt->num_rows == 1) {
             // Si el usuario existe, revisa si la cuenta está bloqueada
             // por muchos intentos de conexión.
@@ -63,8 +60,6 @@ function login($N_control, $password, $mysqli) {
                     // Protección XSS ya que podríamos imprimir este valor.
                     $Nombre = preg_replace("/[^a-zA-Z0-9_\-]+/","", $Nombre);
                     $_SESSION['Nombre'] = $nombre;
-					/*$pass=hash('sha512','grape'); bloqueado hasta usar sha512*/
-					$_SESSION['pass']=$pass;
                     $_SESSION['login_string'] = hash('sha256',$pass.$user_browser);
                     // Inicio de sesión exitoso
 					
@@ -84,6 +79,7 @@ function login($N_control, $password, $mysqli) {
         }
     }
 }
+
 
 function checkbrute($no_control, $mysqli) {
     // Obtiene el timestamp del tiempo actual.
@@ -131,6 +127,104 @@ function login_check($mysqli) {
                                       WHERE no_control = ? LIMIT 1")) {
             // Une “$egresado_id” al parámetro.
             $stmt->bind_param('i', $No_control);
+            $stmt->execute();   // Ejecuta la consulta preparada.
+            $stmt->store_result();
+ 
+            if ($stmt->num_rows == 1) {
+                // Si el usuario existe, obtiene las variables del resultado.
+                $stmt->bind_result($pass);
+                $stmt->fetch();
+                $login_check = hash('sha256',$pass.$user_browser);
+
+                if ($login_check == $login_string) {
+                    // ¡¡Conectado!! 
+                    return true;
+                } else {
+                    // No conectado.
+                    return false;
+                }
+            } else {
+                // No conectado.
+                return false;
+            }
+        } else {
+            // No conectado.
+            return false;
+        }
+    } else {
+        // No conectado.
+        return false;
+    }
+}
+
+function login_adm($Usuario, $Password, $mysqli) {
+    // Usar declaraciones preparadas significa que la inyección de SQL no será posible.
+    if ($stmt = $mysqli->prepare("SELECT nombre, pass,salt 
+        FROM datos_administrador
+       WHERE nombre = ?
+        LIMIT 1")) {
+        $stmt->bind_param('s', $Usuario);  // Une “$no:control” al parámetro.
+        $stmt->execute();    // Ejecuta la consulta preparada.
+        $stmt->store_result();
+        // Obtiene las variables del resultado.
+        $stmt->bind_result($Usuario, $pass,$salt);
+        $stmt->fetch();
+        $No_control='10940256';
+        // Hace el hash de la contraseña con una sal única.
+        $password = hash('sha512',$Password.$salt);
+        if ($stmt->num_rows == 1) {
+            // Si el usuario existe, revisa si la cuenta está bloqueada
+            // por muchos intentos de conexión.
+ 
+            if (checkbrute($No_control, $mysqli) == true) {
+                // La cuenta está bloqueada.
+                // Envía un correo electrónico al usuario que le informa que su cuenta está bloqueada.
+				
+                return false;
+            } else {
+                // Revisa que la contraseña en la base de datos coincida 
+                // con la contraseña que el usuario envió.
+                if ($pass == $password) {
+                    // ¡La contraseña es correcta!
+                    // Obtén el agente de usuario del usuario.
+                    $user_browser = $_SERVER['HTTP_USER_AGENT'];
+                    //  Protección XSS ya que podríamos imprimir este valor.
+                    $Usuario = preg_replace("/[^0-9]+/", "", $Usuario);
+                    $_SESSION['Usuario'] = $Usuario;
+                    $_SESSION['login_string_adm'] = hash('sha256',$pass.$user_browser);
+                    // Inicio de sesión exitoso
+					
+                    return true;
+                } else {
+                    // La contraseña no es correcta.
+                    // Se graba este intento en la base de datos.
+                    $now = time();
+//                    $mysqli->query("INSERT INTO login_attempts(no_controlfk, time)
+//                                    VALUES ('$N_control', '$now')");
+                    return false;
+                }
+            }
+        } else {
+            // El usuario no existe.
+            return false;
+        }
+    }
+}
+function login_check_adm($mysqli) {
+    // Revisa si todas las variables de sesión están configuradas.
+    if (isset($_SESSION['Usuario'],  
+                        $_SESSION['login_string_adm'])) {
+ 
+        $Usuario = $_SESSION['Usuario'];
+        $login_string = $_SESSION['login_string_adm'];		
+        // Obtiene la cadena de agente de usuario del usuario.
+        $user_browser = $_SERVER['HTTP_USER_AGENT'];
+ 
+        if ($stmt = $mysqli->prepare("SELECT pass 
+                                      FROM datos_administrador 
+                                      WHERE nombre = ? LIMIT 1")) {
+            // Une “$egresado_id” al parámetro.
+            $stmt->bind_param('s', $Usuario);
             $stmt->execute();   // Ejecuta la consulta preparada.
             $stmt->store_result();
  
@@ -796,6 +890,7 @@ function anti_xss($form){//limpiar formularios recibidos
 
 function anti_xss_cad($cadena){//limpiar cadenas recibidas
             $valor=$cadena;
+            $valor=  trim($valor);
             $valor=  strip_tags($valor);
             // General   
             $valor=str_replace("<","",$valor);   

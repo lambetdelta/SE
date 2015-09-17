@@ -20,6 +20,5 @@ if (isset($_POST['No_control'], $_POST['p'])) {
     }
 } else {
     // Las variables POST correctas no se enviaron a esta página.
-    echo 'Solicitud no valida';
+    header('Location: ../error.php');
 }
-?>

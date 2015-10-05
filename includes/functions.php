@@ -53,14 +53,14 @@ function login($N_control, $password, $mysqli) {
                 if ($pass == $password) {
                     // ¡La contraseña es correcta!
                     // Obtén el agente de usuario del usuario.
-               $user_browser = $_SERVER['HTTP_USER_AGENT'];
+                $user_browser = $_SERVER['HTTP_USER_AGENT'];
                     //  Protección XSS ya que podríamos imprimir este valor.
                     $No_control = preg_replace("/[^0-9]+/", "", $No_control);
                     $_SESSION['No_control'] = $No_control;
                     // Protección XSS ya que podríamos imprimir este valor.
                     $Nombre = preg_replace("/[^a-zA-Z0-9_\-]+/","", $Nombre);
                     $_SESSION['Nombre'] = $nombre;
-                    $_SESSION['login_string'] = hash('sha256',$pass.$user_browser);
+                    $_SESSION['login_string'] = hash('sha512',$pass.$user_browser);
                     // Inicio de sesión exitoso
 					
                     return true;
@@ -134,7 +134,7 @@ function login_check($mysqli) {
                 // Si el usuario existe, obtiene las variables del resultado.
                 $stmt->bind_result($pass);
                 $stmt->fetch();
-                $login_check = hash('sha256',$pass.$user_browser);
+                $login_check = hash('sha512',$pass.$user_browser);
 
                 if ($login_check == $login_string) {
                     // ¡¡Conectado!! 
@@ -167,7 +167,7 @@ function login_adm($Usuario, $Password, $mysqli) {
         $stmt->execute();    // Ejecuta la consulta preparada.
         $stmt->store_result();
         // Obtiene las variables del resultado.
-        $stmt->bind_result($Usuario, $pass,$salt);
+        $stmt->bind_result($administrador,$pass,$salt);
         $stmt->fetch();
         $No_control='10940256';
         // Hace el hash de la contraseña con una sal única.
@@ -187,11 +187,9 @@ function login_adm($Usuario, $Password, $mysqli) {
                 if ($pass == $password) {
                     // ¡La contraseña es correcta!
                     // Obtén el agente de usuario del usuario.
-                    $user_browser = $_SERVER['HTTP_USER_AGENT'];
-                    //  Protección XSS ya que podríamos imprimir este valor.
-                    $Usuario = preg_replace("/[^0-9]+/", "", $Usuario);
-                    $_SESSION['Usuario'] = $Usuario;
-                    $_SESSION['login_string_adm'] = hash('sha256',$pass.$user_browser);
+                    $user_browser = $_SERVER['HTTP_USER_AGENT'];    
+                    $_SESSION['Usuario'] = $administrador;
+                    $_SESSION['login_string_adm'] = hash('sha512',$pass.$user_browser);
                     // Inicio de sesión exitoso
 					
                     return true;
@@ -212,8 +210,7 @@ function login_adm($Usuario, $Password, $mysqli) {
 }
 function login_check_adm($mysqli) {
     // Revisa si todas las variables de sesión están configuradas.
-    if (isset($_SESSION['Usuario'],  
-                        $_SESSION['login_string_adm'])) {
+    if (isset($_SESSION['Usuario'],$_SESSION['login_string_adm'])) {
  
         $Usuario = $_SESSION['Usuario'];
         $login_string = $_SESSION['login_string_adm'];		
@@ -232,26 +229,25 @@ function login_check_adm($mysqli) {
                 // Si el usuario existe, obtiene las variables del resultado.
                 $stmt->bind_result($pass);
                 $stmt->fetch();
-                $login_check = hash('sha256',$pass.$user_browser);
-
+                $login_check = hash('sha512',$pass.$user_browser);
                 if ($login_check == $login_string) {
                     // ¡¡Conectado!! 
-                    return true;
+                    return TRUE;
                 } else {
                     // No conectado.
-                    return false;
+                    return FALSE;
                 }
             } else {
                 // No conectado.
-                return false;
+                return FALSE;
             }
         } else {
             // No conectado.
-            return false;
+            return FALSE;
         }
     } else {
         // No conectado.
-        return false;
+        return FALSE;
     }
 }
 
@@ -822,24 +818,6 @@ function actualizar_residencia($mysqli,$no_control,$residencia){//borrar social
 						return false;
 }
 };
-function salt($length,$uc,$n,$sc)
-{
-    $source = 'abcdefghijklmnopqrstuvwxyz';
-    if($uc==1) $source .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    if($n==1) $source .= '1234567890';
-    if($sc==1) $source .= '|@#~$%()=^*+[]{}-_';
-    if($length>0){
-        $rstr = "";
-        $source = str_split($source,1);
-        for($i=1; $i<=$length; $i++){
-            mt_srand((double)microtime() * 1000000);
-            $num = mt_rand(1,count($source));
-            $rstr .= $source[$num-1];
-        }
- 
-    }
-    return $rstr;
-}
 
 function anti_xss($form){//limpiar formularios recibidos 
         foreach ($form as &$valor):
@@ -932,4 +910,36 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
 
             $valor= str_replace("style" , "" , $valor); 
             return $valor;
+}
+
+function nuevo_pass($no_control,$viejo_pass,$nuevo_pass,$mysqli){
+    if($stmt=$mysqli->prepare('select password,salt from datos_egresado where no_control=?'))
+    {
+        $stmt->bind_param('s',$no_control); 
+        $stmt->execute();    // Ejecuta la consulta preparada.
+        $stmt->store_result();
+        // Obtiene las variables del resultado.
+        $stmt->bind_result($password,$salt);
+        $stmt->fetch();
+        $viejo_pass=hash('sha512', $viejo_pass . $salt);
+        if($viejo_pass==$password){
+            $nuevo_salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
+            $nuevo_pass=hash('sha512', $nuevo_pass . $nuevo_salt);
+            if($stmt=$mysqli->prepare('update datos_egresado set password=?, salt=? where no_control=?'))
+            {
+                $stmt->bind_param('sss',$nuevo_pass,$nuevo_salt,$no_control); 
+                $stmt->execute();    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0)
+                    return true;
+                else
+                    return false;
+                
+            }
+            else
+                return FALSE;
+        }
+        else return FALSE;
+    }  
+    else 
+        return false;
 }

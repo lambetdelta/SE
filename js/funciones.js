@@ -67,6 +67,10 @@ function validar_texto(e)
 	tecla_final = String.fromCharCode(tecla);
 	return patron.test(tecla_final); 
 };
+function espacion_block(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla==32) return false; 
+}
 function salir(){
     window.location="includes/logout.php";
     
@@ -102,7 +106,7 @@ function cargar_municipios(){	//cargar municpios con ajax
 	 $("#estados option:selected").each(function () {
             elegido=$(this).val();
 			$("#img_cargando_estado").show();
-            jqXHR=$.post("contenidos/Municipios.php", { elegido: elegido })
+          $.post("contenidos/Municipios.php", { elegido: elegido })
 	.fail(function(){
 			$("#img_cargando_estado").hide();
 			alert('Error con el servidor');})
@@ -116,7 +120,7 @@ function cargar_municipios_empresa(){	//cargar municpios con ajax
 	 $("#estado_empresa option:selected").each(function () {
             elegido=$(this).val();
 			$("#img_muncipio_empresa").show();
-            jqXHR=$.post("contenidos/Municipios.php", { elegido: elegido })
+            $.post("contenidos/Municipios.php", { elegido: elegido })
 	.fail(function(){
 			$("#img_muncipio_empresa").hide();
 			alert('Error con el servidor');})
@@ -131,7 +135,7 @@ function cargar_especialidad(){	//cargar municpios con ajax
 	 $("#carrera option:selected").each(function () {
             elegido=$(this).val();
 			$("#img_cargando").show();
-            jqXHR=$.post("ajax/especialidad.php", { elegido: elegido })
+           $.post("ajax/especialidad.php", { elegido: elegido })
 	.fail(function(){
 			alert('Error con el servidor');})
 	.done( function(data){
@@ -235,7 +239,7 @@ function validar_Est_Mun(){//verificar estados y municipios
 function dt_academicos(no_control){//cargar datos academicos
 	$("#datos_academicos").hide();
 	$("#img_cargando_dt_academicos").show();
-	jqXHR=$.post('ajax/dt_academicos.php',{no_control:no_control}).
+	$.post('ajax/dt_academicos.php',{no_control:no_control}).
 	fail(function(){
 			$("#img_cargando_dt_academicos").hide();
 			alert('Error con el servidor');
@@ -1259,4 +1263,91 @@ function guardar_residencia(no_control){//guardar nuevo idioma
 		}
 		});//fin de done
 	}//fin de function principal;
-       
+function nueva_contraseña(no_control){
+    $("#frm_pass").hide();//ocultar campos
+    $("#img_enviar_pass").show();
+    var p = document.createElement("input"); 
+    p.name = "p";
+    p.type = "hidden";
+    p.value = hex_sha512($('#viejo_pass').val());
+    $("#frm_pass").append(p); 
+    $('#viejo_pass').val('no ver');
+    var x = document.createElement("input"); 
+    x.name = "x";
+    x.type = "hidden";
+    x.value = hex_sha512($('#pass_nuevo').val());
+    $("#frm_pass").append(x);
+    $('#pass_nuevo').val('no ver');
+    $('#pass_nuevo_reafirmar').val('no ver');
+    $.post('ajax/nueva_contrasena.php',{form:$("#frm_pass").serialize(),no_control:no_control})
+            .fail(function(){
+                
+            })
+            .done(function(data){
+            respuesta=$.parseJSON(data);
+                if(respuesta.respuesta==='hecho'){
+                    $("#img_enviar_pass").hide();
+                    alert_('ÉXITO',$('#alert_academico'),250);
+                    limpiaForm($('#frm_pass'));
+                    $("#frm_pass").show();
+                }
+                else
+                {   $("#img_enviar_pass").hide();
+                    alert_(respuesta.mensaje,$('#alert_pass'),250);
+                    limpiaForm($('#frm_pass'));
+                    $("#frm_pass").show();
+                }
+            
+            });
+    p.remove(); 
+    x.remove();
+    $('#span_pass').hide();
+    $('#span-pass-correcto').hide();
+}
+
+function evaluar_pass(input){//evaluar password
+    var input=input;
+    var caracteres = 0;
+    var may = 0;
+    var min = 0;
+    var numero = 0;
+    var especiales = 0;
+    var total=0;
+    var mayusculas= new RegExp('[A-Z]');
+    var minusculas= new RegExp('[a-z]');
+    var numeros = new RegExp('[0-9]');
+    var esp_caracteres = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
+    
+    if (input.val().length > 8) { caracteres = 1; } else { caracteres = 0; };
+    if (input.val().match(mayusculas)) { may = 1;} else { may = 0; };
+    if (input.val().match(esp_caracteres)) { especiales = 1;} else { especiales = 0; };
+    if (input.val().match(minusculas)) { min = 1;}  else { min = 0; };
+    if (input.val().match(numeros)) { numero = 1;}  else { numero = 0; };
+    
+    total=caracteres+may+min+numero+especiales;
+    
+    if(total===0){ 
+        $('#pass_nuevo').removeClass();
+        $('#span-pass-seguridad').html('');
+    }
+    if(total===1){ 
+        $('#pass_nuevo').removeClass(); 
+        $('#pass_nuevo').addClass('muy-debil');
+        $('#span-pass-seguridad').html('Muy Débil');
+    }
+    if(total===2){ 
+        $('#pass_nuevo').removeClass(); 
+        $('#pass_nuevo').addClass('debil');
+        $('#span-pass-seguridad').html('Débil');
+    }
+    if(total===3) {
+        $('#pass_nuevo').removeClass();
+        $('#pass_nuevo').addClass('media');
+        $('#span-pass-seguridad').html('Media');
+    }
+    if(total===4){ 
+        $('#pass_nuevo').removeClass(); 
+        $('#pass_nuevo').addClass('alta');
+        $('#span-pass-seguridad').html('Alta');
+    }
+}

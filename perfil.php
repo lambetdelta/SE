@@ -4,15 +4,15 @@ include_once 'includes/functions.php';
 sec_session_start();
 ?>
 <?php if (login_check($mysqli) == true) : ?>
+<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <script src="js/AjaxUpload.2.0.min.js" type="text/javascript"></script>  
 <script src="js/moment.js" type="text/javascript"></script>
 <script src="js/funciones.js" type="text/javascript"></script>
-<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-<script src="js/jquery-ui.js" type="text/javascript"></script>
 <script src="js/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="js/jquery.jrumble.1.3.min.js" type="text/javascript"></script>
 <script type="text/JavaScript" src="js/bootstrap.js"></script>
+<script type="text/JavaScript" src="js/sha512.js"></script> 
 <script type="text/javascript">
 $("document").ready(function() { 
 	var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
@@ -24,6 +24,8 @@ $("document").ready(function() {
 	$("#foto_egresado").attr('src',foto);
 	var id_social;
 	var tipo="-";
+        var igualdad='0';
+        var pass_valido='0';
 	var id_historial;
 	var tipo_empresa='-';
 	var tipo_historial='-';
@@ -58,7 +60,35 @@ $("document").ready(function() {
 				alert_('Datos Incompletos',$('#alert_academico'),250);
 		 }else
 		 	alert_('Datos Incompletos',$('#alert_academico'),250);		
-        });	
+        });
+        $('#img-ayuda-pass').click(function(){
+            alert_('Recomedaciones',$('#div-ayuda-pass'),250);
+        });
+        $(function(){//validar igualdad de password nuevos
+            $('#pass_nuevo_reafirmar').keyup(function(){
+                
+                if($(this).val()===$('#pass_nuevo').val())
+                {
+                    $('#span_pass').hide();
+                    $('#span-pass-correcto').show();
+                    igualdad='1';
+                }else
+                {   
+                    $('#span_pass').show();
+                    $('#span-pass-correcto').hide();
+                    igualdad='0';
+                }    
+            });      
+        });
+        
+        $('#frm_pass').submit(function(e){//enviar formulario de pass
+          e.preventDefault();
+          if(igualdad==='1' && $('#pass_nuevo').length>0){
+            nueva_contraseña(no_control); $('#span-pass-seguridad').html('');$('#pass_nuevo').removeClass();}
+          else
+              alert_('Datos Incompletos',$('#alert_academico'),250);    
+          igualdad='0';
+        })
 	$("#frm_idioma").submit(function(e){
 		e.preventDefault();
 		if($("#idiomas").val()!='1'){
@@ -507,7 +537,7 @@ $("document").ready(function() {
 		$("#estado_empresa").change(function(){//cargar municipios
 			cargar_municipios_empresa();
 			});	
-		//colores y animaciones	
+		//IMAGEN DE EGRESADO
 		
 		var button = $('#addImage'), interval;
 		new AjaxUpload('#addImage', {
@@ -516,10 +546,10 @@ $("document").ready(function() {
 			//mas extensions rar|doc|zip|ppt|docx|pptx|txt|html|mp3|wma|xls|xlsx|pdf
 			if (! (ext && /^(jpg|png|jpeg)$/.test(ext))){
 				// extensiones permitidas
-				alert_('Solo: jpg, png, jpeg',$("#alert_personales"),250);			
+				alert_('Solo:jpg, png, jpeg',$("#alert_personales"),250);			
 				return false;
 			} else {			
-				//aquí el código que se debe ejecutar al hacer clic
+				
 			
 				alert_Bloq('ESPERE POR FAVOR',$('#alert_personales'));
 				$('#foto_egresado').hide();
@@ -546,25 +576,13 @@ $("document").ready(function() {
 							$("#cargando_foto").hide();
 							$('#foto_egresado').show();
 							alert_(respuesta.mensaje,$("#alert_personales"),250);
+                                                        setTimeout('$("#alert_personales").dialog( "close" );',1000);
 							button.show();
 						}
 	 
 						//$('#loaderAjax').hide();	
 						this.enable();	
 					}
-		});
-		$("#img_ayuda").click(function(e) {
-		  var alert_=$("#ayuda_diag");
-			alert_.dialog({ <!--  ------> muestra la ventana  -->
-			open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).show(); },
-			width:500,  <!-- -------------> ancho de la ventana -->
-			height: 200,
-			show: "scale", <!-- -----------> animación de la ventana al aparecer -->
-			hide: "scale", <!-- -----------> animación al cerrar la ventana -->
-			resizable: "false", <!-- ------> fija o redimensionable si ponemos este valor a "true" -->
-			modal: "true", <!-- ------------> si esta en true bloquea el contenido de la web mientras la ventana esta activa
-			title:"AYUDA"
-			}); 
 		});
 		$("#a_residencia").click(function(e) {
 			$("#div_frm_residencia").slideToggle(1000);
@@ -639,7 +657,28 @@ $("document").ready(function() {
 					return false;
 			    }).filter(':first').click();
 			});//fin activar pestaña		
-	})
+	});
+</script>
+<script type="text/javascript">
+$("document").ready(function() {//evaluar passs
+    $('#pass_nuevo').keyup(function(){
+        evaluar_pass($(this));
+                });
+    $('#pass_nuevo').blur(function(){//evaluar longitud del pass nuevo
+        if($('#pass_nuevo').val().length>0) 
+            $('#pass_nuevo_reafirmar').show();
+        else{
+            $('#pass_nuevo_reafirmar').hide();
+            $('#pass_nuevo_reafirmar').val('');
+        }
+    });
+    $('#pass_nuevo').focus(function(){//mostrar reafirmacion de pass
+        $('#pass_nuevo_reafirmar').val('');
+        $('#pass_nuevo_reafirmar').show();
+        $('#span_pass').hide();
+        $('#span-pass-correcto').hide();
+    });
+});
 </script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -705,6 +744,7 @@ $("document").ready(function() {
                 <li><a href="#tercero" title="Grupos de Egresados, Clubs, ect a los que Perteneces">SOCIAL</a></li>
                 <li><a href="#cuarto" title="Tus Anteriores trabajos">HISTORIAL</a></li>
                 <li><a href="#quinto" title="Tu universidad y mas...">ITTJ</a></li>
+                <li><a href="#sexto" title="Contraseña, dudas, ect.">CONFIGURACIÓN</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a  href="#primero" onclick="salir()" title="Cerrar sesión y salir">SALIR</a></li>
@@ -712,13 +752,6 @@ $("document").ready(function() {
         </div>
     </nav>
 </div>    
-<div id="ayuda_diag">
-		<p>1.-CUANDO LLENES TUS DATOS, TODOS LOS CAMPOS SON REQUERIDOS, DE FALTAR UNO, EL SISTEMA NO TE PERMITIRÁ ENVIAR LOS DATOS. </p>
-        <p>2.-LOS DATOS SE LLENAN POR SECCIONES POR LO QUE NO ES NECESARIO LLENARLOS TODOS EL MISMO DÍA. </p>
-        <p>3.-SI NO DISPONES DE UN DATO ES PREFERIBLE CONTINUAR OTRO DÍA. </p>
-        <p>4.-CUALQUIER DUDA, COMENTARIO O SUGERENCIA EN LA PESTAÑA ITTJ</p>
-        <p>5.-SI OCURRE UN ERROR NOTIFICARLO EN LA PESTAÑA ITTJ</p>
-</div>
 <div class="row">
     <div class="contenedor">
 		 <div id="alert_academico" class="ventana"></div>
@@ -815,7 +848,7 @@ $("document").ready(function() {
                             </div>
                             <img src="Imagenes/loading.gif" class="cargando" style="display:none" id="img_cargando_posgrado" />
                             <div id="div_frm_posgrado" style="text-align:center">
-                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_posgrado" style="display:none" />	
+                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_posgrado" style="display:none; top:70px" />	
                                 <form id="frm_posgrado">
                                     <label style="font-size:22px">Formulario de posgrado</label><br />
                                     <img src="Imagenes/cancelar.png" id="img_cancelar_posgrado" title="CERRAR FORMULARIO" class="cancelar"/>
@@ -867,10 +900,10 @@ $("document").ready(function() {
                                             </select>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        	<input type="text" id="dp_academico_inicio" title="FECHA DE INICIO" readonly name="fecha_inicio" placeholder="FECHA DE INICIO" style="width:80%"  class="frm_acedemico_"required/>
+                                        	<input type="text" id="dp_academico_inicio" title="INICIO" readonly name="fecha_inicio" placeholder="INICIO" style="width:80%"  class="frm_acedemico_"required/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        	<input type="text" id="dp_academico_fin"   title="FINALIZACIÓN" readonly name="fecha_fin" placeholder="FECHA DE TERMINO"  style="width:80%"class="frm_acedemico_" required />
+                                        	<input type="text" id="dp_academico_fin"   title="FINALIZACIÓN" readonly name="fecha_fin" placeholder="FINALIZACIÓN"  style="width:80%"class="frm_acedemico_" required />
                                         </div>
                                     </div>
                                     <input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
@@ -1084,9 +1117,9 @@ $("document").ready(function() {
             	<div class="row">
             		<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 		                <form id="frm_historial" style="text-align:center">
-		                	<label style="font-size:22px;">FORMULARIO DE HISTORIAL EMPRESARIAL</label><br />
-		                	<img id="img_cerrar_frm_historial" class="cancelar" src="Imagenes/cancelar.png" title="CERRAR FORMULARIO" /><br>
-		                	<input type="text" name="nombre" title="NOMBRE DE LA EMPRESA" placeholder="NOMBRE DE LA EMPRESA" maxlength="30"  class="frm_empresa" required /><br />
+                                    <label style="font-size:22px;">FORMULARIO DE HISTORIAL EMPRESARIAL</label><br />
+                                    <img id="img_cerrar_frm_historial" class="cancelar" src="Imagenes/cancelar.png" title="CERRAR FORMULARIO" /><br>
+                                    <input type="text" name="nombre" title="NOMBRE DE LA EMPRESA" placeholder="NOMBRE DE LA EMPRESA" maxlength="30"  class="frm_empresa" required /><br />
 		                    <input type="text" name="tel"  title="TELEFONO DE LA EMPRESA" placeholder="TELEFONO DE LA EMPRESA" maxlength="18"  class="frm_empresa"  required/><br />
 		                    <input type="text" name="web"  title="WEB DE LA EMPRESA" placeholder="WEB DE LA EMPRESA" maxlength="40"  class="frm_empresa" /><br />
 		                    <input type="text" name="email"  title="EMAIL DE LA EMPRESA" placeholder="EMAIL DE LA EMPRESA" maxlength="30"  class="frm_empresa"required/><br />
@@ -1114,7 +1147,7 @@ $("document").ready(function() {
 	                        <option value="4">PÉSIMA</option>
 	                    </select><br />
 	                    <br />
-	                    <input type="submit"  value="GUARDAR" placeholder="GUARDAR"/ class="guardar" ></form>
+	                    <input type="submit"  value="GUARDAR" placeholder="GUARDAR"/ class="guardar" >
 	                    </form>
 	                    </div>
 	                </div>
@@ -1143,6 +1176,34 @@ $("document").ready(function() {
                 </div>
             </div>
         </div>
+        <div id="sexto">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 col-sm-12" style="min-height: 200px">
+                    <div id="alert_pass" class="ventana">
+                        <p>Tu contraseña pasada no es la correcta verifica de nuevo</p>
+                    </div>
+                    <div id="div-ayuda-pass" class="ventana">
+                        <ul>
+                            <li>Procura usar letras <b>mayúsculas y minúsculas</b> combinadas.</li>
+                            <li>Agregar <b>números</b> aumenta más la seguridad.</li>
+                            <li>Por último no olvides <b>caracteres especiales</b> como $, ! # darán más seguridad a tu password.</li>
+                        </ul>
+                    </div>
+                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_pass" style="top:60%;display: none" />    
+                    <form id="frm_pass" style="margin-top:20px;">
+                        <h2>Contraseña</h2>
+                        <input id="viejo_pass" type="password" name="viejo_pass" maxlength="15" title="Contaseña actual" placeholder="CONTRASEÑA ACTUAL" class="input-pass" style="width:100%" required="ANTIGUA CONTRASEÑA NECESARIA"><br>                             
+                        <div id="div-input-pass">                          
+                            <input id="pass_nuevo" onKeyPress="return espacion_block(event)" type="password" name="nuevo_pass" maxlength="15" title="Nueva contraseña" placeholder="NUEVA CONTRASEÑA"   required="NUEVA CONTRASEÑA">
+                                <img id="img-ayuda-pass"src="Imagenes/ayuda.png" style="float: left"/><span id="span-pass-seguridad"></span>
+                        </div>
+                        <input id="pass_nuevo_reafirmar"  type="password" maxlength="15" name="nuevo_pass_reafirmar" title="Reafirmar contraseña" placeholder="REAFIRMAR CONTRASEÑA"class="input-pass" style="width:100%;display: none;" required="NUEVA CONTRASEÑA" ><br>
+                        <span id="span_pass" class="span_pass-incorrecto">LAS CONTRASEÑAS NO COINCIDEN</span><span id="span-pass-correcto">LAS CONTRASEÑAS COINCIDEN</span><br>
+                        <input type="submit" value="ACEPTAR" class="guardar" style="width: 50%">
+                    </form>
+                </div>
+            </div>
+        </div>         
 </div>
 </div>
 <div class="row">

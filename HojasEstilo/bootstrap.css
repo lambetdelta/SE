@@ -44,7 +44,7 @@ template {
   display: none;
 }
 a {
-  background-color: transparent;
+  color: #000;
 }
 a:active,
 a:hover {
@@ -1098,7 +1098,7 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: #000;
   text-decoration: none;
 }
 a:hover,
@@ -4544,29 +4544,17 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #3CF;
-  border-color: #e7e7e7;
+  
 }
 .navbar-default .navbar-brand {
-  color: #FFF;
+  
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #FFF;
-  background-color: transparent;
 }
 .navbar-default .navbar-text {
   color: #777;
-}
-.navbar-default .navbar-nav > li > a {
-  color: #000;
-}
-.navbar-default .navbar-nav > li > a:hover{
-	color:#FFF;
-	background:#093 url(../Imagenes/gradient.png) repeat-x;}
-.navbar-default .navbar-nav > li > a:focus {
-  	color:#FFF;
-	background:#0C3 url(../Imagenes/gradient.png) repeat-x;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -4651,7 +4639,6 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
   color: #fff;
-  background-color: transparent;
 }
 .navbar-inverse .navbar-text {
   color: #9d9d9d;

@@ -8,15 +8,13 @@ sec_session_start(); ?>
 <head>
 <meta charset="UTF-8">   
 <meta name="viewport" content="width=device-width; initial-scale=1.0">
-<title>Administrador de SSE</title>
+<title>Estadísticas de SSE</title>
 <link href="HojasEstilo/estiloAdm.css" rel="stylesheet" type="text/css" /> 
 <link href="HojasEstilo/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <header>
-        <div class="row">
-            <img src="Imagenes/banner_ittj.png" class="img-responsive" style="margin: auto"/>
-        </div>
+        <img src="Imagenes/banner_ittj.png" class="img-responsive" style="margin: auto"/>
     </header> 
     <section>
         <div id="navegacion">
@@ -28,16 +26,16 @@ sec_session_start(); ?>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="administrador.php" title="Datos Personales" class="navbar-brand active" style="font-size:28px">Egresados</a>
+                    <a href="administrador.php" title="Datos Personales" class="navbar-brand" style="font-size:22px">Egresados</a>
                 </div>
 
                 <div id="navbarCollapse" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a  href="estadisticas.php" title="Estadísticas de egresados e informes">Estadísticas</a></li>
+                        <li><a class="active" href="estadisticas.php" title="Estadísticas de egresados e informes">Estadísticas</a></li>
                         <li><a href="configuracion.php" title="Contraseña, nombre usuario y más">Configuración</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#navegacion" onclick="salir()" title="Cerrar sesión y salir">SALIR</a></li>
+                        <li><a onclick="salir()" title="Cerrar sesión y salir">SALIR</a></li>
                     </ul>    
                 </div>
             </nav>
@@ -50,4 +48,3 @@ sec_session_start(); ?>
 <script src="js/funciones_adm.js"></script>
 <?php else : header('Location: error.php'); ?>
 <?php endif; ?>
-

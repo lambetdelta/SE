@@ -67,8 +67,6 @@ sec_session_start();
     <script>
 $(document).ready(function(){
     $("#icono-adm").click(function(){//animacion frm adm
-        $(this).removeClass('icono-adm');
-        $(this).addClass('icono-adm-hover');
         $("#form_sesion").fadeIn(1000);
     });
     

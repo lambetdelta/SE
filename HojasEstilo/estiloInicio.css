@@ -37,20 +37,6 @@ form input.egresado:hover{
     background:#4CAF50; 
 }
 .icono-adm{
-    background: #ffffff url('../Imagenes/index/icono_adm.png') no-repeat top;
-    height: 300px;
-    text-align: center;
-    position: relative;
-    transition: 1s;
-    border:#FF5722 solid;
-    border-radius: 5px;
-    margin-top: 50px;
-}
-.relleno-vol{
-   background:#ffffff url('../Imagenes/index/gradient.png') repeat-x;
-    
-}
-.icono-adm:hover{
     background: #FF5722 url('../Imagenes/index/icono_adm_w.png') no-repeat top;
     height: 150px;
     text-align: center;
@@ -60,8 +46,12 @@ form input.egresado:hover{
     -webkit-border-radius: 5px 5px 0px 0px;
     margin-top: 50px;
 }
-.icono-adm-hover{
-    background: #FF5722 url('../Imagenes/index/icono_adm_w.png') no-repeat top;
+.relleno-vol{
+   background:#ffffff url('../Imagenes/index/gradient.png') repeat-x;
+    
+}
+.icono-adm:hover{
+    background: #e51717 url('../Imagenes/index/icono_adm_w.png') no-repeat top;
     height: 150px;
     text-align: center;
     position: relative;

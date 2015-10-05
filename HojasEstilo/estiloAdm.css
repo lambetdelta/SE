@@ -1,0 +1,28 @@
+@charset "utf-8";
+*{
+    margin:0px;/*eliminar borde*/
+    padding:0px;
+    word-wrap: break-word;
+}
+
+.nav-personal{
+    background-color: #FF5722;
+}
+.active{
+    background-color:#ff3333;
+    font-size: 24px;
+    color:#FFF
+}
+.navbar-default .navbar-nav > li > a:hover{
+	color:#FFF;
+        background:#ff6666 url(../Imagenes/gradient.png) repeat-x;}
+.navbar-default .navbar-nav > li > a:focus {
+  	color:#FFF;
+	background:#ff6666 url(../Imagenes/gradient.png) repeat-x;
+}
+.navbar-header:hover{
+    background:#ff3333 url(../Imagenes/gradient.png) repeat-x;
+} 
+.img-banner{
+   
+}

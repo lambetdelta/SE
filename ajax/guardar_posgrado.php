@@ -25,6 +25,7 @@ if (isset($_POST['form'],$_POST['no_control']))
 }
 else
     $mensaje = 'ERROR';
-$salidaJson = array('respuesta' => $respuesta,'mensaje' => $mensaje);
+
+$salidaJson = array('respuesta' => $respuesta, 'mensaje' => $mensaje);
 echo json_encode($salidaJson);
 ?>

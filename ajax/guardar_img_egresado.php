@@ -32,7 +32,7 @@ $extension = explode('.',$_FILES['userfile']['name']);
 $num = count($extension)-1;
 // Creamos el nombre del archivo dependiendo la opción
 $imgFile =fileName.time().'.'.$extension[$num];
-// Verificamos el tamaño válido para los logotipos
+// Verificamos el tamaño válido para los 
 if($imageSize[0] <= maxWidth && $imageSize[1] <= maxHeight)
 	$pasaImgSize = true;
 // Verificamos el status de las dimensiones de la imagen a publicar
@@ -80,7 +80,7 @@ if($pasaImgSize == true)
 	}
 	else
 		// Error en el tamaño y tipo de imagen
-		$mensajeFile = 'Error en Imagen';
+		$mensajeFile = 'Foto muy grande';
 					
 }
 else

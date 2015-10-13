@@ -720,7 +720,8 @@ function borrar_social($mysqli,$no_control,$registro){//borrar social
 						return true;
 					else
 						return false;
-}
+}else
+    return ;
 };
 
 function guardar_foto_egresado($mysqli,$no_control,$img){//nueva requisito
@@ -805,7 +806,8 @@ function guardar_posgrado($mysqli,$no_control,$posgrado,$nombre,$escuela,$titula
 						return true;
 					else
 						return false;
-}
+}else
+    return FALSE;
 };
 
 function actualizar_residencia($mysqli,$no_control,$residencia){//borrar social
@@ -943,3 +945,19 @@ function nuevo_pass($no_control,$viejo_pass,$nuevo_pass,$mysqli){
     else 
         return false;
 }
+
+
+function validar_email($mysqli,$no_control,$email){//
+	if($stmt=$mysqli->prepare('select email from datos_egresado where (no_control=? and email=?)')){
+		$stmt->bind_param('ss',$no_control,$email); 
+		$stmt->execute();    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result();
+		if($resultado->num_rows >0)
+			return 3;
+		else
+			return 2;
+	}
+        else {
+            return 1;
+        }
+};

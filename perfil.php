@@ -1203,6 +1203,20 @@ $("document").ready(function() {//evaluar passs
                     </form>
                 </div>
             </div>
+            <div class="row">
+                <div id="div-recomendaciones" class="col-lg-8 col-lg-offset-2 col-sx-12">
+                    <h2>Recomendaciones</h2>
+                    <ul>
+                        <li>Es necesario que toda tu información este actualizada para ayudar mejor a las estadisticas.</li>
+                        <li>No es necesario que llenes todos tus datos el mismo día.</li>
+                        <li>Las maximas medidas de la imagen de perfil son 700 x 700.</li>
+                        <li>El tamaño de la imagen de perfil no puede superar 1 MB.</li>
+                        <li>Tu email es muy importante ya que en caso de que olvides tu 
+                            contraseña se te enviara a tu correo un mensaje para  resetearlo por 
+                            lo que se te recomienda sea uno de los primeros datos que agregues</li>
+                    </ul>
+                </div>
+            </div>
         </div>         
 </div>
 </div>

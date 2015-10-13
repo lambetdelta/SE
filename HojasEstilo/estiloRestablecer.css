@@ -1,0 +1,87 @@
+#frm-email{
+    width:95%;
+    border: #4CAF50 solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 20px auto auto auto;
+}
+input.frm-email{
+    width: 95%;
+    text-align: center;
+    margin: 5px auto 5px auto;
+    border: none;
+    background-color: #cccccc;
+    border-radius: 5px;
+}
+input.frm-email:hover{
+    background-color: #99ff99;
+}
+
+.guardar{
+        moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+	box-shadow:inset 0px 1px 0px 0px #caefab;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+	background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+	background-color:#77d42a;
+	-webkit-border-top-left-radius:8px;
+	-moz-border-radius-topleft:8px;
+	border-top-left-radius:8px;
+	-webkit-border-top-right-radius:8px;
+	-moz-border-radius-topright:8px;
+	border-top-right-radius:8px;
+	-webkit-border-bottom-right-radius:8px;
+	-moz-border-radius-bottomright:8px;
+	border-bottom-right-radius:8px;
+	-webkit-border-bottom-left-radius:8px;
+	-moz-border-radius-bottomleft:8px;
+	border-bottom-left-radius:8px;
+	text-indent:0;
+	border:1px solid #268a16;
+	display:inline-block;
+	color:#000;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:35px;
+	line-height:35px;
+	width:50%;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #aade7c;
+        width: 80%;
+}
+.guardar:hover{
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
+	background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
+	background-color:#5cb811;
+}
+.enviar{
+    display: none;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin: auto;
+}
+
+#span-repuesta-email{
+    font-size:22px;
+    display: none;
+    text-align: center
+}
+.span-respuesta-email-incorrecto{
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.span-respuesta-email-correcto{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}

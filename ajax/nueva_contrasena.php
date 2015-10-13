@@ -2,7 +2,7 @@
 include '../includes/functions.php';
 include '../includes/db_connect.php';
 
-
+sleep(3);
 $mensaje='ERROR EN ENVÍO';
 $respuesta='falla';
 if(isset($_POST['no_control'],$_POST['form']))
@@ -11,12 +11,18 @@ if(isset($_POST['no_control'],$_POST['form']))
         $form=array();
         parse_str($_POST['form'],$form);
         $form=anti_xss($form);
-        if(nuevo_pass($_POST['no_control'],$form['p'],$form['x'],$mysqli)){
-            $respuesta='hecho';
-            $mensaje='EXITO';
+        if(strlen($form['p'])==128 and strlen($form['x'])==128)//verificar longitud de pass recibido
+        {
+            if(nuevo_pass($_POST['no_control'],$form['p'],$form['x'],$mysqli))
+            {
+                $respuesta='hecho';
+                $mensaje='EXITO';
+            }
+            else 
+            $mensaje='Contraseña erronea';            
         }
-        else 
-           $mensaje='Contraseña erronea';           
+        else
+        $mensaje='ERROR';    
     }
     else
     $mensaje='ERROR';    

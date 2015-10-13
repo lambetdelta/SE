@@ -9,7 +9,7 @@ sec_session_start();
 <head> 
 <meta charset="UTF-8">   
 <meta name="viewport" content="width=device-width; initial-scale=1.0">
-<title>Login</title>
+<title>Sistema de Seguimiento de Egresados</title>
 <link href="HojasEstilo/estiloInicio.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="HojasEstilo/bootstrap.css">
 <script type="text/JavaScript" src="js/sha512.js"></script> 
@@ -41,6 +41,7 @@ sec_session_start();
         <div class="row" >
             <div  id="contenedor" class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12" >
                 <div id="frm_egresado" style="display:none">
+                    <a href="restablecer_pass.php"id="span-olvidaste-pass" class="span-password">¿Olvidaste tú contraseña?</a>
                     <form method="post" action="includes/process_login.php" name="login_form" class="egresado">
                         <h1>Sesión</h1>
                         <input type="text" maxlength="8"class="egresado"placeholder="Ingrese No: de Control" name="No_control" id="No_control"/><br />

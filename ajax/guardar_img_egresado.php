@@ -2,9 +2,7 @@
 include_once '../includes/functions.php';
 include_once '../includes/db_connect.php';
 sleep(3);
-// ini_set("display_errors", 1);
-// Definimos variables generales
-define("maxUpload", 240000);
+define("maxUpload", 1048576);
 define("maxWidth", 700);
 define("maxHeight", 700);
 define("uploadURL", '../fotos_egresados/');
@@ -80,7 +78,7 @@ if($pasaImgSize == true)
 	}
 	else
 		// Error en el tamaño y tipo de imagen
-		$mensajeFile = 'Foto muy grande';
+		$mensajeFile = 'Foto muy pesada';
 					
 }
 else

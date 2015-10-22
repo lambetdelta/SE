@@ -3,13 +3,64 @@ include_once 'psl-config.php';
 include 'class.phpmailer.php';
 include 'class.smtp.php';
 
-function validar_email($mysqli,$no_control,$email){//
+function nuevo_pass_recuperacion($no_control,$nuevo_pass,$mysqli){
+            $nuevo_salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
+            $nuevo_pass=hash('sha512', $nuevo_pass . $nuevo_salt);
+            if($stmt=$mysqli->prepare('update datos_egresado set password=?, salt=? where no_control=?'))
+            {
+                $stmt->bind_param('sss',$nuevo_pass,$nuevo_salt,$no_control); 
+                $stmt->execute();    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    if(borrar_token($no_control, $mysqli)){
+                        return TRUE;
+                    }else
+                        return FALSE;
+                }
+                else
+                    return false;
+                
+            }
+            else
+                return FALSE;
+}
+
+function borrar_token($no_control,$mysqli){
+    if($query=$mysqli->prepare('delete from reseteo_contrasena where no_controlfk=?')){
+        $query->bind_param('s',$no_control);
+        $query->execute();
+        if($query->affected_rows>0)
+            return TRUE;
+        else
+            return FALSE;
+    }    
+}
+function validar_email($mysqli,$no_control,$email){//validar email dado por el usuario
 	if ($stmt = $mysqli->prepare("SELECT  email FROM datos_egresado WHERE (no_control=? AND email=?)")){
 		$stmt->bind_param('ss',$no_control,$email); 
 		$stmt->execute();    // Ejecuta la consulta preparada.
                 $resultado=$stmt->get_result();
 		if($resultado->num_rows >0)
 			return TRUE;
+		else
+			return FALSE;
+	}
+        else {
+            return FALSE;
+        }
+}
+function validar_token($mysqli,$no_control,$token){//buscar token creado
+	if ($stmt = $mysqli->prepare("SELECT no_controlfk FROM reseteo_contrasena WHERE token = ?")){
+		$stmt->bind_param('s',$token); 
+		$stmt->execute();    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result();
+		if($resultado->num_rows >0)
+                    {
+                    $usuario = $resultado->fetch_assoc();
+                    if( sha1($usuario['no_controlfk']) == $no_control )
+                        return TRUE;
+                    else 
+                       return FALSE; 
+                    }
 		else
 			return FALSE;
 	}
@@ -65,7 +116,7 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
 }
 
 
-function enviar_email($no_control,$correo,$mysqli){
+function enviar_email($no_control,$correo,$mysqli){//enviar email con solicitud de cambio de contraseña
     if($stmt=$mysqli->prepare('select nombre,apellido_p,apellido_m from datos_egresado where no_control=?'))
     {
         $stmt->bind_param('s',$no_control); 
@@ -94,16 +145,29 @@ function enviar_email($no_control,$correo,$mysqli){
             }else{
             $mensaje = '<html>
                 <head>
+                <meta charset="UTF-8">  
                    <title>Restablece tu contraseña</title>
                 </head>
                 <body>
+                <style>
+                    .span{
+                        color: #003300;
+                        font-size: 22px;
+                        background-color:#4CAF50;
+                        border-radius:5px;
+                        }
+                </style>
                   <p>Hemos recibido una petición para restablecer la contraseña de tu cuenta en el Sistema de Seguimiento de Egresados del ITTJ.</p>
                   <p>Si hiciste esta petición, haz clic en el siguiente enlace, si no hiciste esta petición puedes ignorar este correo.</p>
                   <p>
-                    <strong>Enlace para restablecer tu contraseña</strong><br>
-                    <a href="'.$link.'"> '.$link.' </a>
-                        
-                  </p>
+                    <strong>Enlace para restablecer tu contraseña</strong></p>
+                    <table>
+                    <tr>
+                    <td><a title="Enlace" href="'.$link.'"> Click Aqui </a></td>
+                    </tr>
+                    </table>
+                    <span>Si el enlace no se carga bien copia el siguiente link y pegalo en tu navegador</span><br>
+                    <span class="span">'.$link.'<span>
                 </body>
             </html>';}
             if ( $email->enviar( $correo, $nombre , $asunto ,  $mensaje ) )
@@ -122,11 +186,11 @@ function enviar_email($no_control,$correo,$mysqli){
         echo'4';    
     }
 }
-    function generarLinkTemporal($no_control,$mysqli){
+
+function generarLinkTemporal($no_control,$mysqli){//link con solicitud de cambio de contraseña
        // Se genera una cadena para validar el cambio de contraseña
        $cadena = $no_control.rand(1,9999999).date('Y-m-d');
        $token = sha1($cadena);
-       // Se inserta el registro en la tabla tblreseteopass
        $consulta='select no_controlfk from reseteo_contrasena where no_controlfk='.$no_control;
        $resultado=$mysqli->query($consulta);
        if($resultado->num_rows<=4){
@@ -147,10 +211,8 @@ function enviar_email($no_control,$correo,$mysqli){
            return FALSE;
               }
     }
-/**
-* Clase email que se extiende de PHPMailer
-*/
-class email  extends PHPMailer{
+
+class email  extends PHPMailer{//clase personalizada derivada de phpmailer
 
     //datos de remitente
     var $tu_email = 'lambetdelta@gmail.com';

@@ -28,13 +28,7 @@ function show_idiomas(){//animaciones de los contenedores de los datos basicos d
 	$('#div_idioma').slideToggle(1000);//mostrar animar
 	$('#div_frm_idioma').slideToggle(1000);
 	$('#img_agregar_empresa').slideToggle(1000);
-	};	
-function navegador(){
-	var navegador = navigator.userAgent;
- 	 if (navigator.userAgent.indexOf('MSIE') !=-1) {
-		 alert("!!!!!ESTAS USANDO INTERNET EXPLORER ESTE NAVEGADOR NO ES COMPATIBLE CON ESTA PAGINA PRUEBA OTRO NAVEGADOR");
-  	} 
-	}		
+	};			
 function inicio(no_control){//animaciones de los contenedores de los datos basicos de los egresados
 	$('#contenedor_form_datos_personales').hide();	
 	$("#cargando_frm").hide();

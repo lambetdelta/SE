@@ -18,7 +18,7 @@
                 <img id="img-enviar-email" src="Imagenes/loading45.gif" class="enviar"/>
                 <form id="frm-email">
                     <h2>Solicitud de reseteo de contraseña</h2>
-                    <input id="input-no-control" name="no_control"type="text" class="frm-email" title="No: de control"  placeholder='No: de Control' required></input>
+                    <input id="input-no-control" name="no_control"type="number" class="frm-email" title="No: de control"  placeholder='No: de Control' required></input>
                     <input id="input-email" name="email" type="email" title="Email" class="frm-email" placeholder='Email' required></input>
                     <input  type="submit"class="guardar" value="Enviar"></input>
                 </form>

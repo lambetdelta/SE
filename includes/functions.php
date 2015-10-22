@@ -786,7 +786,7 @@ function dt_posgrado($mysqli,$No_control){
 		return $resultado;
 		}
 		
-	};	
+	}	
 function borrar_posgrado($mysqli,$no_control,$registro){//borrar sw
 	if ($stmt = $mysqli->prepare("DELETE FROM posgrado WHERE (no_controlfk=? AND id_posgrado=?)" )) {
 		$stmt->bind_param('si',$no_control,$registro); 
@@ -796,7 +796,7 @@ function borrar_posgrado($mysqli,$no_control,$registro){//borrar sw
 		else
 			return false;
 	}
-};		
+}		
 
 function guardar_posgrado($mysqli,$no_control,$posgrado,$nombre,$escuela,$titulado){//borrar social
 	if ($stmt = $mysqli->prepare("Insert into posgrado(no_controlfk, posgrado, nombre, escuela, titulado) values(?,?,?,?,?) ")) {
@@ -819,7 +819,7 @@ function actualizar_residencia($mysqli,$no_control,$residencia){//borrar social
 					else
 						return false;
 }
-};
+}
 
 function anti_xss($form){//limpiar formularios recibidos 
         foreach ($form as &$valor):
@@ -947,17 +947,3 @@ function nuevo_pass($no_control,$viejo_pass,$nuevo_pass,$mysqli){
 }
 
 
-function validar_email($mysqli,$no_control,$email){//
-	if($stmt=$mysqli->prepare('select email from datos_egresado where (no_control=? and email=?)')){
-		$stmt->bind_param('ss',$no_control,$email); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result();
-		if($resultado->num_rows >0)
-			return 3;
-		else
-			return 2;
-	}
-        else {
-            return 1;
-        }
-};

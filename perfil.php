@@ -17,7 +17,6 @@ sec_session_start();
 $("document").ready(function() { 
 	var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
 	inicio(no_control);
-	navegador();
 	dispositivo();
 	var foto=<?php $foto=cargar_foto($mysqli,$_SESSION['No_control']);echo $foto?>;
 	$('#foto_egresado').removeAttr('scr');
@@ -88,7 +87,7 @@ $("document").ready(function() {
           else
               alert_('Datos Incompletos',$('#alert_academico'),250);    
           igualdad='0';
-        })
+        });
 	$("#frm_idioma").submit(function(e){
 		e.preventDefault();
 		if($("#idiomas").val()!='1'){

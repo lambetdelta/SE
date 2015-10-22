@@ -12,7 +12,7 @@ include '/includes/function_ext.php';
 //echo '<br>este es el password final guardado en bd '.$password;
 
 
-enviar_email('10940256', 'lambetdelta@hotmail.com', $mysqli);
+//enviar_email('10940256', 'lambetdelta@hotmail.com', $mysqli);
 
 //$contenido_html =  '<p>Hola, me llamo <em><strong>jc-mouse</strong></em> y quiero hacer una pregunta. </p>
 //<p>&iquest;POR QUE QUEREIS MATAR A BIN LADEN, SI &quot;OS<em><strong>AMA</strong></em>&quot; ?</p>
@@ -38,3 +38,19 @@ enviar_email('10940256', 'lambetdelta@hotmail.com', $mysqli);
 //                                            echo '3';
 //}else
 //    return FALSE;
+$link='kjhkj';
+echo '<html>
+                <head>
+                <meta charset="UTF-8">  
+                   <title>Restablece tu contraseña</title>
+                </head>
+                <body>
+                  <p>Hemos recibido una petición para restablecer la contraseña de tu cuenta en el Sistema de Seguimiento de Egresados del ITTJ.</p>
+                  <p>Si hiciste esta petición, haz clic en el siguiente enlace, si no hiciste esta petición puedes ignorar este correo.</p>
+                  <p>
+                    <strong>Enlace para restablecer tu contraseña</strong><br>
+                    <a href="'.$link.'" > Click Aqui </a>
+                    <a>uno</a>    
+                  </p>
+                </body>
+            </html>';

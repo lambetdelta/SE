@@ -862,10 +862,6 @@ img.elimnar_empresa:hover{/*animar img*/
     margin: 5px auto 5px auto;
     border-radius:5px;
     border: 1px solid #999;
-    transition: 1s;
-}
-#pass_nuevo:hover{
-    background-color: #e7e1e1;
 }
 #div-input-pass{
     text-align: right;

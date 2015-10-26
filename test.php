@@ -37,20 +37,31 @@ include '/includes/function_ext.php';
 //					else
 //                                            echo '3';
 //}else
-//    return FALSE;
-$link='kjhkj';
-echo '<html>
-                <head>
-                <meta charset="UTF-8">  
-                   <title>Restablece tu contraseña</title>
-                </head>
-                <body>
-                  <p>Hemos recibido una petición para restablecer la contraseña de tu cuenta en el Sistema de Seguimiento de Egresados del ITTJ.</p>
-                  <p>Si hiciste esta petición, haz clic en el siguiente enlace, si no hiciste esta petición puedes ignorar este correo.</p>
-                  <p>
-                    <strong>Enlace para restablecer tu contraseña</strong><br>
-                    <a href="'.$link.'" > Click Aqui </a>
-                    <a>uno</a>    
-                  </p>
-                </body>
-            </html>';
+////    return FALSE;
+//$link='kjhkj';
+//echo '<html>
+//                <head>
+//                <meta charset="UTF-8">  
+//                   <title>Restablece tu contraseña</title>
+//                </head>
+//                <body>
+//                  <p>Hemos recibido una petición para restablecer la contraseña de tu cuenta en el Sistema de Seguimiento de Egresados del ITTJ.</p>
+//                  <p>Si hiciste esta petición, haz clic en el siguiente enlace, si no hiciste esta petición puedes ignorar este correo.</p>
+//                  <p>
+//                    <strong>Enlace para restablecer tu contraseña</strong><br>
+//                    <a href="'.$link.'" > Click Aqui </a>
+//                    <a>uno</a>    
+//                  </p>
+//                </body>
+//            </html>';
+
+$nombre=  explode(' ', 'osvaldo uriel garcia gomez');
+  if(count($nombre)>=3){
+        $longitud=  count($nombre);
+        for($i=0;$i<count($nombre)-2;$i++) {
+            $nombre_completo=$nombre_completo.' '.$nombre[$i];
+        }
+//        $resultado=  buscar_nombre_completo($nombre_completo, $nombre[count($nombre)-2], $nombre[count($nombre)-1], $mysqli);
+//        return $resultado;
+        echo $nombre_completo;
+    }

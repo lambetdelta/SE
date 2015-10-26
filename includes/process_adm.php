@@ -1,5 +1,5 @@
 <?php
-include_once 'db_connect.php';
+include_once 'conexion-bd-adm.php';
 include_once 'functions.php';
  
 sec_session_start(); // manera personalizada segura de iniciar sesión PHP.

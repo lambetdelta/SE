@@ -118,7 +118,7 @@ $("document").ready(function() {
 		$(".eliminar").show();
     });	
 	
-	$("#img_ingenieria").click(function(e) {/*cambiar a div de ingenieria*/
+	$("#img_ingenieria").click(function() {/*cambiar a div de ingenieria*/
         $(this).css('border','1px solid #999');
 		$(this).attr('src','Imagenes/ingenieria_activo.png');
 		$("#img_posgrado").css('border','none');
@@ -136,7 +136,7 @@ $("document").ready(function() {
 	$("#img_cancelar_posgrado").click(function(e) {
 		$("#frm_posgrado");
     	show_posgrado();   
-    })	
+    });	
 	$("#img_limpiar_frm_Idioma").click(function(e) {
     	limpiaForm($("#frm_idioma"));    
     });		
@@ -184,14 +184,14 @@ $("document").ready(function() {
 		show_dt_academicos(); 
 	});
 	/*clases generales*/
-	$(".limpiar").mouseenter(function(e) {
+	$(".limpiar").mouseenter(function() {
       $(this).attr('src','Imagenes/limpiar_verde.png');  
     });
-	$(".limpiar").mouseleave(function(e) {
+	$(".limpiar").mouseleave(function() {
       $(this).attr('src','Imagenes/limpiar.png');  
     });
 	
-	$(".limpiar").click(function(e) {
+	$(".limpiar").click(function() {
         limpiaForm($(this).parent());
     });
 	$(".agregar_carrera").mouseenter(function(e) {
@@ -557,7 +557,7 @@ $("document").ready(function() {
 				this.disable();
 			}
 			},
-			onComplete: function(file, response){
+			onComplete: function(response){
 						button.text('Cambiar Imagen');
 	 
 						respuesta = $.parseJSON(response);

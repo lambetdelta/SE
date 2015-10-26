@@ -23,6 +23,60 @@
 .navbar-header:hover{
     background:#ff3333 url(../Imagenes/gradient.png) repeat-x;
 } 
-.img-banner{
-   
+#contenedor-buscador{
+    position: relative;
+}
+#div-buscador{
+    height: 32px;
+    background-color: #FF5722;
+    text-align: left;
+}
+#input-buscador{
+    width: 250px;
+    height:30px;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    left:0px;
+    top: 0px;
+    border-radius: 3px;
+}
+#div-principal{
+    height: 600px;
+    background-color: #000;
+    position: relative;
+}
+#div-contenedor-resultados{
+    position: relative;
+}
+#div-resultados{
+    position: absolute;
+    width: 100%;
+    background-color: #FFF;
+    z-index: 1;
+}
+#div-barra-busqueda{
+    height: 100%;
+    width: 285px;
+    background-color: #FFF;
+    border:none;
+    border-radius: 0px 5px 5px 0px;
+}
+#div-barra-busqueda:hover{
+    background-color: #ff7979;  
+}
+#div-img-encontrar{
+    float: right;
+    background-color: #efe1e1;
+    border-radius: 0px 5px 5px 0px;
+}
+#div-img-encontrar:hover{
+    background-color: #ff9999S; 
+}
+.div-resultado{
+    width:100%;
+    height: 40px;
+}
+.div-resultado:hover{
+    background-color: #ccccff;
 }

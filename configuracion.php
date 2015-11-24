@@ -1,5 +1,5 @@
 <?php
-include_once 'includes/db_connect.php';
+include_once 'includes/conexion-bd-adm.php';
 include_once 'includes/functions.php';
 sec_session_start(); ?>
 <?php if(login_check_adm($mysqli)==TRUE): ?>

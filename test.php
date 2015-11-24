@@ -1,12 +1,13 @@
 <?php
 
 include_once '/includes/db_connect.php';
-include '/includes/function_ext.php';
+//include '/includes/function_ext.php';
+include '/includes/functions.php';
 
 //$salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
 //echo '<br>este es el salt '.$salt.'<br>';
 //$pass=  hash('sha512','1');
-//$password = hash('sha512','3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2'.'uwicq37ypirg9pf508vqo7spkcppewz01rogiszt6p160093f233ue0ul07802s54iparn67ko5rcxcptulaavm27jckua9zu6l6p1y38nu8e8bh830e3h1q16bo6a57');
+//$password = hash('sha512',$pass.$salt);
 //echo '<br>este es el salt '.$salt;
 //echo '<br>este es el password que se envia por web '.$pass;
 //echo '<br>este es el password final guardado en bd '.$password;
@@ -55,13 +56,28 @@ include '/includes/function_ext.php';
 //                </body>
 //            </html>';
 
-$nombre=  explode(' ', 'osvaldo uriel garcia gomez');
-  if(count($nombre)>=3){
-        $longitud=  count($nombre);
-        for($i=0;$i<count($nombre)-2;$i++) {
-            $nombre_completo=$nombre_completo.' '.$nombre[$i];
-        }
-//        $resultado=  buscar_nombre_completo($nombre_completo, $nombre[count($nombre)-2], $nombre[count($nombre)-1], $mysqli);
-//        return $resultado;
-        echo $nombre_completo;
-    }
+//$nombre=  explode(' ', 'osvaldo uriel garcia gomez');
+//  if(count($nombre)>=3){
+//        $longitud=  count($nombre);
+//        for($i=0;$i<count($nombre)-2;$i++) {
+//            $nombre_completo=$nombre_completo.' '.$nombre[$i];
+//        }
+////        $resultado=  buscar_nombre_completo($nombre_completo, $nombre[count($nombre)-2], $nombre[count($nombre)-1], $mysqli);
+////        return $resultado;
+//        echo $nombre_completo;
+//    }
+//$form=array('uno'=>1,'dos'=>2,'tres'=>3);
+//
+//while ($valor=  $form){
+//    $valor=$valor+1;
+//}
+//unset($valor);
+//
+//while ($valor= $form){
+//    echo $valor;
+//}
+$estado='Jal';
+$municipio='tlaq';
+$query='SELECT estado.nombre,municipio.nombre as municipio FROM estado,municipio WHERE (estado.codigo_estado="'.$estado.'" and municipio.codigo_municipio="'.$municipio.'")';
+       $resultado=$mysqli->query($query);
+        $data=$resultado->fetch_assoc();

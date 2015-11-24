@@ -17,6 +17,6 @@ if (isset($_POST['usuario'],$_POST['p'])) {
     }
 } else {
     // Las variables POST correctas no se enviaron a esta página.
-    echo '2';
+    echo 'ERROR';
 }
 

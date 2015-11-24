@@ -4,41 +4,58 @@ include 'class.phpmailer.php';
 include 'class.smtp.php';
 
 function nuevo_pass_recuperacion($no_control,$nuevo_pass,$mysqli){
-            $nuevo_salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
+    try{   
+        $nuevo_salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
             $nuevo_pass=hash('sha512', $nuevo_pass . $nuevo_salt);
             if($stmt=$mysqli->prepare('update datos_egresado set password=?, salt=? where no_control=?'))
             {
-                $stmt->bind_param('sss',$nuevo_pass,$nuevo_salt,$no_control); 
+                $stmt->bind_param('ssi',$nuevo_pass,$nuevo_salt,$no_control); 
                 $stmt->execute();    // Ejecuta la consulta preparada.
                 if($stmt->affected_rows >0){
                     if(borrar_token($no_control, $mysqli)){
+                        $stmt->close();
                         return TRUE;
-                    }else
-                        return FALSE;
+                    }else{
+                        $stmt->close();
+                        return FALSE;}
                 }
-                else
-                    return false;
+                else{
+                    $stmt->close();
+                    return false;}
                 
             }
             else
                 return FALSE;
-}
+    }catch(Exception $e){
+        return FALSE;
+    }
 
-function borrar_token($no_control,$mysqli){
-    if($query=$mysqli->prepare('delete from reseteo_contrasena where no_controlfk=?')){
-        $query->bind_param('s',$no_control);
-        $query->execute();
-        if($query->affected_rows>0)
-            return TRUE;
-        else
-            return FALSE;
-    }    
 }
+function borrar_token($no_control,$mysqli){
+    try{
+        if($query=$mysqli->prepare('delete from reseteo_contrasena where no_controlfk=?')){
+            $query->bind_param('i',$no_control);
+            $query->execute();
+            if($query->affected_rows>0){
+                $query->close();
+                return TRUE;}
+            else{
+                $query->close();
+                return FALSE;}
+        }    
+    }
+     catch (Exception $e)
+     {
+        return FALSE;
+     }    
+ }
 function validar_email($mysqli,$no_control,$email){//validar email dado por el usuario
-	if ($stmt = $mysqli->prepare("SELECT  email FROM datos_egresado WHERE (no_control=? AND email=?)")){
-		$stmt->bind_param('ss',$no_control,$email); 
+    try{
+        if ($stmt = $mysqli->prepare("SELECT  email FROM datos_egresado WHERE (no_control=? AND email=?)")){
+		$stmt->bind_param('is',$no_control,$email); 
 		$stmt->execute();    // Ejecuta la consulta preparada.
                 $resultado=$stmt->get_result();
+                $stmt->close();
 		if($resultado->num_rows >0)
 			return TRUE;
 		else
@@ -47,12 +64,18 @@ function validar_email($mysqli,$no_control,$email){//validar email dado por el u
         else {
             return FALSE;
         }
+    }  catch (Exception $e){
+        return FALSE;
+    }
+
 }
 function validar_token($mysqli,$no_control,$token){//buscar token creado
-	if ($stmt = $mysqli->prepare("SELECT no_controlfk FROM reseteo_contrasena WHERE token = ?")){
+    try{
+        if ($stmt = $mysqli->prepare("SELECT no_controlfk FROM reseteo_contrasena WHERE token = ?")){
 		$stmt->bind_param('s',$token); 
 		$stmt->execute();    // Ejecuta la consulta preparada.
                 $resultado=$stmt->get_result();
+                $stmt->close();
 		if($resultado->num_rows >0)
                     {
                     $usuario = $resultado->fetch_assoc();
@@ -67,6 +90,10 @@ function validar_token($mysqli,$no_control,$token){//buscar token creado
         else {
             return FALSE;
         }
+    }  catch (Exception $e){
+        return FALSE;
+    }
+
 }
 
 function anti_xss_cad($cadena){//limpiar cadenas recibidas
@@ -119,9 +146,10 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
 function enviar_email($no_control,$correo,$mysqli){//enviar email con solicitud de cambio de contraseña
     if($stmt=$mysqli->prepare('select nombre,apellido_p,apellido_m from datos_egresado where no_control=?'))
     {
-        $stmt->bind_param('s',$no_control); 
+        $stmt->bind_param('i',$no_control); 
         $stmt->execute();    // Ejecuta la consulta preparada.
         $resultado=$stmt->get_result(); 
+        $stmt->close();
         if($resultado->num_rows >0){
             while ($fila=$resultado->fetch_assoc()){
                 $nombre=$fila['nombre'];
@@ -196,7 +224,7 @@ function generarLinkTemporal($no_control,$mysqli){//link con solicitud de cambio
        if($resultado->num_rows<=4){
             if ($stmt = $mysqli->prepare("INSERT INTO reseteo_contrasena (no_controlfk,token,fecha) VALUES (?,?,NOW())")) 
             {
-                 $stmt->bind_param('ss', $no_control,$token); 
+                 $stmt->bind_param('is', $no_control,$token); 
                  $stmt->execute();    // Ejecuta la consulta preparada.
                  if($stmt->affected_rows >0){
                      $enlace =$_SERVER["SERVER_NAME"].'/se/nueva_contrasena.php?no_control='.sha1($no_control).'&token='.$token;

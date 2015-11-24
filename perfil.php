@@ -557,7 +557,7 @@ $("document").ready(function() {
 				this.disable();
 			}
 			},
-			onComplete: function(response){
+			onComplete: function(file,response){
 						button.text('Cambiar Imagen');
 	 
 						respuesta = $.parseJSON(response);
@@ -574,13 +574,15 @@ $("document").ready(function() {
 						else{
 							$("#cargando_foto").hide();
 							$('#foto_egresado').show();
-							alert_(respuesta.mensaje,$("#alert_personales"),250);
-                                                        setTimeout('$("#alert_personales").dialog( "close" );',1000);
+                                                        $('#span-alert-personales').html(respuesta.mensaje);
+							alert_('ERROR',$("#alert_personales"),250);
+                                                        setTimeout('$("#alert_personales").dialog( "close" );$("#span-alert-personales").html("");',2000);
 							button.show();
+                                                        
 						}
 	 
 						//$('#loaderAjax').hide();	
-						this.enable();	
+						this.enable();
 					}
 		});
 		$("#a_residencia").click(function(e) {
@@ -764,7 +766,8 @@ $("document").ready(function() {//evaluar passs
                		<img id="foto_egresado" src="Imagenes/businessman_green.png" style=" max-width:100%; border:5px #999 solid" title="IMAGEN DE PERFIL" class="img-responsive img-rounded"/>
                     <img id="cargando_foto" src="Imagenes/loading_min.gif"/>
                     <br />
- 				 <button  id="addImage" class="guardar" style="width:40%; margin:auto">Cambiar</button>               
+                    
+                        <button  id="addImage" class="guardar" style="width:40%; margin:auto">Cambiar</button>               
             </div>
             <div class="col-lg-6 col-lg-push-1 col-md-6 col-md-push-1 col-sm-12 col-xs-12">
                 <div id="contenedor_form_datos_personales">
@@ -819,7 +822,9 @@ $("document").ready(function() {//evaluar passs
                     </form>
             </div>
         	<div id="contenedor_Datos_Personales">
-            	<div id="alert_personales" class="ventana"></div>
+                    <div id="alert_personales" class="ventana">
+                        <span id="span-alert-personales"></span>
+                    </div>
             	 <img src="Imagenes/loading.gif"  class="cargando" id="cargando_frm"/>
         		<div id="contendedor_d1">
             	</div>
@@ -1136,7 +1141,7 @@ $("document").ready(function() {//evaluar passs
         			<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 	                <button class="guardar" id="a_residencia" >RESIDENCIA</button>
 	                <div  id="div_frm_residencia" style="text-align:center;height:18%">
-	                	<img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_residencia" />
+                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_residencia" style="top:10px"/>
 	                    <form id="frm_residencia" style="width:100%">
 	                    <label style=" font-size:24px">EXPERIENCIA EN RESIDENCIA</label><br />
 	                    <select id="residencia" class="basicos" name="residencia" style="width:70%" >

@@ -26,11 +26,12 @@ function sec_session_start() {
 
 function login($N_control, $password, $mysqli) {
     // Usar declaraciones preparadas significa que la inyección de SQL no será posible.
+    try{
     if ($stmt = $mysqli->prepare("SELECT no_control, password,nombre,salt 
         FROM datos_egresado
        WHERE no_control = ?
         LIMIT 1")) {
-        $stmt->bind_param('s', $N_control);  // Une “$no:control” al parámetro.
+        $stmt->bind_param('i', $N_control);  // Une “$no:control” al parámetro.
         $stmt->execute();    // Ejecuta la consulta preparada.
         $stmt->store_result();
         // Obtiene las variables del resultado.
@@ -77,6 +78,12 @@ function login($N_control, $password, $mysqli) {
             // El usuario no existe.
             return false;
         }
+    } else {
+        return FALSE;
+    }
+    
+    }  catch (Exception $e){
+        return FALSE; 
     }
 }
 
@@ -111,6 +118,7 @@ function checkbrute($no_control, $mysqli) {
 
 function login_check($mysqli) {
     // Revisa si todas las variables de sesión están configuradas.
+    try{
     if (isset($_SESSION['No_control'], 
                         $_SESSION['Nombre'], 
                         $_SESSION['login_string'])) {
@@ -155,10 +163,15 @@ function login_check($mysqli) {
         // No conectado.
         return false;
     }
+    
+    }  catch (Exception $e){
+        return FALSE;
+    }
 }
 
 function login_adm($Usuario, $Password, $mysqli) {
     // Usar declaraciones preparadas significa que la inyección de SQL no será posible.
+    try{
     if ($stmt = $mysqli->prepare("SELECT nombre, pass,salt 
         FROM datos_administrador
        WHERE nombre = ?
@@ -207,9 +220,14 @@ function login_adm($Usuario, $Password, $mysqli) {
             return false;
         }
     }
+    
+}catch(Exception $e){
+    return FALSE;
+}
 }
 function login_check_adm($mysqli) {
-    // Revisa si todas las variables de sesión están configuradas.
+try{    
+// Revisa si todas las variables de sesión están configuradas.
     if (isset($_SESSION['Usuario'],$_SESSION['login_string_adm'])) {
  
         $Usuario = $_SESSION['Usuario'];
@@ -217,10 +235,8 @@ function login_check_adm($mysqli) {
         // Obtiene la cadena de agente de usuario del usuario.
         $user_browser = $_SERVER['HTTP_USER_AGENT'];
  
-        if ($stmt = $mysqli->prepare("SELECT pass 
-                                      FROM datos_administrador 
-                                      WHERE nombre = ? LIMIT 1")) {
-            // Une “$egresado_id” al parámetro.
+        if ($stmt=$mysqli->prepare("SELECT pass FROM datos_administrador  WHERE nombre = ? LIMIT 1")){
+            
             $stmt->bind_param('s', $Usuario);
             $stmt->execute();   // Ejecuta la consulta preparada.
             $stmt->store_result();
@@ -249,6 +265,9 @@ function login_check_adm($mysqli) {
         // No conectado.
         return FALSE;
     }
+}  catch (Exception $e){
+    return FALSE;
+}
 }
 
 //Sanea la URL de PHP_SELF
@@ -291,6 +310,7 @@ function fecha(){//calcular la fecha en base sistema y mexico
 	}
 
 function datos(){//datos basicos del servidor 
+    try{
 	$fp = fopen("contenidos/datos.txt", "r");
 	$fechaCon = fgets($fp);
 	$direccion = fgets($fp);
@@ -306,519 +326,866 @@ function datos(){//datos basicos del servidor
 	$email=utf8_encode($email);
 	$web=utf8_encode($web);
 	return array($fechaCon,$direccion,$cargo,$domicilio,$email,$web);
-	}
-
+    }catch(Exception $e){
+        return array('$fechaCon','$direccion','$cargo','$domicilio','$email','$web');
+    }
+}
 			
-	function primer_login($N_control,$mysqli) {//identificar primer ingreso de ususarios
+function primer_login($N_control,$mysqli) {//identificar primer ingreso de ususarios
     // Usar declaraciones preparadas significa que la inyección de SQL no será posible.
-    if ($stmt = $mysqli->prepare("SELECT  nombre 
-        FROM datos_egresado
-       WHERE no_control = ?
-        LIMIT 1")) {
-        $stmt->bind_param('s', $N_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-        $stmt->store_result();
-        // Obtiene las variables del resultado.
-        $stmt->bind_result($nombre);
-        $stmt->fetch();
-		if($nombre==""){
-			return true;}
-		else{
-			return false;}
-		}
-		}
+    try{
+        if ($stmt = $mysqli->prepare("SELECT  nombre 
+            FROM datos_egresado
+           WHERE no_control = ?
+            LIMIT 1")) {
+            $stmt->bind_param('i', $N_control);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $stmt->store_result();
+            // Obtiene las variables del resultado.
+            $stmt->bind_result($nombre);
+            $stmt->fetch();
+                    if($nombre==""){
+                            return true;}
+                    else{
+                            return false;}
+        }    
+    }catch (Exception $e){
+                    return FALSE;
+                }
+}
 		
 function datos_egresado($N_control,$mysqli) {//recuperar datos basicos del egresado
-   if ($stmt = $mysqli->prepare("SELECT  nombre,apellido_m,apellido_p,fecha_nacimiento,curp,telefono,email,calle,numero_casa,codigo_municipiofk,codigo_estadofk 
-        FROM datos_egresado
-       WHERE no_control = ?
-        LIMIT 1")) {
-        $stmt->bind_param('s', $N_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		$row = $resultado->fetch_assoc();
-		return $row;
-		}
-		
-		}
+    try{   
+        if ($stmt = $mysqli->prepare("SELECT  nombre,apellido_m,apellido_p,fecha_nacimiento,curp,
+           telefono,email,calle,numero_casa,codigo_municipiofk,codigo_estadofk 
+            FROM datos_egresado
+           WHERE no_control = ?
+            LIMIT 1")) {
+            $stmt->bind_param('i', $N_control);  // Une “$no:control” al parámetro.
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result(); 
+                $row = $resultado->fetch_assoc();
+                $stmt->close();
+                return $row;        
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+    }  catch (Exception $e){
+        return FALSE;
+    }		
+}
 function nombre_estado_municipio($codigo_estado,$codigo_municipio,$mysqli){//nombres de estados y sus municpios
-			if ($stmt = $mysqli->prepare("SELECT estado.nombre,municipio.nombre as municipio FROM estado,municipio WHERE (estado.codigo_estado=? and municipio.codigo_municipio=?)")) {
-				$stmt->bind_param('ss', $codigo_estado,$codigo_municipio); 
-				$stmt->execute();    // Ejecuta la consulta preparada.
-				$resultado=$stmt->get_result(); 
-				$row = $resultado->fetch_assoc();
-				return $row;
-		
-							}
-			}
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT estado.nombre,municipio.nombre as municipio FROM estado,municipio WHERE (estado.codigo_estado=? and municipio.codigo_municipio=?)")) {
+            $stmt->bind_param('ss', $codigo_estado,$codigo_municipio); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result(); 
+                $row = $resultado->fetch_assoc();
+                $stmt->close();
+                return $row;        
+            }else
+                return FALSE;
+
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
 
 function actualizar_egresado($mysqli,$nombre,$apellido_p,$apellido_m,$curp,$fecha_nac,$tel,$email,$calle,$no_casa,$estado,$municipio,$no_control){
-	if ($stmt = $mysqli->prepare("UPDATE datos_egresado SET nombre=?,apellido_m=?,apellido_p=?,fecha_nacimiento=?,curp=?,telefono=?,email=?,calle=?,numero_casa=?,codigo_municipiofk=?,codigo_estadofk=? where no_control=?")) {
-					$stmt->bind_param('ssssssssssss', $nombre,$apellido_p,$apellido_m,$fecha_nac,$curp,$tel,$email,$calle,$no_casa,$municipio,$estado,$no_control); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-					return 1;
-					else
-					return 0;
+    try{    
+        if ($stmt = $mysqli->prepare("UPDATE datos_egresado SET nombre=?,apellido_m=?,apellido_p=?,fecha_nacimiento=?,curp=?,telefono=?,email=?,calle=?,numero_casa=?,codigo_municipiofk=?,codigo_estadofk=? where no_control=?")) {
+            $stmt->bind_param('sssssssssssi', $nombre,$apellido_p,$apellido_m,$fecha_nac,$curp,$tel,$email,$calle,$no_casa,$municipio,$estado,$no_control); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    $stmt->close();
+                    return 1;}
+                else{
+                    $stmt->close();
+                    return 0;}
+            }else
+                return 0;
+        }else
+            return 0;
+
+    }catch(Exception $e){
+            return FALSE;}
 }
-};
 
 function dt_academicos($mysqli,$No_control){
-	 if ($stmt = $mysqli->prepare("SELECT * FROM historial_academico WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-		
-	};
-	
-	function nombre_carrera_especialidad($codigo_carrera,$codigo_especialidad,$mysqli){//nombres de estados y sus municpios
-			if ($stmt = $mysqli->prepare("SELECT carrera.nombre as carrera,especialidad.nombre as especialidad FROM carrera,especialidad WHERE (carrera.codigo_carrera=? and especialidad.codigo_especialidad=?)")) {
-				$stmt->bind_param('ss', $codigo_carrera,$codigo_especialidad); 
-				$stmt->execute();    // Ejecuta la consulta preparada.
-				$resultado=$stmt->get_result(); 
-				$row = $resultado->fetch_assoc();
-				return $row;
-		
-							}
-			}
-function guardar_dt_academicos($mysqli,$no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado){//nueva carrera
-	if ($stmt = $mysqli->prepare("INSERT INTO historial_academico (no_controlfk,fecha_inicio,fecha_fin,codigo_carrerafk,codigo_especialidadfk,titulado) VALUES (?,?,?,?,?,?)")) {
-					$stmt->bind_param('ssssss', $no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+try{
+    if ($stmt = $mysqli->prepare("SELECT no_controlfk, no_registro, fecha_inicio, fecha_fin, codigo_carrerafk, codigo_especialidadfk, titulado FROM historial_academico WHERE no_controlfk=?")) {
+        $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+        if($stmt->execute()){    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result();
+            $stmt->close();
+            return $resultado;       
+       }else
+           return FALSE;
+    }else
+	return FALSE;	
+}catch(Exception $e){
+        return FALSE;}
+
 }
-};
+	
+function nombre_carrera_especialidad($codigo_carrera,$codigo_especialidad,$mysqli){//nombres de estados y sus municpios
+try{
+    if($stmt = $mysqli->prepare("SELECT carrera.nombre as carrera,especialidad.nombre as especialidad FROM carrera,especialidad WHERE (carrera.codigo_carrera=? and especialidad.codigo_especialidad=?)")) {
+        $stmt->bind_param('ss', $codigo_carrera,$codigo_especialidad); 
+        $stmt->execute();    // Ejecuta la consulta preparada.
+        if($resultado=$stmt->get_result()){ 
+            $row = $resultado->fetch_assoc();
+            $stmt->close();
+            return $row;        
+        }else
+            return 'FALSE';
+    }else
+        return 'FALSE';
+}catch(Exception $e){
+    return 'FALSE';
+}
+
+}
+function guardar_dt_academicos($mysqli,$no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado){//nueva carrera
+    try{    
+        if($stmt = $mysqli->prepare("INSERT INTO historial_academico (no_controlfk,fecha_inicio,fecha_fin,codigo_carrerafk,codigo_especialidadfk,titulado) VALUES (?,?,?,?,?,?)")) {
+            $stmt->bind_param('isssss', $no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    $stmt->close();
+                    return TRUE;}
+                else{
+                    $stmt->close();
+                    return FALSE;}
+            }else
+                return FALSE;
+         }else
+             return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
 
 function contar_carrera($mysqli,$No_control){//verificar el max de carreras permitidas
-	 if ($stmt = $mysqli->prepare("SELECT * FROM historial_academico WHERE no_controlfk=?")) {
-        $stmt->bind_param('s',$No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		if ($resultado->num_rows>=4)
-			return true;
-			else
-			return false;
-		}
-		
-	};
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT no_registro FROM historial_academico WHERE no_controlfk=?")) {
+            $stmt->bind_param('i',$No_control);  // Une “$no:control” al parámetro.
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result(); 
+                $stmt->close();
+                if ($resultado->num_rows>=4)
+                    return TRUE;
+                else
+                    return FALSE;        
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+
+    }catch(Exception $e){
+        return FALSE;
+    }}
 function actualizar_dt_academicos($mysqli,$no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$registro,$titulado){//actualizar carrera
-	if ($stmt = $mysqli->prepare("UPDATE historial_academico SET fecha_inicio=?,fecha_fin=?,codigo_carrerafk=?,codigo_especialidadfk=?,titulado=? where (no_controlfk=? AND no_registro=?)" )) {
-		$stmt->bind_param('sssssis',$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado,$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};
+    try{    
+        if ($stmt = $mysqli->prepare("UPDATE historial_academico SET fecha_inicio=?,fecha_fin=?,codigo_carrerafk=?,codigo_especialidadfk=?,titulado=? where (no_controlfk=? AND no_registro=?)" )) {
+            $stmt->bind_param('sssssii',$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado,$no_control,$registro); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    $stmt->close();
+                    return true;}
+                else{
+                    $stmt->close();
+                    return false;}
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+            return FALSE;}        
+}
 function borrar_dt_academicos($mysqli,$no_control,$registro){//actualizar carrera
-	if ($stmt = $mysqli->prepare("DELETE FROM historial_academico WHERE (no_controlfk=? AND no_registro=?)" )) {
-		$stmt->bind_param('si',$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};
+    try{    
+        if ($stmt = $mysqli->prepare("DELETE FROM historial_academico WHERE (no_controlfk=? AND no_registro=?)" )) {
+            $stmt->bind_param('ii',$no_control,$registro); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    $stmt->close();
+                    return TRUE;}
+                else{
+                    $stmt->close();
+                    return FALSE;}
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+            return FALSE;}        
+}
 function dt_idiomas($mysqli,$No_control){
-	 if ($stmt = $mysqli->prepare("SELECT * FROM idiomas_egresado WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT no_controlfk, id_consecutivo, porcentaje_habla, porcentaje_lec_escr, codigo_idiomafk FROM idiomas_egresado WHERE no_controlfk=?")) {
+            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result();
+                $stmt->close();
+                return $resultado;
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+            return FALSE;}      
+}
 function nombre_idioma($codigo,$mysqli){//buscar nombres idiomas
-	if ($stmt = $mysqli->prepare("SELECT nombre FROM idioma WHERE codigo_idioma=?")) {
+    if ($stmt = $mysqli->prepare("SELECT nombre FROM idioma WHERE codigo_idioma=?")) {
         $stmt->bind_param('s', $codigo);  // Une “$no:control” al parámetro.
         $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-			
-	};
+        $resultado=$stmt->get_result(); 
+        $stmt->close();
+        return $resultado;
+    }else
+        return FALSE;
+
+}
 function editar_idioma($mysqli,$no_control,$idioma,$habla,$lectura,$registro){//actualizar idioma no usado pero disponible 
-	if ($stmt = $mysqli->prepare("UPDATE idiomas_egresado SET codigo_idiomafk=?,porcentaje_habla=?,porcentaje_lec_escr=?, WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
-		$stmt->bind_param('ssssi',$idioma,$habla,$lectura,$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};	
+    try{    
+        if ($stmt = $mysqli->prepare("UPDATE idiomas_egresado SET codigo_idiomafk=?,porcentaje_habla=?,porcentaje_lec_escr=?, WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
+            $stmt->bind_param('sssii',$idioma,$habla,$lectura,$no_control,$registro); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return TRUE;}
+            else{
+                $stmt->close();
+                return FALSE;}
+        }
+    }catch(Exception $e){
+            return FALSE;}       
+}	
 
 function borrar_idioma($mysqli,$no_control,$registro){//borrar idioma
-	if ($stmt = $mysqli->prepare("DELETE FROM idiomas_egresado WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
-		$stmt->bind_param('si',$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};
+    try{
+        if ($stmt = $mysqli->prepare("DELETE FROM idiomas_egresado WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
+            $stmt->bind_param('ii',$no_control,$registro); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    $stmt->close();
+                    return TRUE;}
+                else{
+                    $stmt->close();
+                    return FALSE;}
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 function contar_idioma($mysqli,$No_control){//verificar el max de idiomas permitidas
-	 if ($stmt = $mysqli->prepare("SELECT * FROM idiomas_egresado  WHERE no_controlfk=?")) {
-        $stmt->bind_param('s',$No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		if ($resultado->num_rows>=5)
-			return true;
-			else
-			return false;
-		}
-		
-	};
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT id_consecutivo FROM idiomas_egresado  WHERE no_controlfk=?")) {
+            $stmt->bind_param('i',$No_control);  // Une “$no:control” al parámetro.
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result(); 
+                $stmt->close();
+                if ($resultado->num_rows>=5)
+                        return TRUE;
+                    else
+                        return FALSE;
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+
+    }catch(Exception $e){
+            return FALSE;}
+        
+}
 	
 function guardar_idioma($mysqli,$no_control,$pocentaje_habla,$porcentaje_lec_escr,$codigo_idiomafk){//nueva idioma
-	if ($stmt = $mysqli->prepare("INSERT INTO idiomas_egresado(no_controlfk,porcentaje_habla,porcentaje_lec_escr,codigo_idiomafk) VALUES (?,?,?,?)")) {
-					$stmt->bind_param('siis', $no_control,$pocentaje_habla,$porcentaje_lec_escr,$codigo_idiomafk); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}
-};	
+    try{    
+        if ($stmt = $mysqli->prepare("INSERT INTO idiomas_egresado(no_controlfk,porcentaje_habla,porcentaje_lec_escr,codigo_idiomafk) VALUES (?,?,?,?)")) {
+            $stmt->bind_param('iiis', $no_control,$pocentaje_habla,$porcentaje_lec_escr,$codigo_idiomafk); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                if($stmt->affected_rows >0){
+                    $stmt->close();
+                    return true;}
+                else{
+                    $stmt->close();
+                return false;}        
+                }else
+                    return FALSE;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+            return FALSE;}
+        
+}	
 
 function dt_sw($mysqli,$No_control){//datos sw
-	 if ($stmt = $mysqli->prepare("SELECT * FROM paquetes_sw WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+try{    
+    if ($stmt = $mysqli->prepare("SELECT no_controlfk, id_consecutivo, nombre_sw FROM paquetes_sw WHERE no_controlfk=?")) {
+        $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+        if($stmt->execute()){    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result();
+            $stmt->close();
+            return $resultado;        
+        }else
+            return FALSE;
+    }else
+        return FALSE;  
+}catch(Exception $e){
+    return FALSE;
+    }
+}
 
 function guardar_sw($mysqli,$no_control,$sw){//nueva sw
-	if ($stmt = $mysqli->prepare("INSERT INTO paquetes_sw(no_controlfk,nombre_sw) VALUES (?,?)")) {
-					$stmt->bind_param('ss', $no_control,$sw); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+    try{
+        if ($stmt = $mysqli->prepare("INSERT INTO paquetes_sw(no_controlfk,nombre_sw) VALUES (?,?)")) {
+            $stmt->bind_param('is', $no_control,$sw); 
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0)
+                return TRUE;
+            else
+                return FALSE;        
+            }else
+                return FALSE;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
 }
-};
 
 function contar_sw($mysqli,$No_control){//verificar el max de sw permitidas
-	 if ($stmt = $mysqli->prepare("SELECT * FROM paquetes_sw  WHERE no_controlfk=?")) {
-        $stmt->bind_param('s',$No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		if ($resultado->num_rows>=7)
-			return true;
-			else
-			return false;
-		}
-		
-	};
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT id_consecutivo FROM paquetes_sw  WHERE no_controlfk=?")) {
+            $stmt->bind_param('i',$No_control);  // Une “$no:control” al parámetro.
+            if($stmt->execute()){    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result(); 
+                $stmt->close();
+                if ($resultado->num_rows>=7)
+                    return TRUE;
+                else
+                    return FALSE;       
+            }else
+                return FALSE;
+        }else
+            return FALSE;		
+    }catch(Exception $e){
+        return FALSE;    
+    }
+
+}
 function borrar_sw($mysqli,$no_control,$registro){//borrar sw
-	if ($stmt = $mysqli->prepare("DELETE FROM paquetes_sw WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
-		$stmt->bind_param('si',$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};	
+    try{
+        if ($stmt = $mysqli->prepare("DELETE FROM paquetes_sw WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
+            $stmt->bind_param('ii',$no_control,$registro); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}	
 //funciones empresa
 
 function contar_empresa($mysqli,$No_control){//verificar el max de empresas permitidas
-	 if ($stmt = $mysqli->prepare("SELECT * FROM datos_empresa  WHERE no_controlfk=?")) {
-        $stmt->bind_param('s',$No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		if ($resultado->num_rows>=4)
-			return true;
-			else
-			return false;
-		}
-		
-	};
+    try{
+        if ($stmt = $mysqli->prepare("SELECT codigo_empresa FROM datos_empresa  WHERE no_controlfk=?")) {
+            $stmt->bind_param('i',$No_control);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result(); 
+            $stmt->close();
+            if ($resultado->num_rows>=4)
+                return true;
+            else
+                return false;
+        }else
+            return FALSE;
+
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 	
 function guardar_dt_empresa($mysqli,$no_control,$nombre,$giro,$organismo,$razon_social,$telefono,$email,$web,$nombre_jefe,$puesto,$año_ingreso,$calle,$no_domicilio,$codigo_estadofk,$codigo_municipiofk,$medio_busqueda,$tiempo_busqueda){//nueva empresa
-	if ($stmt = $mysqli->prepare("INSERT INTO datos_empresa (no_controlfk,nombre,giro,organismo,razon_social,telefono,email,web,nombre_jefe,puesto,año_ingreso,calle,no_domicilio,codigo_estadofk,codigo_municipiofk,medio_busqueda,tiempo_busqueda) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
-					$stmt->bind_param('sssssssssssssssss', $no_control,$nombre,$giro,$organismo,$razon_social,$telefono,$email,$web,$nombre_jefe,$puesto,$año_ingreso,$calle,$no_domicilio,$codigo_estadofk,$codigo_municipiofk,$medio_busqueda,$tiempo_busqueda); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}
-};	
+    try{    
+        if ($stmt = $mysqli->prepare("INSERT INTO datos_empresa (no_controlfk,nombre,giro,organismo,razon_social,telefono,email,web,nombre_jefe,puesto,año_ingreso,calle,no_domicilio,codigo_estadofk,codigo_municipiofk,medio_busqueda,tiempo_busqueda) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
+            $stmt->bind_param('issssssssssssssss', $no_control,$nombre,$giro,$organismo,$razon_social,$telefono,$email,$web,$nombre_jefe,$puesto,$año_ingreso,$calle,$no_domicilio,$codigo_estadofk,$codigo_municipiofk,$medio_busqueda,$tiempo_busqueda); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
 
-function id_empresa($mysqli){//buscar id de la ultima empresa insertada
-	if ($stmt = $mysqli->prepare("SELECT MAX(codigo_empresa) AS id FROM datos_empresa")) {
+}	
+
+function id_empresa($mysqli,$no_control){//buscar id de la ultima empresa insertada
+try{
+    if ($stmt = $mysqli->prepare("SELECT MAX(codigo_empresa) AS id FROM datos_empresa where no_controlfk=?")) {
+        $stmt->bind_param('i',$no_control);
         $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		$row = $resultado->fetch_assoc();
-		return $row;
-		}
-			
-	};
-function guardar_requisito($mysqli,$no_control,$codigo_empresafk,$requisito){//nueva requisito
-	if ($stmt = $mysqli->prepare("INSERT INTO requesitos_contratacion(no_controlfk,codigo_empresafk,requisito) VALUES (?,?,?)")) {
-					$stmt->bind_param('sss',$no_control,$codigo_empresafk,$requisito); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+        $resultado=$stmt->get_result(); 
+        $row = $resultado->fetch_assoc();
+        $stmt->close();
+        return $row;
+    }else
+        return FALSE;
+}catch(Exception $e){
+    return FALSE;
 }
-};	
+
+}
+function guardar_requisito($mysqli,$no_control,$codigo_empresafk,$requisito){//nueva requisito
+    try{
+        if ($stmt = $mysqli->prepare("INSERT INTO requesitos_contratacion(no_controlfk,codigo_empresafk,requisito) VALUES (?,?,?)")) {
+            $stmt->bind_param('iss',$no_control,$codigo_empresafk,$requisito); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}	
 
 function dt_empresa($mysqli,$No_control){//datos empresa
-	 if ($stmt = $mysqli->prepare("SELECT codigo_empresa, nombre, giro, web, puesto, año_ingreso FROM datos_empresa WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT codigo_empresa, nombre, giro, web, puesto, año_ingreso FROM datos_empresa WHERE no_controlfk=?")) {
+            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result(); 
+            $stmt->close();
+            return $resultado;
+        }else
+            return FALSE;
+    }catch (Exception $e){
+        return FALSE;
+     }
+ 
+}
 
 function all_dt_empresa($mysqli,$No_control,$codigo_empresa){//datos empresa todos
-	 if ($stmt = $mysqli->prepare("SELECT * FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
-        $stmt->bind_param('ss', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+    try{
+        if ($stmt = $mysqli->prepare("SELECT codigo_empresa, no_controlfk, nombre, giro, organismo, razon_social, telefono, email, web, nombre_jefe, puesto, año_ingreso, calle, no_domicilio, codigo_estadofk, codigo_municipiofk, medio_busqueda, tiempo_busqueda FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
+            $stmt->bind_param('is', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result();
+            $stmt->close();
+            return $resultado;
+        }
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 
 
 function actualizar_dt_empresa($mysqli,$no_control,$empresa,$nombre,$giro,$organismo,$razon_social,$telefono,$email,$web,$nombre_jefe,$puesto,$año_ingreso,$calle,$no_domicilio,$codigo_estadofk,$codigo_municipiofk,$medio_busqueda,$tiempo_busqueda){//actualizar carrera
-	if ($stmt = $mysqli->prepare("UPDATE datos_empresa SET nombre=?,giro=?,organismo=?,razon_social=?, telefono=?, email=?, web=?, nombre_jefe=?, puesto=?, año_ingreso=?, calle=?, no_domicilio=?, codigo_estadofk=?, codigo_municipiofk=?, medio_busqueda=?, tiempo_busqueda=? where (no_controlfk=? AND codigo_empresa=?)")) {
-		$stmt->bind_param('sssssssssssssssssi',$nombre,$giro,$organismo,$razon_social,$telefono,$email,$web,$nombre_jefe,$puesto,$año_ingreso,$calle,$no_domicilio,$codigo_estadofk,$codigo_municipiofk,$medio_busqueda,$tiempo_busqueda,$no_control,$empresa); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};
+    try{
+       if ($stmt = $mysqli->prepare("UPDATE datos_empresa SET nombre=?,giro=?,organismo=?,razon_social=?, telefono=?, email=?, web=?, nombre_jefe=?, puesto=?, año_ingreso=?, calle=?, no_domicilio=?, codigo_estadofk=?, codigo_municipiofk=?, medio_busqueda=?, tiempo_busqueda=? where (no_controlfk=? AND codigo_empresa=?)")) {
+           $stmt->bind_param('ssssssssssssssssii',$nombre,$giro,$organismo,$razon_social,$telefono,$email,$web,$nombre_jefe,$puesto,$año_ingreso,$calle,$no_domicilio,$codigo_estadofk,$codigo_municipiofk,$medio_busqueda,$tiempo_busqueda,$no_control,$empresa); 
+           $stmt->execute();    // Ejecuta la consulta preparada.
+           if($stmt->affected_rows >0){
+               $stmt->close();
+               return true;}
+           else{
+               $stmt->close();
+               return false;}
+       }else 
+           return FALSE;
+   }catch(Exception $e){
+       return FALSE;
+   }
+
+}
 
 function borrar_requisitos_empresa($mysqli,$No_control,$codigo_empresa){//datos sw
-	 if ($stmt = $mysqli->prepare("DELETE  FROM requesitos_contratacion WHERE (no_controlfk=? AND codigo_empresafk=?)")) {
-        $stmt->bind_param('si', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
+    try{
+        if ($stmt = $mysqli->prepare("DELETE  FROM requesitos_contratacion WHERE (no_controlfk=? AND codigo_empresafk=?)")) {
+        $stmt->bind_param('ii', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
         $stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-		}
-};
+        if($stmt->affected_rows >0){
+            $stmt->close();
+            return true;}
+        else{
+            $stmt->close();
+            return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 function borrar_empresa($mysqli,$no_control,$codigo_empresafk){//borrar empresa
-	if ($stmt = $mysqli->prepare("DELETE FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
-					$stmt->bind_param('si',$no_control,$codigo_empresafk); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+    try{
+        if ($stmt = $mysqli->prepare("DELETE FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
+            $stmt->bind_param('ii',$no_control,$codigo_empresafk); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
 }
-};	
 
 function guardar_historial($mysqli,$no_control,$codigo_empresafk){//nueva requisito
-	if ($stmt = $mysqli->prepare("INSERT INTO historial_laboral(no_controlfk,nombre,telefono,web,email ) SELECT datos_empresa.no_controlfk,datos_empresa.nombre,datos_empresa.telefono, datos_empresa.web, datos_empresa.email FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
-					$stmt->bind_param('si',$no_control,$codigo_empresafk); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+    try{
+        if ($stmt = $mysqli->prepare("INSERT INTO historial_laboral(no_controlfk,nombre,telefono,web,email ) SELECT datos_empresa.no_controlfk,datos_empresa.nombre,datos_empresa.telefono, datos_empresa.web, datos_empresa.email FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
+            $stmt->bind_param('ii',$no_control,$codigo_empresafk); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
 }
-};
 
 function dt_empresa_guardar($mysqli,$No_control,$codigo_empresa){//datos empresa todos
-	 if ($stmt = $mysqli->prepare("SELECT nombre, telefono, web, email FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
-        $stmt->bind_param('ss', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+    try{
+        if ($stmt = $mysqli->prepare("SELECT nombre, telefono, web, email FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
+           $stmt->bind_param('is', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
+           $stmt->execute();    // Ejecuta la consulta preparada.
+           $resultado=$stmt->get_result(); 
+           $stmt->close();
+           return $resultado;
+       }else
+           return FALSE;
+    }  catch (Exception $e){
+        return FALSE;
+    }
+
+}
 
 function dt_historial_empresarial($mysqli,$No_control){//datos historial
-	 if ($stmt = $mysqli->prepare("SELECT  nombre, web, telefono, email, id_consecutivo FROM historial_laboral WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+    try{
+        if ($stmt = $mysqli->prepare("SELECT  nombre, web, telefono, email, id_consecutivo FROM historial_laboral WHERE no_controlfk=?")) {
+            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result();
+            $stmt->close();
+            return $resultado;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 function actualizar_historial($mysqli,$no_control,$nombre,$tel,$web,$email,$registro){//actualizar historial
-	if ($stmt = $mysqli->prepare("UPDATE historial_laboral SET nombre=?,telefono=?,web=?,email=? where (no_controlfk=? AND id_consecutivo=?)" )) {
-		$stmt->bind_param('sssssi',$nombre,$tel,$web,$email,$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
-};
+    try{
+        if ($stmt = $mysqli->prepare("UPDATE historial_laboral SET nombre=?,telefono=?,web=?,email=? where (no_controlfk=? AND id_consecutivo=?)" )) {
+            $stmt->bind_param('ssssii',$nombre,$tel,$web,$email,$no_control,$registro); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 function borrar_historial($mysqli,$no_control,$registro){//borrar empresa
-	if ($stmt = $mysqli->prepare("DELETE FROM historial_laboral WHERE (no_controlfk=? AND id_consecutivo=?)")) {
-					$stmt->bind_param('si',$no_control,$registro); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+    try{
+        if ($stmt = $mysqli->prepare("DELETE FROM historial_laboral WHERE (no_controlfk=? AND id_consecutivo=?)")) {
+            $stmt->bind_param('ii',$no_control,$registro); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }  catch (Exception $e){
+        return FALSE;
+    }
+
 }
-};
 
 function guardar_historial_nuev($mysqli,$no_control,$nombre,$telefono,$web,$email){//nueva requisito
-	if ($stmt = $mysqli->prepare("INSERT INTO historial_laboral(no_controlfk,nombre,telefono,web,email ) VALUES (?,?,?,?,?)")) {
-					$stmt->bind_param('sssss',$no_control,$nombre,$telefono,$web,$email); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
+    try{
+        if ($stmt = $mysqli->prepare("INSERT INTO historial_laboral(no_controlfk,nombre,telefono,web,email ) VALUES (?,?,?,?,?)")) {
+            $stmt->bind_param('issss',$no_control,$nombre,$telefono,$web,$email); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
 }
-};	
 
 function dt_social($mysqli,$No_control){//datos social
-	 if ($stmt = $mysqli->prepare("SELECT  nombre, tipo, id_consecutivo	 FROM actividad_social WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};
+    try{	
+        if ($stmt = $mysqli->prepare("SELECT  nombre, tipo, id_consecutivo FROM actividad_social WHERE no_controlfk=?")) {
+                $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+                $stmt->execute();    // Ejecuta la consulta preparada.
+                $resultado=$stmt->get_result();
+                $stmt->close();
+                return $resultado;
+            }else
+                return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 function guardar_social($mysqli,$no_control,$nombre,$tipo){//nueva requisito
-	if ($stmt = $mysqli->prepare("INSERT INTO actividad_social(no_controlfk,nombre,tipo ) VALUES (?,?,?)")) {
-					$stmt->bind_param('sss',$no_control,$nombre,$tipo); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}
-};	
+    try{
+        if ($stmt = $mysqli->prepare("INSERT INTO actividad_social(no_controlfk,nombre,tipo ) VALUES (?,?,?)")) {
+            $stmt->bind_param('iss',$no_control,$nombre,$tipo); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}	
 
 function borrar_social($mysqli,$no_control,$registro){//borrar social
-	if ($stmt = $mysqli->prepare("DELETE FROM actividad_social WHERE (no_controlfk=? AND id_consecutivo=?)")) {
-					$stmt->bind_param('si',$no_control,$registro); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}else
-    return ;
-};
+    try{
+        if ($stmt = $mysqli->prepare("DELETE FROM actividad_social WHERE (no_controlfk=? AND id_consecutivo=?)")) {
+            $stmt->bind_param('ii',$no_control,$registro); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }  catch (Exception $e){
+        return FALSE;
+    }
+
+}
 
 function guardar_foto_egresado($mysqli,$no_control,$img){//nueva requisito
-	if ($stmt = $mysqli->prepare("INSERT INTO foto_egresado(no_controlfk, imagen) values(?,?) ON DUPLICATE KEY UPDATE imagen=?")) {
-					$stmt->bind_param('sss',$no_control,$img,$img); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}
-};	
+    try{
+        if ($stmt = $mysqli->prepare("update datos_egresado set imagen=? where no_control=?")) {
+            $stmt->bind_param('si',$img,$no_control); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return 3;}
+        }else
+            return 2;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}	
 
 
 function cargar_foto($mysqli,$no_control){
-	if ($stmt = $mysqli->prepare("SELECT imagen FROM foto_egresado WHERE  no_controlfk=?")) {
-					$stmt->bind_param('s',$no_control); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					$resultado=$stmt->get_result(); 
-					$num=$resultado->num_rows;
-					if($num>0){
-						$fila=$resultado->fetch_assoc();
-						$img='"fotos_egresados/'.$fila['imagen'].'"';
-						return $img;
-					}else{
-						$img='"Imagenes/businessman_green.png"';
-						return $img;	
-							}
-					}
-	}
+    try{
+        if ($stmt = $mysqli->prepare("SELECT imagen FROM datos_egresado WHERE  no_control=? limit 1")) {
+            $stmt->bind_param('i',$no_control); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result();
+            $stmt->close();
+            $dato=$resultado->fetch_assoc();
+            $img='"fotos_egresados/'.$dato['imagen'].'"';
+            return $img;
+        }else
+        {
+            $img='"Imagenes/businessman_green.png"';
+            return $img;   
+        }
+    }catch(Exception $e){
+        $img='"Imagenes/businessman_green.png"';
+        return $img;
+    }
+
+}
 	
 function all_requisitos_empresa($mysqli,$No_control,$empresa){//datos social
-	 if ($stmt = $mysqli->prepare("SELECT  requisito FROM requesitos_contratacion WHERE (no_controlfk=? AND codigo_empresafk=?)")) {
-        $stmt->bind_param('si', $No_control,$empresa);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-};	
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT  requisito FROM requesitos_contratacion WHERE (no_controlfk=? AND codigo_empresafk=?)")) {
+            $stmt->bind_param('ii', $No_control,$empresa);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result(); 
+            $stmt->close();
+            return $resultado;
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 
 function buscar_foto($mysqli,$no_control){
-	if ($stmt = $mysqli->prepare("SELECT imagen FROM foto_egresado WHERE  no_controlfk=?")) {
-					$stmt->bind_param('s',$no_control); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					$resultado=$stmt->get_result(); 
-					return $resultado;
-					}
-	}
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT imagen FROM datos_egresado WHERE  no_control=?")) {
+            $stmt->bind_param('i',$no_control); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result(); 
+            $stmt->close();
+            return $resultado;
+        }else 
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}
 	
-function borrar_foto($mysqli,$url){
-	$url='..\fotos_egresados\\'.$url;
+function borrar_foto($url){
+    try{
+        $url='..\fotos_egresados\\'.$url;
 	if(unlink($url))
-		return true;
+            return true;
 	else 
-		return false;
-	}	
+            return false;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}	
 function dt_posgrado($mysqli,$No_control){
-	 if ($stmt = $mysqli->prepare("SELECT * FROM posgrado WHERE no_controlfk=?")) {
-        $stmt->bind_param('s', $No_control);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-		$resultado=$stmt->get_result(); 
-		return $resultado;
-		}
-		
-	}	
+    try{    
+        if ($stmt = $mysqli->prepare("SELECT id_posgrado, no_controlfk, posgrado, nombre, escuela, titulado  FROM posgrado WHERE no_controlfk=?")) {
+            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            $resultado=$stmt->get_result(); 
+            $stmt->close();
+            return $resultado;
+        }else
+            return FALSE;		
+    }catch(Exception $e){
+        return FALSE;
+    }
+
+}	
 function borrar_posgrado($mysqli,$no_control,$registro){//borrar sw
-	if ($stmt = $mysqli->prepare("DELETE FROM posgrado WHERE (no_controlfk=? AND id_posgrado=?)" )) {
-		$stmt->bind_param('si',$no_control,$registro); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-		if($stmt->affected_rows >0)
-			return true;
-		else
-			return false;
-	}
+    try{
+        if ($stmt = $mysqli->prepare("DELETE FROM posgrado WHERE (no_controlfk=? AND id_posgrado=?)" )) {
+            $stmt->bind_param('ii',$no_control,$registro); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+
 }		
 
 function guardar_posgrado($mysqli,$no_control,$posgrado,$nombre,$escuela,$titulado){//borrar social
-	if ($stmt = $mysqli->prepare("Insert into posgrado(no_controlfk, posgrado, nombre, escuela, titulado) values(?,?,?,?,?) ")) {
-					$stmt->bind_param('sssss',$no_control,$posgrado,$nombre,$escuela,$titulado); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}else
-    return FALSE;
-};
+    try{
+        if ($stmt = $mysqli->prepare("Insert into posgrado(no_controlfk, posgrado, nombre, escuela, titulado) values(?,?,?,?,?) ")) {
+            $stmt->bind_param('issss',$no_control,$posgrado,$nombre,$escuela,$titulado); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else
+            return FALSE;
+    }catch(Exception $E){
+        return FALSE;
+    }
+
+}
 
 function actualizar_residencia($mysqli,$no_control,$residencia){//borrar social
-	if ($stmt = $mysqli->prepare("Update datos_egresado set experiencia_residencia=? where no_control=? ")) {
-					$stmt->bind_param('ss',$residencia,$no_control); 
-					$stmt->execute();    // Ejecuta la consulta preparada.
-					if($stmt->affected_rows >0)
-						return true;
-					else
-						return false;
-}
+    try{
+        if ($stmt = $mysqli->prepare("Update datos_egresado set experiencia_residencia=? where no_control=? ")) {
+            $stmt->bind_param('ii',$residencia,$no_control); 
+            $stmt->execute();    // Ejecuta la consulta preparada.
+            if($stmt->affected_rows >0){
+                $stmt->close();
+                return true;}
+            else{
+                $stmt->close();
+                return false;}
+        }else 
+            return FALSE;
+    }catch(Exception $E){
+        return FALSE;
+    }
+
 }
 
 function anti_xss($form){//limpiar formularios recibidos 
@@ -915,9 +1282,10 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
 }
 
 function nuevo_pass($no_control,$viejo_pass,$nuevo_pass,$mysqli){
+try{    
     if($stmt=$mysqli->prepare('select password,salt from datos_egresado where no_control=?'))
     {
-        $stmt->bind_param('s',$no_control); 
+        $stmt->bind_param('i',$no_control); 
         $stmt->execute();    // Ejecuta la consulta preparada.
         $stmt->store_result();
         // Obtiene las variables del resultado.
@@ -944,6 +1312,10 @@ function nuevo_pass($no_control,$viejo_pass,$nuevo_pass,$mysqli){
     }  
     else 
         return false;
+}catch(Exception $e){
+    return FALSE;
+}
+
 }
 
 

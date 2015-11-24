@@ -4,10 +4,64 @@
     padding:0px;
     word-wrap: break-word;
 }
+body{
+background-color: #FFF; 
+}
+#div-resultados-avanzado-principal{
+    position: relative;
+    height: 200px;
+}
+#div-contenedor-alert{
+    position: fixed;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 100px;
+    z-index: -1;
+}
+#alerta{
+    display:none;    
+    color: #000000;
+    line-height:28px;
+    font-size:12px;
+    text-align: center;
+}
+.img-centrada-oculta{
+    position: absolute;
+    top:40px;
+    left:0;
+    right:0;
+    bottom:0;
+    margin: auto;
+    display: none;
+}
 
+#img-cargar-datos-posgrado{
+    position: absolute;
+    top: 20px;
+    right: 50%;
+    margin-right: -32px;
+}
+#img-cargar-datos-social{
+   position: absolute;
+    top: 20px;
+    right: 50%;
+    margin-right: -32px; 
+}
+.img-centrada{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin: auto;   
+}
 .nav-personal{
     background-color: #FF5722;
 }
+
 .active{
     background-color:#ff3333;
     font-size: 24px;
@@ -27,24 +81,25 @@
     position: relative;
 }
 #div-buscador{
-    height: 32px;
+    height: 33px;
     background-color: #FF5722;
     text-align: left;
 }
 #input-buscador{
-    width: 250px;
-    height:30px;
-    border: none;
+    width: 253px;
+    height:33px;
+    border-left: #FF5722 solid 1px;
+    border-bottom:#FF5722 solid 1px;
+    border-right: none;
+    border-top: none;
     background-color: transparent;
     position: relative;
     left:0px;
     top: 0px;
-    border-radius: 3px;
 }
 #div-principal{
-    height: 600px;
-    background-color: #000;
     position: relative;
+    min-height: 450px;
 }
 #div-contenedor-resultados{
     position: relative;
@@ -52,8 +107,13 @@
 #div-resultados{
     position: absolute;
     width: 100%;
-    background-color: #FFF;
+    background-color:#cccccc;
     z-index: 1;
+    max-height: 400px;
+   display: none;
+   overflow-y: auto;
+   border: #FF5722 solid 1px;
+   
 }
 #div-barra-busqueda{
     height: 100%;
@@ -61,22 +121,221 @@
     background-color: #FFF;
     border:none;
     border-radius: 0px 5px 5px 0px;
+    margin: 0px auto;
 }
+#div-buscar-todos{
+    height: 33px;
+    background: url(../Imagenes/adm/perfil_n.png) #FF5722 top  no-repeat;
+    transition: .3s;
+    text-align: left;
+    position: relative;
+}
+#div-buscar-todos:hover{
+    height: 32px;
+    background: url(../Imagenes/adm/perfil_b.png) #FFF top  no-repeat;
+    border: #FF5722 solid 1px;
+}
+#span-buscar-todos{
+    font-size: 18px;
+    position: relative;
+    text-align: center;
+    top: 11px;
+    display: block;
+}
+
 #div-barra-busqueda:hover{
     background-color: #ff7979;  
 }
+
 #div-img-encontrar{
     float: right;
     background-color: #efe1e1;
     border-radius: 0px 5px 5px 0px;
+    border-bottom: #FF5722 solid 1px;
 }
 #div-img-encontrar:hover{
-    background-color: #ff9999S; 
+    background-color: #ff7979;
 }
 .div-resultado{
     width:100%;
-    height: 40px;
+    height: 80px;
+    position: relative;
 }
 .div-resultado:hover{
-    background-color: #ccccff;
+    background-color: #ff7979;
+}
+.div-miniatura{
+    float: right;
+    display: inline;
+    width: 70%;
+    height: 80px;
+}
+.div-no_control{
+  position: relative;
+  display: inline;
+  width: 20%;
+  height: 100%;  
+}
+
+.span-no_control{
+ position:relative; 
+ text-align: center;
+ top: 26px;
+}
+.p-ver-todos{
+    text-align: center;
+    color: #FF5722;
+}
+.span-nombre{
+ position:relative; 
+ text-align: right;
+ top: 26px;  
+}
+#div-resultados-avanzado{
+    display: none;
+    background-color: #FFF;
+}
+#div-principal-buscador{
+    width: 100%
+}
+.div-scroll-inactivo{
+    position: relative;
+    transition: .3s;
+}
+.div-scroll-activo{
+    position: fixed;
+    top: 0px;
+    z-index: 100;
+}
+.img-egresado{
+    width: 60px;
+    height: 60px;
+    float: right;
+}
+#row-datos-academicos{
+    min-height: 100px;
+}
+
+#div-pefil{
+    display: none;
+}
+#img-foto-egresado{
+    max-width: 285px;
+    max-height: 285px;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin: auto;
+}
+#div-foto{
+  margin: 0px auto;
+  height: 450px;
+  position: relative;
+}
+#div-principal-foto{
+    height: 450px;
+}
+
+#div-datos-academicos{
+    min-height: 450px;
+}
+#div-principal-ingenieria{
+    position: relative;
+    min-height: 450px;
+}
+#div-principal-posgrado{
+    position: relative;
+    display: none;
+    background-color:#FFF;
+    height: 995px;
+    width: 100%;
+    top: 64px;
+    left: 0px;
+    overflow-y: auto;
+}
+#div-principal-img-seleccion{
+    height: 64px;
+    width: 100%;
+    position: relative;
+}
+#div-img-seleccion{
+    width: 192px;
+    height: 64px;
+    position: relative;
+    margin: 0px auto;
+}
+#div-img-posgrado{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 64px; 
+    height: 64px;
+    transition: 1s;
+}
+.div-img-seleccion-hover{
+   background-color: #ff7f83;
+    border-radius: 10px; 
+}
+#div-img-posgrado:hover{
+     background-color: #ff7f83;
+     border-radius: 10px;
+}
+#div-img-ingenieria{
+    position: relative;
+    width: 64px; 
+    height: 64px;
+    transition: 1s;
+}
+#div-img-ingenieria:hover{
+     background-color: #ff7f83;
+     border-radius: 10px;
+}
+.separador{
+    background:url('../Imagenes/adm/cabeza.png') #FF5722 center no-repeat;
+    height: 17px;
+    width: 80%;
+    margin: 0px auto;
+    border-radius: 5px;
+    
+}
+.separador-posgrado{
+    background:url('../Imagenes/adm/posgrado_min.png') #FF5722 center no-repeat;
+    height: 17px;
+    width: 80%;
+    margin: 0px auto;
+    border-radius: 5px;
+    
+}
+.separador-social{
+    background:url('../Imagenes/adm/caballo.png') #FF5722 center no-repeat;
+    height: 17px;
+    width: 80%;
+    margin: 0px auto;
+    border-radius: 5px;
+    
+}
+#div-principal-datos-academicos{
+    position: relative;
+}
+#div-principal-social{
+    height: 990px;
+}
+#div-principal-datos-personales{
+    min-height: 450px;
+}
+#div-principal-datos-idioma{
+    position: relative;
+    height: 250px;
+    font-size: 16px;
+}
+#div-principal-datos-sw{
+    position: relative;
+    height: 300px;
+    font-size: 16px;    
+}
+.tabla{
+    text-align: center;
+    border: none;
 }

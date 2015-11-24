@@ -83,8 +83,7 @@ if (device.match(/Iphone/i)|| device.match(/Ipod/i)|| device.match(/Android/i)||
 
 }
 	
-function datos_egresado(no_control){//recuperar datos básicos egresado
-	
+function datos_egresado(no_control){//recuperar datos básicos egresado	
 	$("#cargando_frm").show();
 	$("#contendedor_d1").hide();
 	jqXHR= $.post("contenidos/dt_egresado.php",{no_control:no_control})
@@ -194,7 +193,7 @@ function guardar_datos(no_control){//guardar datos básicos egresado
 	$("#enviar").show();//ocultar y mostrar frm, gif de envio
 	$("#cancelar").hide();
 	$("#frm_Datos_Personales").hide();	
-	jqXHR=$.post("ajax/guardar_datos.php",{form:$('#frm_Datos_Personales').serialize(),no_control:no_control})
+	$.post("ajax/guardar_datos.php",{form:$('#frm_Datos_Personales').serialize(),no_control:no_control})
 	.fail(function(){
 			show();
 			setTimeout( "jQuery('#frm_Datos_Personales').show();$('#cancelar').show();",2000 );
@@ -512,7 +511,7 @@ function guardar_idioma(no_control){//guardar nuevo idioma
 			$("#img_enviar_idioma").hide();
 			limpiaForm($("#frm_idioma"));
 			show_idiomas();
-			alert_("MAXIMO 7 IDIOMAS",$('#alert_academico'),250);	
+			alert_("MAXIMO 5 IDIOMAS",$('#alert_academico'),250);	
 			setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);	
 		}else{ //error desde el servidor
 			$("#img_enviar_academico").hide();
@@ -566,7 +565,7 @@ function guardar_sw(no_control){//guardar nuevo idioma
 		else if(data=='3'){//eres muy listo?
 			$("#img_enviar_sw").hide();
 			show_SW();
-			alert_("MAXIMO 7 SOFTWARE",$('#alert_academico'),250);	
+			alert_("MÁXIMO 7 ",$('#alert_academico'),250);	
 			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);	
 		}else{ //error desde el servidor
 			$("#img_enviar_sw").hide();
@@ -695,7 +694,7 @@ function guardar_empresa(no_control){//guardar nueva mpresa
 			}
 		else if(data=='3'){//eres muy listo?
 			$("#img_enviar_empresa").hide();
-			alert_("MAXIMO 4 EMPRESAS ",$('#dialogo_empresa'),250);	
+			alert_("MAXIMO 4 ",$('#dialogo_empresa'),250);	
 			setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);	
 		}else{ //error desde el servidor
 			$("#img_enviar_empresa").hide();

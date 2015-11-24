@@ -25,4 +25,3 @@ if (isset($_POST['form'],$_POST['no_control']))
 }
 else
     echo "2";//error con el formulario enviado
-?>

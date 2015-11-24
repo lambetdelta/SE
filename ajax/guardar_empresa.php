@@ -14,17 +14,21 @@ if (isset($_POST['form'],$_POST['no_control'],$_POST['select_']))
         {
             if(guardar_dt_empresa($mysqli,$_POST['no_control'],$form['nombre'],$form['giro'],$form['organismo'],$form['razon_social'],$form['tel'],$form['email'],$form['web'],$form['jefe'],$form['puesto'],$form['año_ingreso'],$form['calle'],$form['no_domicilio'],$form['estado'],$form['municipio'],$form['medio_busqueda'],$form['tiempo_busqueda']))
             {
-                $id=id_empresa($mysqli);
-                $x=1;
-                $requisto='requisito';
-                while($x<=$_POST['select_'])
-                {//guardar requisitos
-                    $requisto=$x.$requisto;
-                    guardar_requisito($mysqli,$_POST['no_control'],$id['id'],$form[$requisto]);
+                $id=id_empresa($mysqli,$_POST['no_control']);
+                if($id===FALSE)
+                    echo '0';
+                else{
+                    $x=1;
                     $requisto='requisito';
-                    $x++;
+                    while($x<=$_POST['select_'])
+                    {//guardar requisitos
+                        $requisto=$x.$requisto;
+                        guardar_requisito($mysqli,$_POST['no_control'],$id['id'],$form[$requisto]);
+                        $requisto='requisito';
+                        $x++;
+                    }
+                    echo "1";               
                 }
-                echo "1";
             }//exito
             else
                 echo "0";//error en guardado

@@ -16,4 +16,3 @@ if (isset($_POST['registro'],$_POST['no_control']))
 }
 else
     echo "2";//error con el formulario enviado
-?>

@@ -414,3 +414,53 @@ function dt_social($no_control,$mysqli){
         return FALSE;
     }
 }
+
+function dt_empresa($no_control,$mysqli){
+    try{
+        $query='select codigo_empresa,nombre,giro,email,puesto,web,año_ingreso from datos_empresa where no_controlfk='.$no_control;
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
+
+function dt_empresa_completa($codigo_empresa,$mysqli){
+    try{
+        $query='select datos_empresa.nombre,datos_empresa.giro,datos_empresa.email,'
+                . 'datos_empresa.puesto,datos_empresa.web,datos_empresa.año_ingreso,'
+                . 'datos_empresa.organismo,datos_empresa.razon_social,datos_empresa.telefono,'
+                . 'datos_empresa.nombre_jefe,datos_empresa.calle,datos_empresa.no_domicilio,'
+                . 'datos_empresa.medio_busqueda,datos_empresa.tiempo_busqueda,estado.nombre as estado,'
+                . 'municipio.nombre as municipio from datos_empresa,estado,municipio'
+                . ' where (datos_empresa.codigo_empresa='.$codigo_empresa.' and '
+                . 'datos_empresa.codigo_estadofk=estado.codigo_estado '
+                . 'and datos_empresa.codigo_municipiofk=municipio.codigo_municipio)';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
+
+function dt_historial($no_control,$mysqli){
+    try{
+        $query='select nombre,email,web,telefono from historial_laboral where no_controlfk='.$no_control;
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
+    }
+}

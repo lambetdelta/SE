@@ -12,8 +12,6 @@ var alert_=dialog;
 $('#span-alerta').html(mensage);
    alert_.dialog({ 
    		open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).show(); },
-		width:250,  
-		height: 250,
 		show: "scale", 
 		hide: "scale", 
 		resizable: "false", 
@@ -90,6 +88,8 @@ function cargar_datos_egresado(no_control){
     dt_sw(no_control);
     dt_posgrado(no_control);
     dt_social(no_control);
+    dt_empresa(no_control);
+    dt_historial(no_control);
 }
 function cargar_foto(no_control){
     $('#div-foto').hide();
@@ -125,7 +125,7 @@ function dt_personales(no_control){
                  var p='';
                 datos=$.parseJSON(data);
                 if(datos.resultado==='1'){
-                     p='<h2>DATOS PERSONALES</h2>';
+                     p='<h2>DATOS PERSONALES<img src="Imagenes/adm/personal.png" class="margen-izq"></h2>';
                      $('#div-datos-personales').append(p);
                      p='<p id="p-nombre" class="p-dt-egresado">Nombre:'+datos.egresado.nombre+' '+datos.egresado.apellido_p+' '+datos.egresado.apellido_m +'</p>';
                      $('#div-datos-personales').append(p);
@@ -211,7 +211,7 @@ function dt_idioma(no_control){
             .done(function(data){
              datos=$.parseJSON(data);   
              if(datos.respuesta==='1'){
-                var p='<h2>Idiomas</h2>';
+                var p='<h2>Idiomas<img src="Imagenes/adm/idioma.png" class="margen-izq"></h2>';
                 $('#div-datos-idioma').append(p);
                 var table = $('<table/>');
                 table.addClass('tabla');
@@ -226,7 +226,7 @@ function dt_idioma(no_control){
                 $('#img-cargar-datos-idioma').hide();
                 $('#div-datos-idioma').show();
              }else{
-                 var p='<h2>Idioma</h2>';
+                 var p='<h2>Idiomas<img src="Imagenes/adm/idioma.png" class="margen-izq"></h2>';
                  $('#div-datos-idioma').append(p);
                  p='<p>Informe:'+datos.mensage+'</p>'; 
                  $('#div-datos-idioma').append(p);
@@ -248,7 +248,7 @@ function dt_sw(no_control){
             .done(function(data){
              datos=$.parseJSON(data);   
              if(datos.respuesta==='1'){
-                var p='<h2>Software</h2>';
+                var p='<h2>Software<img src="Imagenes/adm/consola.png" class="margen-izq"></h2>';
                 $('#div-datos-sw').append(p);
                 var table = $('<table/>');
                 table.addClass('tabla');
@@ -262,7 +262,7 @@ function dt_sw(no_control){
                 $('#img-cargar-datos-sw').hide();
                 $('#div-datos-sw').show();
              }else{
-                 var p='<h2>Sotware</h2>';
+                 var p='<h2>Software<img src="Imagenes/adm/consola.png" class="margen-izq"></h2>';
                  $('#div-datos-sw').append(p);
                  p='<p>Informe:'+datos.mensage+'</p>'; 
                  $('#div-datos-sw').append(p);
@@ -323,7 +323,7 @@ function dt_social(no_control){
             .done(function(data){
              datos=$.parseJSON(data);   
              if(datos.respuesta==='1'){
-                var p='<h2>GRUPOS SOCIALES</h2>';
+                var p='<h2>GRUPOS SOCIALES<img src="Imagenes/adm/torre.png" class="margen-izq"></h2>';
                 $('#div-datos-social').append(p);
                 $.each(datos.social,function(){
                     p='<div class="separador-social"></div>'; 
@@ -336,7 +336,7 @@ function dt_social(no_control){
                 $('#img-cargar-datos-social').hide();
                 $('#div-datos-social').show();
              }else{
-                 var p='<h2>GRUPO SOCIALES</h2>';
+                 var p='<h2>GRUPOS SOCIALES<img src="Imagenes/adm/torre.png" class="margen-izq"></h2>';
                  $('#div-datos-social').append(p);
                  p='<p>Informe:'+datos.mensage+'</p>'; 
                  $('#div-datos-social').append(p);
@@ -350,6 +350,52 @@ function dt_social(no_control){
             });
 }
 
+function dt_empresa(no_control){
+    $('#div-datos-empresa').hide();
+    $('#div-datos-empresa').html('');
+    $('#img-cargar-datos-empresa').show();
+    $.post('ajax_adm/dt_empresa.php',{no_control:no_control})
+            .done(function(data){
+             datos=$.parseJSON(data);   
+             if(datos.respuesta==='1'){
+                var p='<h2>EMPRESA´S<img src="Imagenes/adm/empresa.png" class="margen-izq"></h2>';            
+                $('#div-datos-empresa').append(p);
+                $.each(datos.empresa,function(){
+                    var div=$('<div/>');
+                    p='<div class="separador-empresa"></div>'; 
+                    div.append(p);
+                    p='<p>Nombre:'+this.nombre+'</p>'; 
+                    div.append(p);
+                    p='<p>Giro:'+this.giro+'</p>'; 
+                    div.append(p);
+                    p='<p>Web:'+this.web+'</p>'; 
+                    div.append(p);
+                    p='<p>Email:'+this.email+'</p>'; 
+                    div.append(p);
+                    p='<p>Puesto:'+this.puesto+'</p>'; 
+                    div.append(p);
+                    p='<p>Ingreso:'+this.año_ingreso+'</p>'; 
+                    div.append(p);
+                    div.addClass('div-datos-empresa-resultado');
+                    div.attr('id','div-datos-empresa-'+this.codigo_empresa);
+                    $('#div-datos-empresa').append(div);
+                });
+                $('#img-cargar-datos-empresa').hide();
+                $('#div-datos-empresa').show();
+             }else{
+                 var p='<h2>EMPRESA´S<img src="Imagenes/adm/empresa.png" class="margen-izq"></h2>';
+                 $('#div-datos-empresa').append(p);
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-datos-empresa').append(p);
+                 $('#img-cargar-datos-empresa').hide();
+                 $('#div-datos-empresa').show();
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+              $('#img-cargar-datos-empresa').hide();
+              $('#div-datos-empresa').show(); 
+              ajax_error(jqXHR,textStatus,$('#div-datos-empresa'));
+            });
+}
 function ajax_error(jqXHR,textStatus,div){
         var div_=div;
         var p;
@@ -378,4 +424,119 @@ function ajax_error(jqXHR,textStatus,div){
         } else {
             div.append('<p>ERROR INESPERADO:'+ jqXHR.responseText+'</p>');
        }
+}
+
+function todo_dt_empresa(codigo_empresa){
+    $('#div-principal-empresa-completa').fadeIn();
+    $('#div-datos-empresa-completa').html('');
+    $('#img-cargar-datos-empresa-completa').show();
+    $.post('ajax_adm/dt_empresa_completa.php',{codigo_empresa:codigo_empresa})
+            .done(function(data){
+             datos=$.parseJSON(data);   
+             if(datos.respuesta==='1'){
+                var p='<h2>EMPRESA</h2>';            
+                $('#div-datos-empresa-completa').append(p);
+                p='<div class="cancel"></div>';
+                $('#div-datos-empresa-completa').append(p);
+                $.each(datos.empresa,function(){
+                    var div=$('<div/>');
+                    p='<p>Nombre:'+this.nombre+'</p>'; 
+                    div.append(p);
+                    p='<p>Giro:'+this.giro+'</p>'; 
+                    div.append(p);
+                    p='<p>Web:'+this.web+'</p>'; 
+                    div.append(p);
+                    p='<p>Email:'+this.email+'</p>'; 
+                    div.append(p);
+                    p='<p>Puesto:'+this.puesto+'</p>'; 
+                    div.append(p);
+                    p='<p>Ingreso:'+this.año_ingreso+'</p>'; 
+                    div.append(p);
+                    p='<p>Superior inmediato:'+this.nombre_jefe+'</p>'; 
+                    div.append(p);
+                    p='<p>Telefono:'+this.telefono+'</p>'; 
+                    div.append(p);
+                    div.addClass('col-xs-6');
+                    $('#div-datos-empresa-completa').append(div);
+                    div=$('<div/>');
+                    p='<p>Organismo:'+this.organismo+'</p>'; 
+                    div.append(p);
+                    p='<p>Razón Social:'+this.razon_social+'</p>'; 
+                    div.append(p);
+                    p='<p>Medio búsqueda:'+this.medio_busqueda+'</p>'; 
+                    div.append(p);
+                    p='<p>Tiempo de búsqueda:'+this.tiempo_busqueda+'</p>'; 
+                    div.append(p);
+                    p='<p>Domicilio</p>'; 
+                    div.append(p);
+                    p='<p>Calle:'+this.calle+' No:'+this.no_domicilio+'</p>'; 
+                    div.append(p);
+                    p='<p>Estado:'+this.estado+'</p>'; 
+                    div.append(p);
+                    p='<p>Municipio:'+this.municipio+'</p>'; 
+                    div.append(p);
+                    div.addClass('col-xs-6');
+                    $('#div-datos-empresa-completa').append(div);
+                });
+                $('#img-cargar-datos-empresa-completa').hide();
+                $('#div-datos-empresa-completa').show();
+             }else{
+                 var p='<h2>EMPRESA</h2>';
+                 $('#div-datos-empresa-completa').append(p);
+                 p='<div class="cancel"></div>';
+                 $('#div-datos-empresa-completa').append(p);
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-datos-empresa-completa').append(p);
+                 $('#img-cargar-datos-empresa-completa').hide();
+                 $('#div-datos-empresa-completa').show();
+                
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+              $('#img-cargar-datos-empresa-completa').hide();
+              $('#div-datos-empresa-completa').show(); 
+              p='<div class="cancel"></div>';
+              $('#div-datos-empresa-completa').append(p);
+              ajax_error(jqXHR,textStatus,$('#div-datos-empresa-completa'));
+            });
+}
+
+function dt_historial(no_control){
+    $('#div-datos-historial').hide();
+    $('#div-datos-historial').html('');
+    $('#img-cargar-datos-historial').show();
+    $.post('ajax_adm/dt_historial.php',{no_control:no_control})
+            .done(function(data){
+             datos=$.parseJSON(data);   
+             if(datos.respuesta==='1'){
+                var p='<h2>Historial<img src="Imagenes/adm/historial.png" class="margen-izq"></h2>';            
+                $('#div-datos-historial').append(p);
+                $.each(datos.empresa,function(){
+                    var div=$('<div/>');
+                    p='<div class="separador-historial"></div>'; 
+                    div.append(p);
+                    p='<p>Nombre:'+this.nombre+'</p>'; 
+                    div.append(p);
+                    p='<p>Telefono:'+this.telefono+'</p>'; 
+                    div.append(p);
+                    p='<p>Web:'+this.web+'</p>'; 
+                    div.append(p);
+                    p='<p>Email:'+this.email+'</p>'; 
+                    div.append(p);
+                    $('#div-datos-historial').append(div);
+                });
+                $('#img-cargar-datos-historial').hide();
+                $('#div-datos-historial').show();
+             }else{
+                 var p='<h2>Historial<img src="Imagenes/adm/historial.png" class="margen-izq"></h2>';
+                 $('#div-datos-historial').append(p);
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-datos-historial').append(p);
+                 $('#img-cargar-datos-historial').hide();
+                 $('#div-datos-historial').show();
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+              $('#img-cargar-datos-historial').hide();
+              $('#div-datos-historial').show(); 
+              ajax_error(jqXHR,textStatus,$('#div-datos-historial'));
+            });
 }

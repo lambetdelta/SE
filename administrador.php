@@ -128,7 +128,20 @@
                             </div>
                         </div>  
                         <div id="div-row-datos-empresa">
-                            
+                            <div id="div-datos-generales-empresa" >
+                                <div id="div-principal-empresa" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <img id="img-cargar-datos-empresa" src="Imagenes/espera.gif" class="img-centrada-oculta" ></img>
+                                    <div id="div-datos-empresa"></div>   
+                                </div>
+                                <div id="div-principal-historial" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <img id="img-cargar-datos-historial" src="Imagenes/espera.gif" class="img-centrada-oculta"></img>
+                                    <div id="div-datos-historial"></div>   
+                                </div>
+                            </div>
+                            <div id="div-principal-empresa-completa" class="col-xs-10 col-xs-offset-1">
+                                    <img id="img-cargar-datos-empresa-completa" src="Imagenes/espera.gif" class="img-centrada-oculta"></img>
+                                    <div id="div-datos-empresa-completa" class="row"></div>   
+                            </div>
                         </div>
                     </div>
                 </div>              
@@ -143,6 +156,7 @@
     <script type="text/javascript">
         var alto_img=$('#div-img-banner').height();
         var $pos = alto_img+50;
+        $('#div-principal-empresa-completa').css({'top':$pos+$('#div-principal-buscador').height()+'px'});//acomodar el top del  div  deacuerdo a el buscador , menu e imagen
         var min_height=$(window).height()-$pos;
         $('#div-relleno').height($('#div-principal-buscador').height());
         if($(window).height()>1900){
@@ -166,16 +180,18 @@
             $win.scroll(function () {
                if ($win.scrollTop() <= $pos){
                  $('#div-relleno').hide();  
-                 $('#div-principal-buscador').removeClass('div-scroll-activo');}
+                 $('#div-principal-buscador').removeClass('div-scroll-activo');
+                 $('#div-principal-empresa-completa').css({'top':$pos+$('#div-principal-buscador').height()+'px'});}
                else {
                  $('#div-relleno').show();  
                  $('#div-principal-buscador').addClass('div-scroll-activo');
+                 $('#div-principal-empresa-completa').css({'top':$('#div-principal-buscador').height()+'px'});
                }
              });
         $(window).resize(function(){//calcular altura en base a la distancia de la barra de busqueda y el incio de la pagina
             alto_img=$('#div-img-banner').height();
             $pos = alto_img+50;
-            setTimeout("$('#div-relleno').height($('#div-principal-buscador').height());",300);
+            setTimeout("$('#div-relleno').height($('#div-principal-buscador').height());$('#div-principal-empresa-completa').css({'top':$pos+$('#div-principal-buscador').height()+'px'});",300);
         });
        
 });
@@ -230,8 +246,18 @@
         });
     </script>
     <script type="text/javascript">
-        $('*:not(div-resultados,.div-resultado,#div-buscador)').on('click',function(){
-          ocultar_buscador();  
+        $(document).ready(function(){
+            $('*:not(div-resultados,.div-resultado,#div-buscador)').on('click',function(){
+              ocultar_buscador();  
+            });
+            $('#div-datos-empresa').on('click','.div-datos-empresa-resultado',function(){
+                var codigo_empresa=$(this).attr('id').slice(18);
+                todo_dt_empresa(codigo_empresa);
+                
+            });
+            $('#div-principal-empresa-completa').on('click','.cancel',function(){
+                $('#div-principal-empresa-completa').fadeOut();             
+            });
         });
     </script>
     <?php else : echo 'Problemas con tu autenticacion inicia sesión de nuevo'; ?>

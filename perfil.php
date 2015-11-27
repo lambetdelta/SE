@@ -777,17 +777,17 @@ $("document").ready(function() {//evaluar passs
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
-                        		<input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="30"  title="NOMBRE" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu nombre por favor."/>
+                        		<input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="40"  title="NOMBRE" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu nombre por favor."/>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
-                        		<input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="20"  title="APELLIDO PATERNO" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu apellido por favor."/>
+                        		<input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="40"  title="APELLIDO PATERNO" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu apellido por favor."/>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
-                       			<input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="20"  title="APELLIDO MATERNO" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu apellido por favor."/>
+                       			<input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="40"  title="APELLIDO MATERNO" onKeyPress="return validar_texto(event)" required data-validation-required-message="Proporciona tu apellido por favor."/>
                             </div>
                         </div>
                     </div>

@@ -416,7 +416,7 @@ function actualizar_egresado($mysqli,$nombre,$apellido_p,$apellido_m,$curp,$fech
 
 function dt_academicos($mysqli,$No_control){
 try{
-    if ($stmt = $mysqli->prepare("SELECT no_controlfk, no_registro, fecha_inicio, fecha_fin, codigo_carrerafk, codigo_especialidadfk, titulado FROM historial_academico WHERE no_controlfk=?")) {
+    if ($stmt = $mysqli->prepare("SELECT no_controlfk, no_registro, fecha_inicio, fecha_fin, codigo_carrerafk, codigo_especialidadfk, titulado FROM historial_academico WHERE no_controlfk=? limit 4" )) {
         $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
         if($stmt->execute()){    // Ejecuta la consulta preparada.
             $resultado=$stmt->get_result();

@@ -1,17 +1,28 @@
 <?php
 include '../includes/conexion-bd-adm.php';
 include '../includes/functions_adm.php';
-sleep(3);    
-    $resultado=  buscar_todos($mysqli);
-    if($resultado==FALSE){
-        $html='<div class="div-resultado">Sin coincidencias</div>';
-        echo $html; 
-    }  else {
-        while ($fila=$resultado->fetch_assoc()){
-            $html='<div id="div-resultado'.$fila['no_control'].'" class="div-resultado"><span class="span-no_control">'.$fila['no_control'].'</span>'
-                    . '<div class="div-miniatura"><img src="fotos_egresados/'.$fila['imagen'].'" class="img-egresado"/>'.$fila['nombre'].' '.$fila['apellido_p'].' '.$fila['apellido_m'].'</div></div>';
-            echo $html;
-        }
-  
-    }
+sleep(3);
+$datos=Array();
+$datos['respuesta']='0';
+$datos['mensage']='Error en envío de datos';
+if(isset($_POST['no_registro'])){
+    if(is_numeric($_POST['no_registro'])){
+        $resultado=  buscar_todos($mysqli,$_POST['no_registro']);
+        if($resultado==FALSE){
+            $datos['mensage']='Error en BD';    
+        }else{
+            if($resultado->num_rows>0){
+                $datos['respuesta']='1';
+                $datos['mensage']='bien';
+                $datos['egresado']=array();
+                while ($fila=$resultado->fetch_object())
+                   $datos['egresado'][]=$fila;     
+                }else{
+                    $datos['mensage']='Sin coincidencias';
+                }
 
+            }
+   
+    }
+ }
+echo json_encode($datos,JSON_FORCE_OBJECT);

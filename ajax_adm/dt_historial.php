@@ -19,7 +19,7 @@ if(isset($_POST['no_control'])){
             while ($fila=$resultado->fetch_object())
                $datos['empresa'][]=$fila;     
         }else
-            $datos['mensage']='Error en BD';
+            $datos['mensage']='AÚN SIN COMPLETAR';
     
     }
     

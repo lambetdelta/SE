@@ -1,5 +1,6 @@
 <?php
 
+
 function anti_xss($form){//limpiar formularios recibidos 
         foreach ($form as &$valor):
             $valor=  strip_tags($valor);
@@ -93,70 +94,69 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
             return $valor;
 }
 
-function  buscar($dato,$mysqli,$limit,$cantidad){//busqueda general
+function  buscar($dato,$mysqli,$cantidad,$no_registro){//busqueda general
     if(is_numeric($dato)){
-        $resultado=buscar_no_control($dato, $mysqli,$limit,$cantidad);
+        $resultado=buscar_no_control($dato, $mysqli,$cantidad,$no_registro);
         return $resultado;
     }  else {
-        $resultado=  buscar_nombre($dato, $mysqli,$limit,$cantidad);
+        $resultado=  buscar_nombre($dato, $mysqli,$cantidad,$no_registro);
         return $resultado;
     }
 }
 
-function buscar_no_control($dato,$mysqli,$limit,$cantidad){
-    $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where no_control like ?';
-    if($limit==1)
-     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where no_control like ? limit '.$cantidad;
-    if($query=$mysqli->prepare($sentencia))
+function buscar_no_control($dato,$mysqli,$cantidad,$no_registro){
+     $sentencia='select id_consecutivo,nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where (no_control like"'.$dato.'%" and  id_consecutivo> '.$no_registro.' ) limit '.$cantidad;
+    if($query=$mysqli->query($sentencia))
         {
-        $dato=$dato.'%';
-        $query->bind_param('s',$dato);
-        $query->execute();
-        $resultado=$query->get_result();
-        if($resultado->num_rows>0){
-            $query->close();
-            return $resultado;}
-        else {
-            $query->close();
-            return FALSE;}
+        if($query->num_rows>0){
+        return $query;
+        
+        }
+        else
+            return 'vacio';
         }
     else
         return FALSE;  
 }
 
-function buscar_nombre($dato,$mysqli,$limit,$cantidad){
+function buscar_nombre($dato,$mysqli,$cantidad,$no_registro){
  $nombre=  explode(' ', $dato);
     if(count($nombre)==1){//secuencia un solo nombre
-        $resultado=buscar_nombre_($nombre[0], $mysqli,$limit,$cantidad);
-        if($resultado===FALSE){
-            $resultado=  buscar_apellido_p($dato, $mysqli,$limit,$cantidad);
+        $resultado=buscar_nombre_($nombre[0], $mysqli,$cantidad,$no_registro);
+        if($resultado==='vacio'){
+            $resultado=  buscar_apellido_p($dato, $mysqli,$cantidad,$no_registro);
             return $resultado;
         }else
             return $resultado;
+        return $resultado;
     }
-    if(count($nombre)==2){
-        $resultado=  buscar_nombre_incompleto($nombre[0], $nombre[1], $mysqli,$limit,$cantidad);//puede que busque en la siguiente secuencia nombre + primer apellido
-        if($resultado==FALSE){
+    if(count($nombre)==2){//secuencia dos palabras nombre apellido nombre
+        $resultado=  buscar_nombre_incompleto($nombre[0], $nombre[1], $mysqli,$cantidad,$no_registro);//puede que busque en la siguiente secuencia nombre + primer apellido
+        if($resultado=='vacio'){
             $resultado=  buscar_nombre_($dato, $mysqli);//puede que busque en la secuencia primer nombre segundo nombre
-            if($resultado==FALSE){
-                $resultado=buscar_apellidos($nombre[0], $nombre[1], $mysqli);//busqueda por apellidos
+            if($resultado=='vacio'){
+                $resultado=buscar_apellidos($nombre[0], $nombre[1], $mysqli,$cantidad,$no_registro);//busqueda por apellidos
                 return $resultado;
             }                
         }
         else
             return $resultado;
+        return $resultado;
     }
     if(count($nombre)>=3){//cuando el dato es un nombre que puede tenerla secuencia nombre apellido apellido, nombre nombre apellido, nombre nombre nombre , o mas combianciones con n nombres
         $nombre_completo=$nombre[0];
         for($i=1;$i<(count($nombre)-2);$i++) {
             $nombre_completo=$nombre_completo.' '.$nombre[$i];
         }
-        $resultado=  buscar_nombre_completo($nombre_completo, $nombre[count($nombre)-2], $nombre[count($nombre)-1], $mysqli,$limit,$cantidad);     
-        if($resultado===FALSE){
-            $nombre_completo=$nombre[0].' '.$nombre[1];//extraer el primer nombre
-            $resultado=  buscar_nombre_incompleto($nombre_completo, $nombre[2], $mysqli,$limit,$cantidad);//busca por medio de dos nombres y el primer apellido
-            if($resultado===FALSE){
-                $resultado=  buscar_nombre_($dato, $mysqli,$limit,$cantidad);//quizás tenga tres nombres o más, raro pero no imposible
+        $resultado=  buscar_nombre_completo($nombre_completo, $nombre[count($nombre)-2], $nombre[count($nombre)-1], $mysqli,$cantidad,$no_registro);     
+        $nombre_completo=$nombre[0];
+        if($resultado==='vacio'){
+            for($i=1;$i<(count($nombre)-1);$i++) {
+            $nombre_completo=$nombre_completo.' '.$nombre[$i];
+        }
+            $resultado=  buscar_nombre_incompleto($nombre_completo, $nombre[count($nombre)-1], $mysqli,$cantidad,$no_registro);//busca por medio de dos nombres y el primer apellido
+            if($resultado==='vacio'){
+                $resultado=  buscar_nombre_($dato, $mysqli,$cantidad,$no_registro);//quizás tenga tres nombres o más, raro pero no imposible
                 return $resultado;
             }  else {
                 return $resultado;
@@ -164,112 +164,79 @@ function buscar_nombre($dato,$mysqli,$limit,$cantidad){
         }  else {
             return $resultado;
         }
+        return $resultado;
     }
 }
 
-function buscar_nombre_($nombre,$mysqli,$limit,$cantidad){
-    $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where nombre like ?';
-    if($limit==1)
-     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where nombre like ? limit '.$cantidad;
-    if($query=$mysqli->prepare($sentencia))
+function buscar_nombre_($nombre,$mysqli,$cantidad,$no_registro){
+     $sentencia='select id_consecutivo, nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like "'.$nombre.'%" and id_consecutivo>'.$no_registro.')limit '.$cantidad;
+    if($query=$mysqli->query($sentencia))
         {
-        $nombre=$nombre.'%';
-        $query->bind_param('s',$nombre);
-        $query->execute();
-        $resultado=$query->get_result();
-        $query->close();
-        if($resultado->num_rows>0)
-            return $resultado;
+        if($query->num_rows>0)
+            return $query;
         else 
-            return FALSE;
+            return 'vacio';
         }
     else
         return FALSE; 
 }
-function buscar_nombre_incompleto($nombre,$apellido,$mysqli,$limit,$cantidad){
-    $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like ? or apellido_p like ?)';
-    if($limit==1)
-     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like ? or apellido_p like ?) LIMIT '.$cantidad;
-    if($query=$mysqli->prepare($sentencia))
+function buscar_nombre_incompleto($nombre,$apellido,$mysqli,$cantidad,$no_registro){
+     $sentencia='select id_consecutivo,nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like "'.$nombre.'%" or apellido_p like "'.$apellido.'%" and id_consecutivo>'.$no_registro.') LIMIT '.$cantidad;
+    if($query=$mysqli->query($sentencia))
         {
-        $nombre=$nombre.'%';
-        $apellido=$apellido.'%';
-        $query->bind_param('ss',$nombre,$apellido);
-        $query->execute();
-        $resultado=$query->get_result();
-        $query->close();
-        if($resultado->num_rows>0)
-            return $resultado;
+      
+        if($query->num_rows>0)
+            return $query;
         else 
-            return FALSE;
+            return 'vacio';
         }
     else
         return FALSE; 
 }
-function buscar_nombre_completo($nombre,$apellido_p,$apellido_m,$mysqli,$limit,$cantidad){
-    $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like ? and apellido_p like ? and apellido_m like ?)';
-    if($limit==1)
-     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like ? and apellido_p like ? and apellido_m like ?) LIMIT '.$cantidad;
-    if($query=$mysqli->prepare($sentencia))
+function buscar_nombre_completo($nombre,$apellido_p,$apellido_m,$mysqli,$cantidad,$no_registro){
+     $sentencia='select id_consecutivo,nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( nombre like "'.$nombre.'" and apellido_p like "'.$apellido_p.'" and apellido_m like "'.$apellido_m.'%" and id_consecutivo>'.$no_registro.') LIMIT '.$cantidad;
+    if($query=$mysqli->query($sentencia))
         {
-        $apellido_m=$apellido_m.'%';
-        $query->bind_param('sss',$nombre,$apellido_p,$apellido_m);
-        $query->execute();
-        $resultado=$query->get_result();
-        $query->close();
-        if($resultado->num_rows>0)
-            return $resultado;
+        if($query->num_rows>0)
+            return $query;
         else 
-            return FALSE;
+            return 'vacio';
         }
     else
         return FALSE; 
 }
 
-function buscar_apellidos($apellido_p,$apellido_m,$mysqli,$limit,$cantidad){
-   $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( apellido_p like ? or apellido_m like ?)';
-    if($limit==1)
-     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( apellido_p like ? or apellido_m like ?) LIMIT '.$cantidad;
-    if($query=$mysqli->prepare($sentencia))
+function buscar_apellidos($apellido_p,$apellido_m,$mysqli,$cantidad,$no_registro){
+     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( apellido_p like "'.$apellido_p.'%" or apellido_m like "'.$apellido_m.'%" and id_consecutivo>'.$no_registro.') LIMIT '.$cantidad;
+    if($query=$mysqli->query($sentencia))
         {
-        $apellido_p=$apellido_p.'%';
-        $apellido_m=$apellido_m.'%';
-        $query->bind_param('ss',$apellido_p,$apellido_m);
-        $query->execute();
-        $resultado=$query->get_result();
-        $query->close();
-        if($resultado->num_rows>0)
-            return $resultado;
+        if($query->num_rows>0)
+            return $query;
         else 
-            return FALSE;
+            return 'vacio';
         }
     else
         return FALSE;
 }
 
-function buscar_apellido_p($apellido_p,$mysqli,$limit,$cantidad){
-    $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where apellido_p like ? ';
-    if($limit==1)
-     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where apellido_p like ? LIMIT '.$cantidad;
-   if($query=$mysqli->prepare($sentencia))
+function buscar_apellido_p($apellido_p,$mysqli,$cantidad,$no_registro){
+     $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where (apellido_p like "'.$apellido_p.'%" and id_consecutivo>'.$no_registro.') LIMIT '.$cantidad;
+   if($query=$mysqli->query($sentencia))
         {
-        $apellido_p=$apellido_p.'%';
-        $query->bind_param('s',$apellido_p);
-        $query->execute();
-        $resultado=$query->get_result();
-        $query->close();
-        if($resultado->num_rows>0)
-            return $resultado;
+        if($query->num_rows>0)
+            return $query;
         else 
-            return FALSE;
+            return 'vacio';
         }
     else
         return FALSE;   
 }
 
-function buscar_todos($mysqli){
+function buscar_todos($mysqli,$no_registro){
     try{
-        $query='select no_control, nombre, apellido_p, apellido_m,imagen from datos_egresado';
+        $query='select no_control, id_consecutivo,nombre, apellido_p, '
+                . 'apellido_m,imagen from datos_egresado '
+                . 'where id_consecutivo>'.$no_registro.' limit 20';
         if($resultado=$mysqli->query($query)){
             return $resultado;
         }else
@@ -347,7 +314,7 @@ function dt_academicos($no_control,$mysqli){
                 . 'FROM historial_academico,especialidad,carrera '
                 . 'WHERE (historial_academico.no_controlfk='.$no_control.' and '
                 . 'historial_academico.codigo_carrerafk=carrera.codigo_carrera and '
-                . 'historial_academico.codigo_especialidadfk=especialidad.codigo_especialidad) ';
+                . 'historial_academico.codigo_especialidadfk=especialidad.codigo_especialidad) limit 4';
         if($resultado=$mysqli->query($query)){
             return $resultado;
         }  else {
@@ -464,3 +431,40 @@ function dt_historial($no_control,$mysqli){
         return FALSE;
     }
 }
+
+function carreras($mysqli){
+    try{
+        $query='select nombre,codigo_carrera from carrera ';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
+
+function estadistica_fecha_carrera($fecha,$carrera,$mysqli){
+    try{
+        $query='select datos_egresado.nombre,datos_egresado.no_control, '
+                . 'datos_egresado.apellido_p,datos_egresado.apellido_m,'
+                . 'historial_academico.fecha_fin, '
+                . 'historial_academico.codigo_especialidadfk from datos_egresado,'
+                . 'historial_academico where '
+                . '(historial_academico.no_controlfk=datos_egresado.no_control '
+                . 'and historial_academico.codigo_carrerafk="'.$carrera.'" '
+                . 'and YEAR(historial_academico.fecha_fin)="'.$fecha.'")';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
+
+

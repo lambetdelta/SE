@@ -1,3 +1,5 @@
+var no_registro=0;
+var no_registro_b=0;
 function salir(){
   window.location="includes/logout.php";  
 }
@@ -6,7 +8,21 @@ function espacion_block(e){ //bloquear espacio
     if (tecla==32) return false; 
 }
 
-
+function select_carrera(){
+    $('#select-carrera').html('');
+    $.post('ajax_adm/carreras.php').done(function(data){
+        datos=$.parseJSON(data);
+        if(datos.respuesta==='1'){
+            $.each(datos.carrera,function(){
+                $('#select-carrera').append('<option value="'+this.codigo_carrera+'">'+this.nombre+'</option>');
+            });
+        }else{
+            $('#select-carrera').append('<option id="0">ERROR:'+datos.mensage+'</option>')
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown){
+        ajax_error_input(jqXHR, textStatus,$('#select-carrera'));
+    });
+}
 function alerta(title,dialog,mensage){ 
 var alert_=dialog;
 $('#span-alerta').html(mensage);
@@ -23,14 +39,35 @@ $('#span-alerta').html(mensage);
           
 //solicitudes ajax          
 
-function buscar(dato,limit,cantidad){
-    $.post('ajax_adm/buscar.php',{dato:dato,limit:limit,cantidad:cantidad})
+function buscar(dato,cantidad){
+    $.post('ajax_adm/buscar.php',{dato:dato,no_registro:0,cantidad:cantidad})
             .done(function(data){
-                $('#div-resultados').fadeIn();
-                $('#div-resultados').html(data);
+             datos=$.parseJSON(data); 
+             $('#div-resultados').html(' ');
+             var p='';
+             if(datos.respuesta==='1'){
+                $.each(datos.egresado,function(){
+                    var div=$('<div/>');
+                    p='<span class="span-no_control">'+this.no_control+'</span>'; 
+                    div.append(p);
+                    var div_min=$('<div/>');
+                    p='<img src="fotos_egresados/'+this.imagen+'" class="img-egresado">'+this.nombre+' '+this.apellido_p+' '+this.apellido_m;
+                    div_min.append(p);
+                    div_min.addClass('div-miniatura');
+                    div.append(div_min);
+                    div.addClass('div-resultado');
+                    div.attr('id','div-resultado'+this.no_control);
+                    $('#div-resultados').append(div);
+                    $('#div-resultados').show();
+                });
+             }else{
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-resultados').append(p);
+                 $('#div-resultados').show();
+             }   
             }).fail(function(jqXHR, textStatus, errorThrown){
                 $('#div-resultados').html('');
-                $('#div-resultados').fadeIn();
+                $('#div-resultados').show();
                 ajax_error(jqXHR,textStatus,$('#div-resultados'));
                 });
 }
@@ -41,6 +78,7 @@ function ocultar_buscador(){
 }
 
 function buscar_todos(){
+    no_registro=0;
     $('#div-pefil').hide();
     $('#div-resultados-avanzado-principal').show();
     $('#img-cargar-busqueda-avanzada').show();
@@ -48,34 +86,198 @@ function buscar_todos(){
     $('#div-resultados-avanzado').hide();
     ocultar_buscador();
     $('#input-buscador').val('');
-    $.post('ajax_adm/buscar_todos.php')
+    $.post('ajax_adm/buscar_todos.php',{no_registro:0})
             .done(function(data){
-                $('#img-cargar-busqueda-avanzada').hide();
-                $('#div-resultados-avanzado').fadeIn();
-                $('#div-resultados-avanzado').html(data);
-            }).fail(function(jqXHR, textStatus, errorThrown){
-                $('#img-cargar-busqueda-avanzada').hide();
-                $('#div-resultados-avanzado').fadeIn();
-                ajax_error(jqXHR,textStatus,$('#div-resultados-avanzado'));
+            datos=$.parseJSON(data); 
+            $('#div-resultados-avanzado').html(' ');
+            var p='';
+            var registro=0;
+            if(datos.respuesta==='1'){
+                $.each(datos.egresado,function(){
+                    var div=$('<div/>');
+                    p='<span class="span-no_control">'+this.no_control+'</span>'; 
+                    div.append(p);
+                    var div_min=$('<div/>');
+                    p='<img src="fotos_egresados/'+this.imagen+'" class="img-egresado">'+this.nombre+' '+this.apellido_p+' '+this.apellido_m;
+                    div_min.append(p);
+                    div_min.addClass('div-miniatura');
+                    div.append(div_min);
+                    div.addClass('div-resultado');
+                    div.attr('id','div-resultado'+this.no_control);
+                    $('#div-resultados-avanzado').append(div);
+                    registro++;
+                    no_registro=this.id_consecutivo;//ultimo registro recibido se necesita para seguir buscando
                 });
-        }
-function buscar_avanzado(dato,limit,cantidad){
+                if(registro===20){
+                    var div=$('<div/>');
+                    p='<p class="p-ver-mas" id="ver-mas">VER MÁS</p>'; 
+                    div.append(p);
+                    div.attr('id','div-img-cargar-datos-mas');
+                    $('#div-resultados-avanzado').append(div);
+                }
+                $('#img-cargar-busqueda-avanzada').hide();
+                $('#div-resultados-avanzado').fadeIn();
+             }else{
+                 no_registro=0;
+                 $('#img-cargar-busqueda-avanzada').hide();
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-resultados-avanzado').append(p);
+                 $('#div-resultados-avanzado').show();
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                no_registro=0;
+                $('#img-cargar-busqueda-avanzada').hide();
+                $('#div-resultados-avanzado').html('');
+                $('#div-resultados-avanzado').show();
+                ajax_error(jqXHR,textStatus,$('#div-resultados'));
+                });
+}
+function buscar_todos_mas(){ 
+    $('#div-img-cargar-datos-mas').html(' ');
+    var p='<img id="img-cargar-datos-mas" src="Imagenes/espera.gif" class="img-centrada"></img>';
+    $('#div-img-cargar-datos-mas').append(p);
+    $.post('ajax_adm/buscar_todos.php',{no_registro:no_registro_b})
+            .done(function(data){
+            datos=$.parseJSON(data); 
+            var p='';
+            var registro=0;
+            if(datos.respuesta==='1'){
+                $('#ver-mas').remove();
+                $('#div-img-cargar-datos-mas').remove();
+                $.each(datos.egresado,function(){
+                    var div=$('<div/>');
+                    p='<span class="span-no_control">'+this.no_control+'</span>'; 
+                    div.append(p);
+                    var div_min=$('<div/>');
+                    p='<img src="fotos_egresados/'+this.imagen+'" class="img-egresado">'+this.nombre+' '+this.apellido_p+' '+this.apellido_m;
+                    div_min.append(p);
+                    div_min.addClass('div-miniatura');
+                    div.append(div_min);
+                    div.addClass('div-resultado');
+                    div.attr('id','div-resultado'+this.no_control);
+                    $('#div-resultados-avanzado').append(div);
+                    registro++;
+                    no_registro=this.id_consecutivo;//ultimo registro recibido se necesita para seguir buscando
+                });
+                if(registro===20){
+                    var div=$('<div/>');
+                    p='<p class="p-ver-mas" id="ver-mas">VER MÁS</p>'; 
+                    div.append(p);
+                    div.attr('id','div-img-cargar-datos-mas');
+                    $('#div-resultados-avanzado').append(div);
+                }
+             }else{
+                 no_registro=0;
+                 $('#div-img-cargar-datos-mas').remove();
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-resultados-avanzado').append(p);
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                no_registro=0;
+                $('#div-img-cargar-datos-mas').remove();
+                ajax_error(jqXHR,textStatus,$('#div-resultados'));
+                });
+}
+
+function buscar_avanzado(dato,cantidad){
     $('#div-resultados-avanzado-principal').show();
     $('#img-cargar-busqueda-avanzada').show();
     $('#div-resultados-avanzado').html('');
     $('#div-resultados-avanzado').hide();
     ocultar_buscador();
-    $.post('ajax_adm/buscar.php',{dato:dato,limit:limit,cantidad:cantidad})
+    $.post('ajax_adm/buscar.php',{dato:dato,no_registro:0,cantidad:cantidad})
             .done(function(data){
-                $('#img-cargar-busqueda-avanzada').hide();
-                $('#div-resultados-avanzado').fadeIn();
-                $('#div-resultados-avanzado').html(data);
-            }).fail(function(jqXHR, textStatus, errorThrown){
-                $('#img-cargar-busqueda-avanzada').hide();
-                $('#div-resultados-avanzado').fadeIn();
-                ajax_error(jqXHR,textStatus,$('#div-resultados-avanzado'));
+            datos=$.parseJSON(data); 
+            $('#div-resultados-avanzado').html(' ');
+            var p='';
+            var registro=0;
+            if(datos.respuesta==='1'){
+                $.each(datos.egresado,function(){
+                    var div=$('<div/>');
+                    p='<span class="span-no_control">'+this.no_control+'</span>'; 
+                    div.append(p);
+                    var div_min=$('<div/>');
+                    p='<img src="fotos_egresados/'+this.imagen+'" class="img-egresado">'+this.nombre+' '+this.apellido_p+' '+this.apellido_m;
+                    div_min.append(p);
+                    div_min.addClass('div-miniatura');
+                    div.append(div_min);
+                    div.addClass('div-resultado');
+                    div.attr('id','div-resultado'+this.no_control);
+                    $('#div-resultados-avanzado').append(div);
+                    registro++;
+                    no_registro_b=this.id_consecutivo;//ultimo registro recibido se necesita para seguir buscando
                 });
+                if(registro===20){
+                    var div=$('<div/>');
+                    p='<p class="p-ver-mas" id="ver-mas-avanzado">VER MÁS</p>'; 
+                    div.append(p);
+                    div.attr('id','div-img-cargar-datos-mas');
+                    $('#div-resultados-avanzado').append(div);
                 }
+                $('#img-cargar-busqueda-avanzada').hide();
+                $('#div-resultados-avanzado').fadeIn();
+             }else{
+                 no_registro_b=0;
+                 $('#img-cargar-busqueda-avanzada').hide();
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-resultados-avanzado').append(p);
+                 $('#div-resultados-avanzado').show();
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                no_registro_b=0;
+                $('#img-cargar-busqueda-avanzada').hide();
+                $('#div-resultados-avanzado').html('');
+                $('#div-resultados-avanzado').show();
+                ajax_error(jqXHR,textStatus,$('#div-resultados'));
+                });
+}
+
+function buscar_avanzado_mas(dato,cantidad){  
+    $('#div-img-cargar-datos-mas').html(' ');
+    var p='<img id="img-cargar-datos-mas" src="Imagenes/espera.gif" class="img-centrada"></img>';
+    $('#div-img-cargar-datos-mas').append(p);
+    $.post('ajax_adm/buscar.php',{dato:dato,no_registro:no_registro_b,cantidad:cantidad})
+            .done(function(data){
+            datos=$.parseJSON(data); 
+            var p='';
+            var registro=0;
+            if(datos.respuesta==='1'){
+                $('#ver-mas').remove();
+                $('#div-img-cargar-datos-mas').remove();
+                $.each(datos.egresado,function(){
+                    var div=$('<div/>');
+                    p='<span class="span-no_control">'+this.no_control+'</span>'; 
+                    div.append(p);
+                    var div_min=$('<div/>');
+                    p='<img src="fotos_egresados/'+this.imagen+'" class="img-egresado">'+this.nombre+' '+this.apellido_p+' '+this.apellido_m;
+                    div_min.append(p);
+                    div_min.addClass('div-miniatura');
+                    div.append(div_min);
+                    div.addClass('div-resultado');
+                    div.attr('id','div-resultado'+this.no_control);
+                    $('#div-resultados-avanzado').append(div);
+                    registro++;
+                    no_registro_b=this.id_consecutivo;//ultimo registro recibido se necesita para seguir buscando
+                });
+                if(registro===20){
+                    var div=$('<div/>');
+                    p='<p class="p-ver-mas" id="ver-mas-avanzado">VER MÁS</p>'; 
+                    div.append(p);
+                    div.attr('id','div-img-cargar-datos-mas');
+                    $('#div-resultados-avanzado').append(div);
+                }
+             }else{
+                 no_registro_b=0;
+                 $('#div-img-cargar-datos-mas').remove();
+                 p='<p>Informe:'+datos.mensage+'</p>'; 
+                 $('#div-resultados-avanzado').append(p);
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                no_registro_b=0;
+                $('#div-img-cargar-datos-mas').remove();
+                ajax_error(jqXHR,textStatus,$('#div-resultados'));
+                });
+}
 function cargar_datos_egresado(no_control){
     ocultar_buscador();
     $('#div-resultados-avanzado-principal').hide();
@@ -397,13 +599,10 @@ function dt_empresa(no_control){
             });
 }
 function ajax_error(jqXHR,textStatus,div){
-        var div_=div;
-        var p;
         if (jqXHR.status === 0) {
             div.append('<p>ERROR:SIN RESPUESTA DEL SERVIDOR</p>');
         } else if (jqXHR.status == 404) {
-            div.append('<p>P</p>');
-            alert('ERROR:PÁGINA NO ENCONTRADA [404]');
+            div.append('<p>ERROR:PÁGINA NO ENCONTRADA [404]</p>');
 
         } else if (jqXHR.status == 500) {
             div.append('<p>ERROR:FALLA DEL SERVIDOR[505]</p>');
@@ -426,6 +625,32 @@ function ajax_error(jqXHR,textStatus,div){
        }
 }
 
+function ajax_error_input(jqXHR,textStatus,input){
+        if (jqXHR.status === 0) {
+            input.val('ERROR:SIN RESPUESTA DEL SERVIDOR');
+        } else if (jqXHR.status == 404) {
+            input.val('ERROR:PÁGINA NO ENCONTRADA [404]');
+
+        } else if (jqXHR.status == 500) {
+            input.val('ERROR:FALLA DEL SERVIDOR[505]');
+            //Internal Server Error [500]
+                
+        } else if (textStatus === 'parsererror') {
+            input.val('ERROR:DATOS RECIBIDOS CORRUPTOS');
+//            Requested JSON parse failed
+
+        } else if (textStatus === 'timeout') {
+            input.val('ERROR:TIEMPO DE RESPUESTA EXPIRADO');
+//           Time out error
+
+        } else if (textStatus === 'abort') {
+
+//            alert('Ajax request aborted.');
+
+        } else {
+            input.val('ERROR INESPERADO:'+ jqXHR.responseText);
+       }
+}
 function todo_dt_empresa(codigo_empresa){
     $('#div-principal-empresa-completa').fadeIn();
     $('#div-datos-empresa-completa').html('');

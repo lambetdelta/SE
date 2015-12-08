@@ -1,21 +1,29 @@
 <?php
 include '../includes/conexion-bd-adm.php';
 include '../includes/functions_adm.php';
-if(isset($_POST['dato'],$_POST['limit'],$_POST['cantidad'])){
+$datos=Array();
+$datos['respuesta']='0';
+$datos['mensage']='Error en envío de datos';
+if(isset($_POST['dato'],$_POST['no_registro'],$_POST['cantidad'])){
     $dato=  anti_xss_cad($_POST['dato']);
-    $limit=  anti_xss_cad($_POST['limit']);
+    $no_registro=  anti_xss_cad($_POST['no_registro']);
     $cantidad=  anti_xss_cad($_POST['cantidad']);
-    $resultado=  buscar($dato, $mysqli,$limit,$cantidad);
-    if($resultado==FALSE){
-        $html='<div class="div-resultado">Sin coincidencias</div><div class="div-resultado" id="ver-todos"><p class="p-ver-todos">Ver todos...</p></div>';
-        echo $html; 
-    }  else {
-        while ($fila=$resultado->fetch_assoc()){
-            $html='<div id="div-resultado'.$fila['no_control'].'" class="div-resultado"><span class="span-no_control">'.$fila['no_control'].'</span>'
-                    . '<div class="div-miniatura"><img src="fotos_egresados/'.$fila['imagen'].'" class="img-egresado"/>'.$fila['nombre'].' '.$fila['apellido_p'].' '.$fila['apellido_m'].'</div></div>';
-            echo $html;
+    $resultado=  buscar($dato, $mysqli,$cantidad,$no_registro);
+    if($resultado=='vacio'){
+        $datos['mensage']='Sin coincidencias';   
+    }else{
+        if($resultado==FALSE){
+        $datos['mensage']='Error en BD';    
+        }else{
+            if($resultado->num_rows>0){
+                $datos['respuesta']='1';
+                $datos['mensage']='bien';
+                $datos['egresado']=array();
+                while ($fila=$resultado->fetch_object())
+                   $datos['egresado'][]=$fila;     
+            }   
         }
-        echo '<div class="div-resultado" id="ver-todos"><p class="p-ver-todos">Ver todos...</p></div>';
+    
     }
-}else
-    echo 'ERROR ENVIO DATOS';
+}
+echo json_encode($datos,JSON_FORCE_OBJECT);

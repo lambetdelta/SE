@@ -22,6 +22,7 @@
             </div>
         </header> 
         <section>
+            <div class="tab">
             <div id="navegacion">
                  <nav role="navigation" class="navbar navbar-default nav-personal" style="margin-bottom:0px; border:none">
                     <div class="navbar-header">
@@ -31,13 +32,13 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a href="administrador.php" title="Datos Personales" class="navbar-brand active" style="font-size:28px">Egresados</a>
+                        <a href="#primero" title="Datos Personales" class="navbar-brand active" style="font-size:28px">Egresados</a>
                     </div>
 
                     <div id="navbarCollapse" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li><a  href="estadisticas.php" title="Estadísticas de egresados e informes">Estadísticas</a></li>
-                            <li><a href="configuracion.php" title="Contraseña, nombre usuario y más">Configuración</a></li>
+                            <li><a  href="#segundo" title="Estadísticas de egresados e informes">Estadísticas</a></li>
+                            <li><a href="#tercero" title="Contraseña, nombre usuario y más">Configuración</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#navegacion" onclick="salir()" title="Cerrar sesión y salir">SALIR</a></li>
@@ -45,12 +46,15 @@
                     </div>
                 </nav>
             </div>
+            </div>    
         </section>
         <div id="div-contenedor-alert">
             <div id="alerta">
                 <span id="span-alerta"></span>
             </div>
         </div>
+            <div class="contenedor">
+        <div id="primero">
         <div id="div-principal-buscador">
             <div id="contenedor-buscador" class="row">
                 <div id="div-buscador" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12">
@@ -144,8 +148,43 @@
                             </div>
                         </div>
                     </div>
-                </div>              
+                </div>  
+                </div>  
         </div>
+                <div id="segundo" class="row">     
+                    <div id="div-principal-estadisticas-fecha-carrera" class="row">
+                        <div id="div-principal-formulario-estadisticas-fecha-carrera" class="row">
+                            <div id="div-formulario-estadisticas-fecha-carrera" class="col-lg-8 col-lg-offset-2 col-sm-12">
+                                <form id="form-estadisticas-fecha-carrera" action="estadisticas/fecha_carrera.php" target="_blank" method="post">
+                                    <h2>Egresados</h2>
+                                    <select id="input-fecha-egreso" name="fecha" type="text" value="Fecha de egreso"  class="boton"></br>
+                                    <?php 
+                                    $año=1970;
+                                    while($año<date("Y")){
+                                    echo '<option value="'.$año.'">'.$año.'</option>';
+                                    $año++;
+                                    }
+                                    ?>
+                                    </select>
+                                    <select id="select-carrera" class="boton" name="carrera"></select>
+                                    <input type="submit" class="boton" value="Solicitar"></input>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="div-principal-datos-estadisticas-fecha-carrera" class="row">
+                            <img id="img-cargar-datos-estadisticas-fecha-carrera" src="Imagenes/espera.gif" class="img-centrada-oculta"></img>    
+                            <div id="div-datos-estadisticas-fecha-carrera"></div>
+                        </div>
+                    </div>
+                    <div id="div-principal-estadisticas-egresados-empleados" class="row">
+                        
+                    </div>
+                </div>
+            </div>
+            <div id="tercero">
+                
+            </div>
+            </div>
     </body>
     <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
@@ -154,27 +193,31 @@
     <script src="js/jquery-ui.js"></script>
     <script src="js/jquery.slimscroll.min.js"></script>
     <script type="text/javascript">
-        var alto_img=$('#div-img-banner').height();
+    $("document").ready(function() {
+	$(function (activar_pestanya) {
+				var tabContainerssup = $('div.contenedor > div');
+			    $('div.tab a').click(function () {
+					$("a").removeClass("active");
+					tabContainerssup.hide().filter(this.hash).show();
+					$(this).addClass("active");
+					return false;
+			    }).filter(':first').click();
+			});//fin activar pestaña		
+	});
+    </script>
+    <script type="text/javascript">
+        var alto_img=$('#div-img-banner').height();//alto de la img principal
         var $pos = alto_img+50;
         $('#div-principal-empresa-completa').css({'top':$pos+$('#div-principal-buscador').height()+'px'});//acomodar el top del  div  deacuerdo a el buscador , menu e imagen
-        var min_height=$(window).height()-$pos;
+        var min_height=$(window).height()-$pos;//alto de contenido principal n base a la pantalla donde se ve
         $('#div-relleno').height($('#div-principal-buscador').height());
-        if($(window).height()>1900){
+        if($(window).height()>1900){//recalcular contenido principal si se ve un dispositivo mayor de 1900 px
             $(function(){
                 min_height=$(window).height()-$pos;
                 min_height=min_height+'px';
                 $('#div-principal').css({'min-height':min_height});
             });
-        }
-        $(document).ready(function(){//animación
-           $('#img-encontrar').hover(
-                   function(){
-                       $(this).attr('src','Imagenes/adm/buscar.png');}
-                   ,function(){
-                       $(this).attr('src','Imagenes/adm/buscar_negro.png');}); 
-    
-        });
-        
+        }     
         $(function () {//barra de busqueda fixed
             var $win = $(window);           
             $win.scroll(function () {
@@ -197,20 +240,23 @@
 });
     </script>
     <script type="text/javascript">
-        $(document).ready(function(){        
+        $(document).ready(function(){//buscador eventos y animaciones
+            $('*:not(div-resultados,.div-resultado,#div-buscador)').on('click',function(){
+              ocultar_buscador();  
+            });
            $('#input-buscador').keyup(function(){//buscador
-            if($(this).val().length>3){
-                setTimeout('buscar($("#input-buscador").val(),1,10);',500);            
+                if($(this).val().length>2){
+                    setTimeout('buscar($("#input-buscador").val(),10);',500);            
+                    }
+                else{
+                    setTimeout('ocultar_buscador();',500);
                 }
-            else{
-                setTimeout('ocultar_buscador();',500);
-            }
-        });
+            });
         $('#div-img-encontrar').click(function(){
-            if($("#input-buscador").val().length>3)
+            if($("#input-buscador").val().length>2)
             {
                 $('#div-pefil').hide();
-                buscar_avanzado($("#input-buscador").val(),0,0);
+                buscar_avanzado($("#input-buscador").val(),20);
             }else
                 alerta('Alerta',$('#alerta'),'Es necesario una palabra de más de tres letras para una buena búsqueda');
         });
@@ -223,11 +269,29 @@
             var no_control=$(this).attr('id').slice(13);
             cargar_datos_egresado(no_control);          
         });
+        $('#div-resultados-avanzado').on('click','#ver-mas',function (){
+            buscar_todos_mas();         
+        });
+         $('#div-resultados-avanzado').on('click','#ver-mas-avanzado',function (){
+            buscar_avanzado_mas($("#input-buscador").val(),20);         
+        });
         $('#div-resultados').on('click','.div-resultado',function (){
             var no_control=$(this).attr('id').slice(13);
             cargar_datos_egresado(no_control);          
         });
-        $('#div-img-ingenieria').click(function(){
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#div-datos-empresa').on('click','.div-datos-empresa-resultado',function(){
+                var codigo_empresa=$(this).attr('id').slice(18);
+                todo_dt_empresa(codigo_empresa);
+                
+            });
+            $('#div-principal-empresa-completa').on('click','.cancel',function(){
+                $('#div-principal-empresa-completa').fadeOut();             
+            });
+            $('#div-img-ingenieria').click(function(){
             $('#div-img-ingenieria').addClass('div-img-seleccion-hover');
             $('#div-img-posgrado').removeClass('div-img-seleccion-hover');           
             $('#div-principal-posgrado').hide();    
@@ -243,22 +307,24 @@
             $('#div-principal-posgrado').show();
             
         });//mostrar div de posgrado
+         $('#img-encontrar').hover(
+                   function(){
+                       $(this).attr('src','Imagenes/adm/buscar.png');}
+                   ,function(){
+                       $(this).attr('src','Imagenes/adm/buscar_negro.png');});
         });
     </script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('*:not(div-resultados,.div-resultado,#div-buscador)').on('click',function(){
-              ocultar_buscador();  
-            });
-            $('#div-datos-empresa').on('click','.div-datos-empresa-resultado',function(){
-                var codigo_empresa=$(this).attr('id').slice(18);
-                todo_dt_empresa(codigo_empresa);
-                
-            });
-            $('#div-principal-empresa-completa').on('click','.cancel',function(){
-                $('#div-principal-empresa-completa').fadeOut();             
-            });
-        });
+    $(document).ready(function(){
+        //objetos especiales 
+        ;
+    });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        //cargar dt 
+        select_carrera();
+    });
     </script>
     <?php else : echo 'Problemas con tu autenticacion inicia sesión de nuevo'; ?>
     <?php endif; 

@@ -1,8 +1,8 @@
 <?php
-include '../includes/functions.php';
 include '../includes/db_connect.php';
+include '../includes/functions.php';
 
-sleep(3);
+
 $mensaje='ERROR EN ENVÍO';
 $respuesta='falla';
 if(isset($_POST['no_control'],$_POST['form']))

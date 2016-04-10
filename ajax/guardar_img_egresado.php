@@ -1,7 +1,7 @@
 <?php
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
-sleep(3);
+include '../includes/db_connect.php';
+include '../includes/functions.php';
+
 // ini_set("display_errors", 1);
 // Definimos variables generales
 define("maxUpload", 1048576);

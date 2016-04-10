@@ -17,6 +17,63 @@
         </head>
         <body>
             <style>
+                .guardar{
+                    moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+                    -webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+                    box-shadow:inset 0px 1px 0px 0px #caefab;
+                    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+                    background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+                    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+                    background-color:#77d42a;
+                    -webkit-border-top-left-radius:8px;
+                    -moz-border-radius-topleft:8px;
+                    border-top-left-radius:8px;
+                    -webkit-border-top-right-radius:8px;
+                    -moz-border-radius-topright:8px;
+                    border-top-right-radius:8px;
+                    -webkit-border-bottom-right-radius:8px;
+                    -moz-border-radius-bottomright:8px;
+                    border-bottom-right-radius:8px;
+                    -webkit-border-bottom-left-radius:8px;
+                    -moz-border-radius-bottomleft:8px;
+                    border-bottom-left-radius:8px;
+                    text-indent:0;
+                    border:1px solid #268a16;
+                    display:inline-block;
+                    color:#000;
+                    font-size:15px;
+                    font-weight:bold;
+                    font-style:normal;
+                    height:35px;
+                    line-height:35px;
+                    width:50%;
+                    text-decoration:none;
+                    text-align:center;
+                    text-shadow:1px 1px 0px #aade7c;
+                    width: 80%;
+            }
+                .guardar:hover{
+                    background: rgba(210,255,82,1);
+                    background: -moz-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(210,255,82,1)), color-stop(100%, rgba(129,255,3,1)));
+                    background: -webkit-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: -o-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: -ms-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: radial-gradient(ellipse at center, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#81ff03', GradientType=1 );
+
+                    }
+                .guardar:focus{
+                    background: rgba(210,255,82,1);
+                    background: -moz-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(210,255,82,1)), color-stop(100%, rgba(129,255,3,1)));
+                    background: -webkit-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: -o-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: -ms-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    background: radial-gradient(ellipse at center, rgba(210,255,82,1) 0%, rgba(129,255,3,1) 100%);
+                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#81ff03', GradientType=1 );
+
+                    }
                 #frm-contraseña{
                     border: #093 solid 2px;
                     border-radius:5px;
@@ -70,7 +127,9 @@
                     background-color: #00cc33;
                     border: 1px solid #00cc33;
                 }
-
+                #div-ayuda-pass{
+                    display: none;
+                }
                 .input-pass{
                     width: 100%;
                     height: 30px;
@@ -80,6 +139,9 @@
                     background-color:#FFF;
                 }
                 .input-pass:hover{
+                    background-color: #e7e1e1;
+                }
+                .input-pass:focus{
                     background-color: #e7e1e1;
                 }
                 #pass_nuevo{
@@ -118,13 +180,24 @@
                         <input type="text" placeholder="No: Control" title="No: Control" maxlength="8" class="input-pass" name="no_control" required="Tú número de control"><br>
                         <div id="div-input-pass">                          
                             <input id="pass_nuevo"  type="password" name="nuevo_pass" maxlength="15" title="Nueva contraseña" placeholder="NUEVA CONTRASEÑA"   required="NUEVA CONTRASEÑA">
-                                <img id="img-ayuda-pass"src="Imagenes/ayuda.png" style="float: left"/><span id="span-pass-seguridad"></span>
+                                <img tabindex="0" id="img-ayuda-pass"src="Imagenes/ayuda.png" style="float: left"/><span id="span-pass-seguridad"></span>
                         </div>
                         <input id="pass_nuevo_reafirmar"  type="password" maxlength="15" name="nuevo_pass_reafirmar" title="Reafirmar contraseña" placeholder="REAFIRMAR CONTRASEÑA"class="input-pass" style="width:100%;display: none;" required="NUEVA CONTRASEÑA" ><br>
                         <span id="span_pass" class="span_pass-incorrecto">LAS CONTRASEÑAS NO COINCIDEN</span><span id="span-pass-correcto">LAS CONTRASEÑAS COINCIDEN</span><br>
-                        <input type="submit" value="ACEPTAR"  style="width: 50%">
+                            <input type="submit" value="ACEPTAR" class="guardar" style="width: 50%">
                     </form>
                      <span id="span-repuesta" class="span"></span> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-sm-12">
+                    <div id="div-ayuda-pass">
+                    <ul>
+                        <li>Procura usar letras <b>mayúsculas y minúsculas</b> combinadas.</li>
+                        <li>Agregar <b>números</b> aumenta más la seguridad.</li>
+                        <li>Por último no olvides <b>caracteres especiales</b> como $, ! # darán más seguridad a tu password.</li>
+                    </ul>
+                </div>
                 </div>
             </div>
         </body>
@@ -145,6 +218,14 @@
                 }    
                 });      
             });
+        $('#img-ayuda-pass').click(function(){
+            $('#div-ayuda-pass').show();
+        });
+        $('#img-ayuda-pass').keypress(function(e){
+            if(e.which===13){
+                $('#div-ayuda-pass').show();
+            }
+        });
             function evaluar_pass(input){//evaluar password
                     var input=input;
                     var caracteres = 0;
@@ -225,23 +306,27 @@
             });
             
             function nueva_contraseña(){
-                $("#frm-contraseña").hide();//ocultar campos
-                $("#img-enviar-pass").show();
-                var p = document.createElement("input"); 
-                p.name = "p";
-                p.type = "hidden";
-                p.value = hex_sha512($('#pass_nuevo_reafirmar').val());
-                $("#frm-contraseña").append(p); 
-                var x = document.createElement("input"); 
-                x.name = "x";
-                x.type = "hidden";
-                x.value = hex_sha512($('#pass_nuevo').val());
-                $("#frm-contraseña").append(x);
-                $('#pass_nuevo').val('no ver');
-                $('#pass_nuevo_reafirmar').val('no ver');
-                $.post('ajax/recuperar_contrasena.php',$('#frm-contraseña').serialize())
-                        .fail(function(){
-
+                try{
+                    $("#frm-contraseña").hide();//ocultar campos
+                    $("#img-enviar-pass").show();
+                    var p = document.createElement("input"); 
+                    p.name = "p";
+                    p.type = "hidden";
+                    p.value = hex_sha512($('#pass_nuevo_reafirmar').val());
+                    $("#frm-contraseña").append(p); 
+                    var x = document.createElement("input"); 
+                    x.name = "x";
+                    x.type = "hidden";
+                    x.value = hex_sha512($('#pass_nuevo').val());
+                    $("#frm-contraseña").append(x);
+                    $('#pass_nuevo').val('no ver');
+                    $('#pass_nuevo_reafirmar').val('no ver');
+                    $.post('ajax/recuperar_contrasena.php',$('#frm-contraseña').serialize())
+                        .fail(function(jqXHR, textStatus, errorThrown){
+                            $("#img-enviar-pass").hide();
+                            limpiaForm($('#frm-contraseña'));
+                            $("#frm-contraseña").show();
+                            ajax_error(jqXHR, textStatus,$('#span-repuesta'));
                         })
                         .done(function(data){
                         respuesta=$.parseJSON(data);
@@ -249,7 +334,7 @@
                                 $("#img-enviar-pass").hide();
                                 $('#span-repuesta').html(respuesta.mensaje+' redireccionando...');
                                 setTimeout('window.location="index.php";',5000);
-                                
+
                             }
                             else
                             {   $("#img-enviar-pass").hide();
@@ -257,13 +342,18 @@
                                 limpiaForm($('#frm-contraseña'));
                                 $("#frm-contraseña").show();
                             }
-
                         });
-                p.remove(); 
-                x.remove();
-                $('#span_pass').hide();
-                $('#span-pass-correcto').hide();
-                            }
+                    p.remove(); 
+                    x.remove();
+                    $('#span_pass').hide();
+                    $('#span-pass-correcto').hide();    
+                }catch(e){
+                     $("#img-enviar-pass").hide();
+                    $('#span-repuesta').html(e);
+                    limpiaForm($('#frm-contraseña'));
+                    $("#frm-contraseña").show();    
+                }
+            }
                 function limpiaForm(miForm) {
 // recorremos todos los campos que tiene el formulario
                     $(':input', miForm).each(function() {
@@ -285,6 +375,34 @@
 			});//FIN EACH
 }//FIN FUNCIÓN
         });
+        </script>
+        <script type="text/javascript">
+            function ajax_error(jqXHR,textStatus,div){
+            if (jqXHR.status === 0) {
+                div.html('ERROR:SIN RESPUESTA DEL SERVIDOR');
+            } else if (jqXHR.status === 404) {
+                div.html('ERROR:PÁGINA NO ENCONTRADA [404]');
+
+            } else if (jqXHR.status === 500) {
+                div.html('ERROR:FALLA DEL SERVIDOR[505]');
+                //Internal Server Error [500]
+
+            } else if (textStatus === 'parsererror') {
+                div.html('ERROR:DATOS RECIBIDOS CORRUPTOS');
+    //            Requested JSON parse failed
+
+            } else if (textStatus === 'timeout') {
+                div.html('ERROR:TIEMPO DE RESPUESTA EXPIRADO');
+    //           Time out error
+
+            } else if (textStatus === 'abort') {
+
+    //            alert('Ajax request aborted.');
+
+            } else {
+                div.html('ERROR INESPERADO:'+ jqXHR.responseText+'');
+           }
+    }
         </script>
     </html>
 

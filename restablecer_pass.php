@@ -33,12 +33,21 @@
         <script>
         $('document').ready(function(){
             $('#frm-email').submit(function(e){
-                e.preventDefault();
+                try{
+                   e.preventDefault();
                 $('#frm-email').hide();
                 $('#span-repuesta-email').removeClass();
                 $('#img-enviar-email').show();
                 $.post('ajax/validar_email.php',($('#frm-email').serialize()))
-                        .fail()
+                        .fail(function(jqXHR, textStatus, errorThrown){
+                            $('#img-enviar-email').hide();
+                            limpiaForm($('#frm-email'));
+                            $('#frm-email').show();
+                            $('#span-repuesta-email').addClass('span-respuesta-email-incorrecto');
+                            $('#span-repuesta-email').show();
+                            setTimeout('$("#span-repuesta-email").fadeOut();',10000); 
+                            ajax_error(jqXHR, textStatus,$('#span-repuesta-email'));
+                        })
                         .done(function(datos){
                             respuesta=$.parseJSON(datos);
                             if(respuesta.respuesta==='hecho')
@@ -61,7 +70,16 @@
                                 $('#span-repuesta-email').show();
                                 setTimeout('$("#span-repuesta-email").fadeOut();',10000);
                             }
-                        });
+                        }); 
+                }catch(e){
+                    $('#img-enviar-email').hide();
+                    limpiaForm($('#frm-email'));
+                    $('#frm-email').show();
+                    $('#span-repuesta-email').html(e);
+                    $('#span-repuesta-email').addClass('span-respuesta-email-incorrecto');
+                    $('#span-repuesta-email').show();
+                    setTimeout('$("#span-repuesta-email").fadeOut();',10000);    
+                }
             });
             function limpiaForm(miForm) {
 // recorremos todos los campos que tiene el formulario
@@ -84,4 +102,30 @@
 			});//FIN EACH
 }//FIN FUNCIÓN
         });
+        function ajax_error(jqXHR,textStatus,div){
+        if (jqXHR.status === 0) {
+            div.html('ERROR:SIN RESPUESTA DEL SERVIDOR');
+        } else if (jqXHR.status === 404) {
+            div.html('ERROR:PÁGINA NO ENCONTRADA [404]');
+
+        } else if (jqXHR.status === 500) {
+            div.html('ERROR:FALLA DEL SERVIDOR[505]');
+            //Internal Server Error [500]
+                
+        } else if (textStatus === 'parsererror') {
+            div.html('ERROR:DATOS RECIBIDOS CORRUPTOS');
+//            Requested JSON parse failed
+
+        } else if (textStatus === 'timeout') {
+            div.html('ERROR:TIEMPO DE RESPUESTA EXPIRADO');
+//           Time out error
+
+        } else if (textStatus === 'abort') {
+
+//            alert('Ajax request aborted.');
+
+        } else {
+            div.html('ERROR INESPERADO:'+ jqXHR.responseText+'');
+       }
+}
         </script>    

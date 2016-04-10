@@ -1,9 +1,11 @@
 <?php 
-include_once '../includes/functions.php';
 include_once '../includes/db_connect.php';
+include_once '../includes/functions.php';
 
-sleep(3);//guardar datos sw 
 $form=array();
+$datos=array();
+$datos['respuesta']='0';
+$datos['mensaje']='Error en envío';
 if (isset($_POST['form'],$_POST['no_control']))
 {
     parse_str($_POST['form'],$form);
@@ -13,16 +15,15 @@ if (isset($_POST['form'],$_POST['no_control']))
         if(!contar_sw($mysqli,$_POST['no_control']))
         {
             if(guardar_sw($mysqli,$_POST['no_control'],$form['sw']))
-                echo "1";//exito
-            else
-                echo "0";//error en guardado
+                 {
+                $datos['respuesta']='1';
+                $datos['mensaje']='Bien';  
+                }
+           else
+                $datos['mensaje']='Error';
         }
         else
-            echo "3";//error demaciados registros
+           $datos['respuesta']='3'; 
     }
-    else
-        echo '2';
 }
-else
-    echo "2";//error con el formulario enviado
-?>
+ echo json_encode($datos);

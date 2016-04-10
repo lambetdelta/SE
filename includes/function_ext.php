@@ -191,7 +191,7 @@ function enviar_email($no_control,$correo,$mysqli){//enviar email con solicitud 
                     <strong>Enlace para restablecer tu contraseña</strong></p>
                     <table>
                     <tr>
-                    <td><a title="Enlace" href="'.$link.'"> Click Aqui </a></td>
+                    <td><a title="Enlace" href="'.$link.'" > Click Aqui </a></td>
                     </tr>
                     </table>
                     <span>Si el enlace no se carga bien copia el siguiente link y pegalo en tu navegador</span><br>

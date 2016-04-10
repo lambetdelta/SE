@@ -1,8 +1,6 @@
 <?php
-
 include '../includes/conexion-bd-adm.php';
 include '../includes/functions_adm.php';
-sleep(3);
 $datos=Array();
 $datos['respuesta']='0';
 $datos['mensage']='Error en envío de datos';
@@ -17,7 +15,7 @@ if(isset($_POST['no_control'])){
             $datos['mensage']='bien';
             $datos['posgrado']=array();
             while ($fila=$resultado->fetch_object())
-               $datos['carrera'][]=$fila;     
+               $datos['posgrado'][]=$fila;     
         }else
             $datos['mensage']='AÚN SIN COMPLETAR';
     

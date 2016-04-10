@@ -1,0 +1,39 @@
+GRANT USAGE ON *.* TO 'administrador'@'localhost' IDENTIFIED BY PASSWORD '*ED91D3E5C1D7937995C6BEE324FA0E037F2E4B91';
+
+GRANT SELECT ON `se`.`idiomas_egresado` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`datos_administrador` TO 'administrador'@'localhost';
+
+GRANT SELECT, REFERENCES ON `se`.`paquetes_sw` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`carrera` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT ON `se`.`intentos_adm` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`municipio` TO 'administrador'@'localhost';
+
+GRANT SELECT, DELETE, REFERENCES ON `se`.`foto_egresado` TO 'administrador'@'localhost';
+
+GRANT SELECT, DELETE, REFERENCES ON `se`.`datos_empresa` TO 'administrador'@'localhost';
+
+GRANT SELECT, REFERENCES ON `se`.`posgrado` TO 'administrador'@'localhost';
+
+GRANT SELECT, REFERENCES ON `se`.`historial_laboral` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`especialidad` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`login_attempts` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`datos_egresado` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`estado` TO 'administrador'@'localhost';
+
+GRANT SELECT, REFERENCES ON `se`.`actividad_social` TO 'administrador'@'localhost';
+
+GRANT SELECT, REFERENCES ON `se`.`requesitos_contratacion` TO 'administrador'@'localhost';
+
+GRANT SELECT, DELETE, REFERENCES ON `se`.`historial_academico` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`idioma` TO 'administrador'@'localhost';
+
+GRANT SELECT, INSERT, DELETE, REFERENCES ON `se`.`reseteo_contrasena` TO 'administrador'@'localhost';

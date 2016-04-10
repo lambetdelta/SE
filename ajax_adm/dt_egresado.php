@@ -1,7 +1,6 @@
 <?php
 include '../includes/conexion-bd-adm.php';
 include '../includes/functions_adm.php';
-sleep(3);
 $datos=array();
 if(isset($_POST['no_control'])){
     if(is_numeric($_POST['no_control'])){
@@ -16,9 +15,9 @@ if(isset($_POST['no_control'])){
                 if($estado_municipio==FALSE)
                     $estado_municipio=array('estado'=>'falla','municipio'=>'falla');    
                 $datos['egresado']=array('nombre'=>$fila['nombre'],'apellido_p'=>$fila['apellido_p'],'apellido_m'=>$fila['apellido_m'],
-                    'curp'=>$fila['curp'],'telefono'=>$fila['telefono'],
+                    'curp'=>$fila['curp'],'genero'=>$fila['genero'],'telefono'=>$fila['telefono'],
                     'email'=>$fila['email'],'fecha_nacimiento'=>$fila['fecha_nacimiento'],
-                    'calle'=>$fila['calle'],'numero_casa'=>$fila['numero_casa'],
+                    'calle'=>$fila['calle'],'numero_casa'=>$fila['numero_casa'],'cp'=>$fila['cp'],
                     'estado'=>$estado_municipio['nombre'],'municipio'=>$estado_municipio['municipio']);
             
             }

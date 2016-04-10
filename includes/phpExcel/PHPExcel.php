@@ -227,6 +227,7 @@ class PHPExcel
 	* set ribbon XML data
 	*
 	*/
+        
 	public function setRibbonXMLData($Target=NULL, $XMLData=NULL){
 		if(!is_null($Target) && !is_null($XMLData)){
 			$this->_ribbonXMLData=array('target'=>$Target, 'data'=>$XMLData);

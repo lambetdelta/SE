@@ -1,13 +1,15 @@
 <?php 
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
 
-
-$consulta="select * from estado";
-echo '<option value="1">ESTADO</option>';
+$datos=array();
+$datos['respuesta']='0';
+$datos['Mensaje']='Error al cargar';
+$consulta='select codigo_estado, nombre from estado where codigo_estado!="vacio"';
 if($resultado=$mysqli->query($consulta))
 {
+    $datos['respuesta']='1';
     while ($fila=$resultado->fetch_assoc())
-    echo '<option value="'.$fila['codigo_estado'].'">'.$fila['nombre'].'</option>';
+    $datos['estados'][]=$fila;
 }
-		   
-?>
+
+echo json_encode($datos);

@@ -1,9 +1,9 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
 $form=array();
-sleep(3);
+
 $mensaje = 'ERROR FORMULARIO';
 $respuesta = false;
 if (isset($_POST['form'],$_POST['no_control']))
@@ -18,7 +18,7 @@ if (isset($_POST['form'],$_POST['no_control']))
             $respuesta = 'done';
         }//exito
         else
-            $mensaje = 'ERROR ';
+            $mensaje = 'EXITO ';
     }
     else $mensaje='ERROR';
 }

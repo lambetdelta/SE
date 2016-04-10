@@ -1,15 +1,15 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
-echo '<option value="1">Idioma</option>';
-$consulta="select * from idioma";
-if($resultado=$mysqli->query($consulta)){
-	if($resultado->num_rows==0)
-		echo '<option value="1">No disponible trate despues</option>';
-	else
-		while ($fila=$resultado->fetch_assoc()){
-			echo '<option value="'.$fila['codigo_idioma'].'">'.$fila['nombre'].'</option>';
-			}   
-}else
-echo 'ERROR';
-?>
+include '../includes/db_connect.php';
+include '../includes/functions.php';
+$datos=array();
+$datos['respuesta']='0';
+$datos['Mensaje']='Error al cargar';
+$consulta="select codigo_idioma,nombre from idioma";
+if($resultado=$mysqli->query($consulta))
+{
+    $datos['respuesta']='1';
+    while ($fila=$resultado->fetch_assoc())
+    $datos['idioma'][]=$fila;
+}
+
+echo json_encode($datos);

@@ -1,9 +1,11 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
-sleep(3);//guardar datos empresa 
 $form=array();
+$datos=array();
+$datos['mensaje']='Error en envío';
+$datos['respuesta']='0';
 if (isset($_POST['form'],$_POST['no_control'],$_POST['select_']))
 {
     parse_str($_POST['form'],$form);
@@ -12,33 +14,34 @@ if (isset($_POST['form'],$_POST['no_control'],$_POST['select_']))
         $form=anti_xss($form);
         if(!contar_empresa($mysqli,$_POST['no_control']))
         {
-            if(guardar_dt_empresa($mysqli,$_POST['no_control'],$form['nombre'],$form['giro'],$form['organismo'],$form['razon_social'],$form['tel'],$form['email'],$form['web'],$form['jefe'],$form['puesto'],$form['año_ingreso'],$form['calle'],$form['no_domicilio'],$form['estado'],$form['municipio'],$form['medio_busqueda'],$form['tiempo_busqueda']))
-            {
-                $id=id_empresa($mysqli,$_POST['no_control']);
-                if($id===FALSE)
-                    echo '0';
-                else{
-                    $x=1;
-                    $requisto='requisito';
-                    while($x<=$_POST['select_'])
-                    {//guardar requisitos
-                        $requisto=$x.$requisto;
-                        guardar_requisito($mysqli,$_POST['no_control'],$id['id'],$form[$requisto]);
+            $validar=  validarEmpresa($form['nombre'],$form['giro'],$form['organismo'],$form['razon_social'],$form['tel'],$form['email'],$form['web'],$form['jefe'],$form['año_ingreso'],$form['estado'],$form['municipio'], $mysqli);
+            if($validar){  
+                if(guardar_dt_empresa($mysqli,$_POST['no_control'],$form['nombre'],$form['giro'],$form['organismo'],$form['razon_social'],$form['tel'],$form['email'],$form['web'],$form['jefe'],$form['puesto'],$form['año_ingreso'],$form['calle'],$form['no_domicilio'],$form['estado'],$form['municipio'],$form['medio_busqueda'],$form['tiempo_busqueda']))
+                {
+                    $id=id_empresa($mysqli,$_POST['no_control']);
+                    if($id===FALSE)
+                        $datos['mensaje']='Empresa guardada pero sin los requisitos';
+                    else{
+                        $x=1;
                         $requisto='requisito';
-                        $x++;
+                        while($x<=$_POST['select_'])
+                        {//guardar requisitos
+                            $requisto=$x.$requisto;
+                            guardar_requisito($mysqli,$_POST['no_control'],$id['id'],$form[$requisto]);
+                            $requisto='requisito';
+                            $x++;
+                        }
+                        $datos['mensaje']='hecho';
+                        $datos['respuesta']='1';               
                     }
-                    echo "1";               
                 }
-            }//exito
-            else
-                echo "0";//error en guardado
+            }else
+                $datos['mensaje']=$validar['mensaje'];
+            
         }
         else
-            echo "3";//error demaciados registros
+            $datos['respuesta']='3';//error demaciados registros
     }
-    else 
-        echo '2';
-}else
-    echo "2";//error con el formulario enviado
+}
 
-?>
+echo json_encode($datos);

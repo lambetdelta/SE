@@ -1,34 +1,32 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
-
-sleep(3);
-if (isset ($_POST['no_control'])){
-	$no_control=$_POST['no_control'];
-	$datos=datos_egresado($no_control,$mysqli);
-        if($datos==FALSE)
-            echo'ERROR EN BD TRATA EN OTRO MOMENTO';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
+$datos=array();
+if(isset($_POST['no_control'])){
+    if(is_numeric($_POST['no_control'])){
+        $resultado=  dt_egresado($_POST['no_control'], $mysqli);
+        if($resultado==FALSE){
+            $datos['mensage']='ERROR EN BD';
+            $datos['resultado']='0';}
         else{
-            $estado_municipio=nombre_estado_municipio($datos['codigo_estadofk'],$datos['codigo_municipiofk'],$mysqli);
-            if($estado_municipio==FALSE)
-                echo 'ERROR EN BD TRATÁ EN OTRO MOMENTO';
-            else{
-                echo '<img src="Imagenes/editar.png" class="img-responsive editar" id="img_editar" title="EDITAR PERFIL"/>';
-                echo 'Nombre:<b>'.$datos['nombre'].'</b><br/>';
-                echo "Apellido Paterno:<b>".$datos['apellido_p']."</b><br/>";
-                echo "Apellido Materno:<b>".$datos['apellido_m']."</b></br>";
-                echo "CURP:<b>".$datos['curp']."</b><br/>";
-                echo "Telefono:<b>".$datos['telefono']."</b></br>";
-                echo "Email:<b>".$datos['email']."</b></br>";
-                echo "Fecha nacimiento:<b>".$datos['fecha_nacimiento']."</b></br>";
-                echo '<h1 class="domicilio">Domicilio</h1>';
-                echo "Calle:<b>".$datos['calle']."</b></br>";
-                echo "No:<b>".$datos['numero_casa']."</b></br>";
-                echo "Municipio: <b>".$estado_municipio['municipio']."</b></br>";
-                echo "Estado:<b> ".$estado_municipio['nombre']."</b></br>";
-                }
-        }	   
-}
-else
-    echo 'ERROR EN ENVIO DE DATOS TRATE OTRO MOMENTO;';
-?>
+            $datos['resultado']='1';
+            while($fila=$resultado->fetch_assoc()){
+                $estado_municipio=estado_municipio($fila['codigo_estadofk'], $fila['codigo_municipiofk'], $mysqli);
+                if($estado_municipio==FALSE)
+                    $estado_municipio=array('estado'=>'falla','municipio'=>'falla');    
+                $datos['egresado']=array('nombre'=>$fila['nombre'],'apellido_p'=>$fila['apellido_p'],'apellido_m'=>$fila['apellido_m'],
+                    'curp'=>$fila['curp'],'telefono'=>$fila['telefono'],
+                    'email'=>$fila['email'],'fecha_nacimiento'=>$fila['fecha_nacimiento'],'genero'=>$fila['genero'],
+                    'calle'=>$fila['calle'],'ciudad'=>$fila['ciudad_localidad'],'colonia'=>$fila['colonia'],'numero_casa'=>$fila['numero_casa'],'cp'=>$fila['cp'],
+                    'estado'=>$estado_municipio['nombre'],'municipio'=>$estado_municipio['municipio']);
+            
+            }
+            
+        }
+    }else{
+        $datos['mensage']='ERROR EN DATOS ENVIADOS';
+        $datos['resultado']='0';}
+}else{
+    $datos['mensage']='ERROR EN DATOS ENVIADOS';
+    $datos['resultado']='0';}
+echo json_encode($datos);

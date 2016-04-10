@@ -43,11 +43,8 @@ function login($N_control, $password, $mysqli) {
             // Si el usuario existe, revisa si la cuenta está bloqueada
             // por muchos intentos de conexión.
  
-            if (checkbrute($No_control, $mysqli) == true) {
-                // La cuenta está bloqueada.
-                // Envía un correo electrónico al usuario que le informa que su cuenta está bloqueada.
-				
-                return false;
+            if (checkbrute($No_control, $mysqli) == true) {	
+                return 3;
             } else {
                 // Revisa que la contraseña en la base de datos coincida 
                 // con la contraseña que el usuario envió.
@@ -64,13 +61,13 @@ function login($N_control, $password, $mysqli) {
                     $_SESSION['login_string'] = hash('sha512',$pass.$user_browser);
                     // Inicio de sesión exitoso
 					
-                    return true;
+                    return 1;
                 } else {
                     // La contraseña no es correcta.
                     // Se graba este intento en la base de datos.
                     $now = time();
-//                    $mysqli->query("INSERT INTO login_attempts(no_controlfk, time)
-//                                    VALUES ('$N_control', '$now')");
+                    $mysqli->query('INSERT INTO intentos(no_controlfk, time)
+                                    VALUES ('.$N_control.',"'.$now.'")');
                     return false;
                 }
             }
@@ -83,10 +80,9 @@ function login($N_control, $password, $mysqli) {
     }
     
     }  catch (Exception $e){
-        return FALSE; 
+        return $e; 
     }
 }
-
 
 function checkbrute($no_control, $mysqli) {
     // Obtiene el timestamp del tiempo actual.
@@ -96,7 +92,7 @@ function checkbrute($no_control, $mysqli) {
     $valid_attempts = $now - (2 * 60 * 60);
  
     if ($stmt = $mysqli->prepare("SELECT time 
-                             FROM login_attempts 
+                             FROM intentos 
                              WHERE no_controlfk= ? 
                             AND time > '$valid_attempts'")) {
         $stmt->bind_param('i', $no_control);
@@ -106,14 +102,38 @@ function checkbrute($no_control, $mysqli) {
         $stmt->store_result();
  
         // Si ha habido más de 5 intentos de inicio de sesión fallidos.
-        if ($stmt->num_rows > 5) {
-            return true;
+        if ($stmt->num_rows > 10) {
+            return TRUE;
         } else {
             return false;
         }
     }
 }
-
+function checkbrute_adm($adm, $mysqli) {
+    // Obtiene el timestamp del tiempo actual.
+    $now = time();
+ 
+    // Todos los intentos de inicio de sesión se cuentan desde las 2 horas anteriores.
+    $valid_attempts = $now - (2 * 60 * 60);
+ 
+    if ($stmt = $mysqli->prepare("SELECT time 
+                             FROM intentos_adm 
+                             WHERE adm= ? 
+                            AND time > '$valid_attempts'")) {
+        $stmt->bind_param('s', $adm);
+ 
+        // Ejecuta la consulta preparada.
+        $stmt->execute();
+        $stmt->store_result();
+ 
+        // Si ha habido más de 5 intentos de inicio de sesión fallidos.
+        if ($stmt->num_rows > 10) {
+            return TRUE;
+        } else {
+            return false;
+        }
+    }
+}
 
 
 function login_check($mysqli) {
@@ -182,18 +202,17 @@ function login_adm($Usuario, $Password, $mysqli) {
         // Obtiene las variables del resultado.
         $stmt->bind_result($administrador,$pass,$salt);
         $stmt->fetch();
-        $No_control='10940256';
         // Hace el hash de la contraseña con una sal única.
         $password = hash('sha512',$Password.$salt);
         if ($stmt->num_rows == 1) {
             // Si el usuario existe, revisa si la cuenta está bloqueada
             // por muchos intentos de conexión.
  
-            if (checkbrute($No_control, $mysqli) == true) {
+            if (checkbrute_adm($Usuario, $mysqli) == true) {
                 // La cuenta está bloqueada.
                 // Envía un correo electrónico al usuario que le informa que su cuenta está bloqueada.
 				
-                return false;
+                return 3;
             } else {
                 // Revisa que la contraseña en la base de datos coincida 
                 // con la contraseña que el usuario envió.
@@ -205,13 +224,13 @@ function login_adm($Usuario, $Password, $mysqli) {
                     $_SESSION['login_string_adm'] = hash('sha512',$pass.$user_browser);
                     // Inicio de sesión exitoso
 					
-                    return true;
+                    return 1;
                 } else {
                     // La contraseña no es correcta.
                     // Se graba este intento en la base de datos.
                     $now = time();
-//                    $mysqli->query("INSERT INTO login_attempts(no_controlfk, time)
-//                                    VALUES ('$N_control', '$now')");
+                    $mysqli->query('INSERT INTO intentos_adm(adm, time)
+                                    VALUES ("'.$Usuario.'","'.$now.'")');
                     return false;
                 }
             }
@@ -222,7 +241,7 @@ function login_adm($Usuario, $Password, $mysqli) {
     }
     
 }catch(Exception $e){
-    return FALSE;
+    return $e;
 }
 }
 function login_check_adm($mysqli) {
@@ -316,18 +335,13 @@ function datos(){//datos basicos del servidor
 	$direccion = fgets($fp);
 	$cargo = fgets($fp);
 	$domicilio= fgets($fp);
+        $tel = fgets($fp);
 	$email = fgets($fp);
 	$web = fgets($fp);
 	fclose($fp);
-	$fechaCon=utf8_encode($fechaCon);
-	$direccion=utf8_encode($direccion);
-	$cargo=utf8_encode($cargo);
-	$domicilio=utf8_encode($domicilio);
-	$email=utf8_encode($email);
-	$web=utf8_encode($web);
-	return array($fechaCon,$direccion,$cargo,$domicilio,$email,$web);
+	return array($fechaCon,$direccion,$cargo,$domicilio,$tel,$email,$web);
     }catch(Exception $e){
-        return array('$fechaCon','$direccion','$cargo','$domicilio','$email','$web');
+        return array('$fechaCon','$direccion','$cargo','$domicilio','$tel','$email','$web');
     }
 }
 			
@@ -344,7 +358,7 @@ function primer_login($N_control,$mysqli) {//identificar primer ingreso de ususa
             // Obtiene las variables del resultado.
             $stmt->bind_result($nombre);
             $stmt->fetch();
-                    if($nombre==""){
+                    if($nombre=="vacio"){
                             return true;}
                     else{
                             return false;}
@@ -354,101 +368,82 @@ function primer_login($N_control,$mysqli) {//identificar primer ingreso de ususa
                 }
 }
 		
-function datos_egresado($N_control,$mysqli) {//recuperar datos basicos del egresado
-    try{   
-        if ($stmt = $mysqli->prepare("SELECT  nombre,apellido_m,apellido_p,fecha_nacimiento,curp,
-           telefono,email,calle,numero_casa,codigo_municipiofk,codigo_estadofk 
-            FROM datos_egresado
-           WHERE no_control = ?
-            LIMIT 1")) {
-            $stmt->bind_param('i', $N_control);  // Une “$no:control” al parámetro.
-            if($stmt->execute()){    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result(); 
-                $row = $resultado->fetch_assoc();
-                $stmt->close();
-                return $row;        
-            }else
-                return FALSE;
-        }else
+function dt_egresado($no_control,$mysqli){
+    try{    
+        $query='select nombre,apellido_m,apellido_p,fecha_nacimiento,curp,genero,
+               telefono,email,ciudad_localidad,colonia,calle,numero_casa,cp,codigo_municipiofk,codigo_estadofk 
+                FROM datos_egresado
+               WHERE no_control='.$no_control.' limit 1';
+        if($resultado=$mysqli->query($query)){
+            return $resultado; 
+        }else 
             return FALSE;
     }  catch (Exception $e){
         return FALSE;
-    }		
-}
-function nombre_estado_municipio($codigo_estado,$codigo_municipio,$mysqli){//nombres de estados y sus municpios
-    try{    
-        if ($stmt = $mysqli->prepare("SELECT estado.nombre,municipio.nombre as municipio FROM estado,municipio WHERE (estado.codigo_estado=? and municipio.codigo_municipio=?)")) {
-            $stmt->bind_param('ss', $codigo_estado,$codigo_municipio); 
-            if($stmt->execute()){    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result(); 
-                $row = $resultado->fetch_assoc();
-                $stmt->close();
-                return $row;        
-            }else
-                return FALSE;
+    }
 
-        }else
+}
+function estado_municipio($estado,$municipio,$mysqli){
+    try{    
+        $query='SELECT estado.nombre,municipio.nombre as municipio FROM estado,municipio WHERE (estado.codigo_estado="'.$estado.'" and municipio.codigo_municipio="'.$municipio.'") limit 1';
+        if($resultado=$mysqli->query($query)){
+        if($resultado->num_rows>0){
+            $data=$resultado->fetch_assoc();
+            return $data;
+            
+        }else{
+            $estado=array('nombre'=>'vacio','municipio'=>'vacio');
+            return $estado;}
+            
+        }
+        else
             return FALSE;
-    }catch(Exception $e){
+    }  catch (Exception $e){
         return FALSE;
     }
+
 }
 
-function actualizar_egresado($mysqli,$nombre,$apellido_p,$apellido_m,$curp,$fecha_nac,$tel,$email,$calle,$no_casa,$estado,$municipio,$no_control){
+function actualizar_egresado($mysqli,$nombre,$apellido_p,$apellido_m,$curp,$genero,$fecha_nac,$tel,$email,$ciudad,$colonia,$calle,$no_casa,$cp,$estado,$municipio,$no_control){
     try{    
-        if ($stmt = $mysqli->prepare("UPDATE datos_egresado SET nombre=?,apellido_m=?,apellido_p=?,fecha_nacimiento=?,curp=?,telefono=?,email=?,calle=?,numero_casa=?,codigo_municipiofk=?,codigo_estadofk=? where no_control=?")) {
-            $stmt->bind_param('sssssssssssi', $nombre,$apellido_p,$apellido_m,$fecha_nac,$curp,$tel,$email,$calle,$no_casa,$municipio,$estado,$no_control); 
+        if ($stmt = $mysqli->prepare("UPDATE datos_egresado SET nombre=?,apellido_m=?,apellido_p=?,fecha_nacimiento=?,curp=?,genero=?,telefono=?,email=?,ciudad_localidad=?,colonia=?,calle=?,numero_casa=?,cp=?,codigo_municipiofk=?,codigo_estadofk=? where no_control=?")) {
+            $stmt->bind_param('ssssssssssssissi', $nombre,$apellido_p,$apellido_m,$fecha_nac,$curp,$genero,$tel,$email,$ciudad,$colonia,$calle,$no_casa,$cp,$municipio,$estado,$no_control); 
             if($stmt->execute()){    // Ejecuta la consulta preparada.
                 if($stmt->affected_rows >0){
                     $stmt->close();
-                    return 1;}
+                    return TRUE;}
                 else{
                     $stmt->close();
-                    return 0;}
+                    return FALSE;}
             }else
-                return 0;
+                return FALSE;
         }else
-            return 0;
+            return FALSE;
 
     }catch(Exception $e){
             return FALSE;}
 }
 
-function dt_academicos($mysqli,$No_control){
-try{
-    if ($stmt = $mysqli->prepare("SELECT no_controlfk, no_registro, fecha_inicio, fecha_fin, codigo_carrerafk, codigo_especialidadfk, titulado FROM historial_academico WHERE no_controlfk=? limit 4" )) {
-        $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-        if($stmt->execute()){    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result();
-            $stmt->close();
-            return $resultado;       
-       }else
-           return FALSE;
-    }else
-	return FALSE;	
-}catch(Exception $e){
-        return FALSE;}
+function dt_academicos($no_control,$mysqli){
+    try{    
+        $query='SELECT historial_academico.no_registro, historial_academico.fecha_inicio, '
+                . 'historial_academico.fecha_fin, especialidad.nombre as especialidad , '
+                . 'carrera.nombre as carrera, historial_academico.titulado '
+                . 'FROM historial_academico,especialidad,carrera '
+                . 'WHERE (historial_academico.no_controlfk='.$no_control.' and '
+                . 'historial_academico.codigo_carrerafk=carrera.codigo_carrera and '
+                . 'historial_academico.codigo_especialidadfk=especialidad.codigo_especialidad) limit 4';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;
+        }  else {
+
+            return FALSE;}
+    }catch(Exception $e){
+        return FALSE;
+    }
 
 }
 	
-function nombre_carrera_especialidad($codigo_carrera,$codigo_especialidad,$mysqli){//nombres de estados y sus municpios
-try{
-    if($stmt = $mysqli->prepare("SELECT carrera.nombre as carrera,especialidad.nombre as especialidad FROM carrera,especialidad WHERE (carrera.codigo_carrera=? and especialidad.codigo_especialidad=?)")) {
-        $stmt->bind_param('ss', $codigo_carrera,$codigo_especialidad); 
-        $stmt->execute();    // Ejecuta la consulta preparada.
-        if($resultado=$stmt->get_result()){ 
-            $row = $resultado->fetch_assoc();
-            $stmt->close();
-            return $row;        
-        }else
-            return 'FALSE';
-    }else
-        return 'FALSE';
-}catch(Exception $e){
-    return 'FALSE';
-}
-
-}
 function guardar_dt_academicos($mysqli,$no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$titulado){//nueva carrera
     try{    
         if($stmt = $mysqli->prepare("INSERT INTO historial_academico (no_controlfk,fecha_inicio,fecha_fin,codigo_carrerafk,codigo_especialidadfk,titulado) VALUES (?,?,?,?,?,?)")) {
@@ -487,7 +482,9 @@ function contar_carrera($mysqli,$No_control){//verificar el max de carreras perm
 
     }catch(Exception $e){
         return FALSE;
-    }}
+    }
+    
+    }
 function actualizar_dt_academicos($mysqli,$no_control,$fecha_inicio,$fecha_fin,$codigo_carrera,$codigo_especialidad,$registro,$titulado){//actualizar carrera
     try{    
         if ($stmt = $mysqli->prepare("UPDATE historial_academico SET fecha_inicio=?,fecha_fin=?,codigo_carrerafk=?,codigo_especialidadfk=?,titulado=? where (no_controlfk=? AND no_registro=?)" )) {
@@ -495,14 +492,14 @@ function actualizar_dt_academicos($mysqli,$no_control,$fecha_inicio,$fecha_fin,$
             if($stmt->execute()){    // Ejecuta la consulta preparada.
                 if($stmt->affected_rows >0){
                     $stmt->close();
-                    return true;}
+                    return 1;}
                 else{
                     $stmt->close();
-                    return false;}
+                    return 0;}
             }else
-                return FALSE;
+                return 3;
         }else
-            return FALSE;
+            return 3;
     }catch(Exception $e){
             return FALSE;}        
 }
@@ -524,32 +521,20 @@ function borrar_dt_academicos($mysqli,$no_control,$registro){//actualizar carrer
     }catch(Exception $e){
             return FALSE;}        
 }
-function dt_idiomas($mysqli,$No_control){
-    try{    
-        if ($stmt = $mysqli->prepare("SELECT no_controlfk, id_consecutivo, porcentaje_habla, porcentaje_lec_escr, codigo_idiomafk FROM idiomas_egresado WHERE no_controlfk=?")) {
-            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-            if($stmt->execute()){    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result();
-                $stmt->close();
-                return $resultado;
-            }else
-                return FALSE;
-        }else
+function dt_idioma($no_control,$mysqli){
+    try{
+        $query='SELECT idiomas_egresado.porcentaje_habla,idiomas_egresado.id_consecutivo, idiomas_egresado.porcentaje_lec_escr, idioma.nombre as idioma FROM idiomas_egresado,idioma WHERE (no_controlfk='.$no_control.' and  idiomas_egresado.codigo_idiomafk=idioma.codigo_idioma) limit 5';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;
+        }  else {
             return FALSE;
-    }catch(Exception $e){
-            return FALSE;}      
-}
-function nombre_idioma($codigo,$mysqli){//buscar nombres idiomas
-    if ($stmt = $mysqli->prepare("SELECT nombre FROM idioma WHERE codigo_idioma=?")) {
-        $stmt->bind_param('s', $codigo);  // Une “$no:control” al parámetro.
-        $stmt->execute();    // Ejecuta la consulta preparada.
-        $resultado=$stmt->get_result(); 
-        $stmt->close();
-        return $resultado;
-    }else
+        }
+    }  
+    catch (Exception $e){
         return FALSE;
-
+    }
 }
+
 function editar_idioma($mysqli,$no_control,$idioma,$habla,$lectura,$registro){//actualizar idioma no usado pero disponible 
     try{    
         if ($stmt = $mysqli->prepare("UPDATE idiomas_egresado SET codigo_idiomafk=?,porcentaje_habla=?,porcentaje_lec_escr=?, WHERE (no_controlfk=? AND id_consecutivo=?)" )) {
@@ -589,15 +574,15 @@ function borrar_idioma($mysqli,$no_control,$registro){//borrar idioma
 
 function contar_idioma($mysqli,$No_control){//verificar el max de idiomas permitidas
     try{    
-        if ($stmt = $mysqli->prepare("SELECT id_consecutivo FROM idiomas_egresado  WHERE no_controlfk=?")) {
+        if ($stmt = $mysqli->prepare("SELECT codigo_idiomafk FROM idiomas_egresado  WHERE no_controlfk=?")) {
             $stmt->bind_param('i',$No_control);  // Une “$no:control” al parámetro.
             if($stmt->execute()){    // Ejecuta la consulta preparada.
                 $resultado=$stmt->get_result(); 
                 $stmt->close();
-                if ($resultado->num_rows>=5)
-                        return TRUE;
+                if ($resultado->num_rows >5)
+                        return 1;
                     else
-                        return FALSE;
+                        return 0;
             }else
                 return FALSE;
         }else
@@ -628,20 +613,17 @@ function guardar_idioma($mysqli,$no_control,$pocentaje_habla,$porcentaje_lec_esc
         
 }	
 
-function dt_sw($mysqli,$No_control){//datos sw
-try{    
-    if ($stmt = $mysqli->prepare("SELECT no_controlfk, id_consecutivo, nombre_sw FROM paquetes_sw WHERE no_controlfk=?")) {
-        $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-        if($stmt->execute()){    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result();
-            $stmt->close();
-            return $resultado;        
+function dt_sw($no_control,$mysqli){
+    try{
+        $query='select nombre_sw,id_consecutivo from paquetes_sw where no_controlfk='.$no_control.' limit 7';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
         }else
-            return FALSE;
-    }else
-        return FALSE;  
-}catch(Exception $e){
-    return FALSE;
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
     }
 }
 
@@ -778,35 +760,40 @@ function guardar_requisito($mysqli,$no_control,$codigo_empresafk,$requisito){//n
 
 }	
 
-function dt_empresa($mysqli,$No_control){//datos empresa
-    try{    
-        if ($stmt = $mysqli->prepare("SELECT codigo_empresa, nombre, giro, web, puesto, año_ingreso FROM datos_empresa WHERE no_controlfk=?")) {
-            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-            $stmt->execute();    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result(); 
-            $stmt->close();
-            return $resultado;
-        }else
-            return FALSE;
-    }catch (Exception $e){
-        return FALSE;
-     }
- 
-}
-
-function all_dt_empresa($mysqli,$No_control,$codigo_empresa){//datos empresa todos
+function dt_empresa($no_control,$mysqli){
     try{
-        if ($stmt = $mysqli->prepare("SELECT codigo_empresa, no_controlfk, nombre, giro, organismo, razon_social, telefono, email, web, nombre_jefe, puesto, año_ingreso, calle, no_domicilio, codigo_estadofk, codigo_municipiofk, medio_busqueda, tiempo_busqueda FROM datos_empresa WHERE (no_controlfk=? AND codigo_empresa=?)")) {
-            $stmt->bind_param('is', $No_control,$codigo_empresa);  // Une “$no:control” al parámetro.
-            $stmt->execute();    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result();
-            $stmt->close();
-            return $resultado;
-        }
+        $query='select codigo_empresa,nombre,giro,email,puesto,web,año_ingreso from datos_empresa where no_controlfk='.$no_control.' limit 4';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
     }catch(Exception $e){
         return FALSE;
     }
+}
 
+function dt_empresa_completa($codigo_empresa,$mysqli){
+    try{
+        $query='select datos_empresa.nombre,datos_empresa.giro,datos_empresa.email,'
+                . 'datos_empresa.puesto,datos_empresa.web,datos_empresa.año_ingreso,'
+                . 'datos_empresa.organismo,datos_empresa.razon_social,datos_empresa.telefono,'
+                . 'datos_empresa.nombre_jefe,datos_empresa.calle,datos_empresa.no_domicilio,'
+                . 'datos_empresa.medio_busqueda,datos_empresa.tiempo_busqueda,estado.nombre as estado,'
+                . 'municipio.nombre as municipio from datos_empresa,estado,municipio'
+                . ' where (datos_empresa.codigo_empresa='.$codigo_empresa.' and '
+                . 'datos_empresa.codigo_estadofk=estado.codigo_estado '
+                . 'and datos_empresa.codigo_municipiofk=municipio.codigo_municipio) limit 1';
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
+    }catch(Exception $e){
+        return FALSE;
+    }
 }
 
 
@@ -903,21 +890,21 @@ function dt_empresa_guardar($mysqli,$No_control,$codigo_empresa){//datos empresa
 
 }
 
-function dt_historial_empresarial($mysqli,$No_control){//datos historial
+
+function dt_historial($no_control,$mysqli){
     try{
-        if ($stmt = $mysqli->prepare("SELECT  nombre, web, telefono, email, id_consecutivo FROM historial_laboral WHERE no_controlfk=?")) {
-            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-            $stmt->execute();    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result();
-            $stmt->close();
-            return $resultado;
+        $query='select id_consecutivo,nombre,email,web,telefono from historial_laboral where no_controlfk='.$no_control;
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
         }else
-            return FALSE;
+            return  FALSE;
+        
+        
     }catch(Exception $e){
         return FALSE;
     }
-
 }
+
 
 function actualizar_historial($mysqli,$no_control,$nombre,$tel,$web,$email,$registro){//actualizar historial
     try{
@@ -976,21 +963,20 @@ function guardar_historial_nuev($mysqli,$no_control,$nombre,$telefono,$web,$emai
 
 }
 
-function dt_social($mysqli,$No_control){//datos social
-    try{	
-        if ($stmt = $mysqli->prepare("SELECT  nombre, tipo, id_consecutivo FROM actividad_social WHERE no_controlfk=?")) {
-                $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-                $stmt->execute();    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result();
-                $stmt->close();
-                return $resultado;
-            }else
-                return FALSE;
+function dt_social($no_control,$mysqli){
+    try{
+        $query='select id_consecutivo, nombre,tipo from actividad_social where no_controlfk='.$no_control;
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
+        }else
+            return  FALSE;
+        
+        
     }catch(Exception $e){
         return FALSE;
     }
-
 }
+
 
 function guardar_social($mysqli,$no_control,$nombre,$tipo){//nueva requisito
     try{
@@ -1116,21 +1102,19 @@ function borrar_foto($url){
     }
 
 }	
-function dt_posgrado($mysqli,$No_control){
-    try{    
-        if ($stmt = $mysqli->prepare("SELECT id_posgrado, no_controlfk, posgrado, nombre, escuela, titulado  FROM posgrado WHERE no_controlfk=?")) {
-            $stmt->bind_param('i', $No_control);  // Une “$no:control” al parámetro.
-            $stmt->execute();    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result(); 
-            $stmt->close();
-            return $resultado;
+function dt_posgrado($no_control,$mysqli){
+    try{
+        $query='select id_posgrado,posgrado,nombre,escuela,titulado from posgrado where no_controlfk='.$no_control;
+        if($resultado=$mysqli->query($query)){
+            return $resultado;           
         }else
-            return FALSE;		
+            return  FALSE;
+        
+        
     }catch(Exception $e){
         return FALSE;
     }
-
-}	
+}		
 function borrar_posgrado($mysqli,$no_control,$registro){//borrar sw
     try{
         if ($stmt = $mysqli->prepare("DELETE FROM posgrado WHERE (no_controlfk=? AND id_posgrado=?)" )) {
@@ -1188,18 +1172,371 @@ function actualizar_residencia($mysqli,$no_control,$residencia){//borrar social
 
 }
 
+function validarNombre($cadena){//cortesia de Juan Valencia Escalante  en http://www.jveweb.net/archivo/2011/07/algunas-expresiones-regulares-y-como-usarlas-en-php.html
+        try{
+        $cadena=  trim($cadena);
+        if(strlen( $cadena)<=40){
+            $pattern = "/^[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-ZÀ-ÖØ-öø-ÿ]+\.?)*$/D";
+            if (preg_match($pattern, $cadena)) {
+                return TRUE;
+            }
+            return FALSE;
+        
+        }else
+            return FALSE;
+    }catch (Exception $e){
+        return FALSE;
+    }    
+}  
+  
+
+function validarTelefono($cadena){//cortesia de Juan Valencia Escalante  en http://www.jveweb.net/archivo/2011/07/algunas-expresiones-regulares-y-como-usarlas-en-php.html
+    try{
+        $cadena=  trim($cadena);
+        if(strlen( $cadena)<=26){
+            $pattern = "/^0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?$/D";
+            if (preg_match($pattern, $cadena)) {
+                return TRUE;
+            }
+            return FALSE;
+        
+        }else
+            return FALSE;
+        }
+    catch (Exception $e){
+        return FALSE;
+    } 
+}    
+ 
+function validarEmail($cadena){//cortesia de Juan Valencia Escalante  en http://www.jveweb.net/archivo/2011/07/algunas-expresiones-regulares-y-como-usarlas-en-php.html
+    try{
+        $cadena=  trim($cadena);
+        if(strlen( $cadena)<=40){
+            $pattern = "/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/";
+            if (preg_match($pattern, $cadena)) {
+                return TRUE;
+            }
+            return FALSE;
+        
+        }else
+            return FALSE;
+    }catch (Exception $e){
+        return FALSE;
+    } 
+}    
+function validarFecha($cadena){
+    try{    
+        $fecha=  explode('-', $cadena);
+        if(checkdate($fecha[1], $fecha[2], $fecha[0]))
+            return 1;
+        else
+            return 0;
+    }catch (Exception $e){
+           return 3;
+       }    
+}  
+
+function validarEstado($estado,$mysqli){
+     try{
+        $query='select codigo_estado from estado where codigo_estado="'.$estado.'"';
+        if($resultado=$mysqli->query($query)){
+            if($resultado->num_rows>0){
+                return 1;
+            }else
+                return 0;
+        
+        }else
+            return 3;
+    }catch (Exception $e){
+            return FALSE;
+        } 
+}
+function validarMun($municipio,$mysqli){
+    try{
+        $query='select codigo_municipio from municipio where codigo_municipio="'.$municipio.'"';
+        if($resultado=$mysqli->query($query)){
+            if($resultado->num_rows>0){
+                return 1;
+            }else
+                return 0;
+        
+        }else
+            return 3;;
+    }catch (Exception $e){
+            return FALSE;
+        } 
+}
+
+function validarCarrera($carrera,$mysqli){
+   try{
+        $query='select codigo_carrera from carrera where codigo_carrera="'.$carrera.'"';
+        if($resultado=$mysqli->query($query)){
+            if($resultado->num_rows>0){
+                return 1;
+            }else
+                return 0;
+        
+        }else {
+            return 3;
+        }
+    }catch (Exception $e){
+            return FALSE;
+        }  
+}
+
+function validarIdioma($idioma,$mysqli){
+   try{
+        $query='select codigo_idioma from idioma where codigo_idioma="'.$idioma.'"';
+        if($resultado=$mysqli->query($query)){
+            if($resultado->num_rows>0){
+                return 1;
+            }else
+                return 0;
+        
+        }else
+            return FALSE;
+    }catch (Exception $e){
+            return FALSE;
+        }  
+}
+function validarEspecialidad($especialidad,$mysqli){
+   try{
+        $query='select codigo_especialidad from especialidad where codigo_especialidad="'.$especialidad.'"';
+        if($resultado=$mysqli->query($query)){
+            if($resultado->num_rows>0){
+                return 1;
+            }else
+                return 0;
+        
+        }else
+            return 3;
+    }catch (Exception $e){
+            return FALSE;
+        }  
+}
+function validarPosgrado($cadena){
+    try{
+       $posgrados=array('Maestría','Doctorado'); 
+       $x=0;
+       while($x<count($posgrados)){
+           if($posgrados[$x]==$cadena)
+               return TRUE;
+           $x++;
+       }
+       return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
+function validarSocial($social){
+    try{
+       $sociales=array('GRUPO ESTUDIANTIL','ASOCIACIÓN CIVIL'); 
+       $x=0;
+       while($x<count($sociales)){
+           if($sociales[$x]==$social)
+               return TRUE;
+           $x++;
+       }
+       return FALSE;
+    }catch(Exception $e){
+        return FALSE;
+    }
+}
+function validarEmpresa($nombre,$giro,$organismo,$razon_social,$tel,$email,$web,$jefe,$año_ingreso,$estado,$municipio,$mysqli){
+    try{
+        $respuesta=array();
+        $respuesta['resultado']=FALSE;
+        $respuesta['mensaje']='Error de validación';
+        if(strlen($nombre)<=40){
+            $respuesta['resultado']=TRUE;
+            $respuesta['mensaje']='bien';
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Nombre inválido';
+            return $respuesta;  
+        }
+        if(validarNombre($giro)){
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Giro inválido';
+            return $respuesta;  
+        }
+        
+        if(validarOrganismo($organismo)){
+         
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo Organismo inválido';
+            return $respuesta;  
+        }
+        
+        if(validarRazon_social($razon_social)){
+          
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo razón social inválido';
+            return $respuesta;  
+        }
+        if(validarTelefono($tel)){
+          
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo teléfono  inválido';
+            return $respuesta;  
+        }
+        if(validarEmail($email)){
+          
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo email  inválido';
+            return $respuesta;  
+        }
+        if(validarWeb($web)){
+          
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo web  inválido';
+            return $respuesta;  
+        }
+        if(validarNombre($jefe)){
+         
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo jefe  inválido';
+            return $respuesta;  
+        }
+        if(validarFecha($año_ingreso)){
+         
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo año de ingreso  inválido';
+            return $respuesta;  
+        }
+        $validar_estado=validarEstado($estado,$mysqli);
+        if($validar_estado==1){
+          
+        }else{
+            if($validar_estado==0){
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo estado  inválido';
+            return $respuesta; 
+            }
+            if($validar_estado==3){
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Error en bd';
+            return $respuesta; 
+            }
+        }
+        $validar_mun=validarMun($municipio,$mysqli);
+        if($validar_mun==1){
+         
+        }else{
+            if($validar_mun==0){
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo municipio  inválido';
+            return $respuesta; 
+            }
+            if($validar_mun==3){
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Error en bd';
+            return $respuesta; 
+            } 
+        }
+        return $respuesta;    
+        
+    }catch(Exception $e){
+        return $respuesta;
+    }
+}
+
+function validarHistorial($nombre,$tel,$email,$web){
+    try{
+        $respuesta=array();
+        $respuesta['resultado']=FALSE;
+        $respuesta['mensaje']='error en servidor';
+        if(strlen($nombre)<=40){
+            $respuesta['resultado']=TRUE;
+            $respuesta['mensaje']='bien';
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Nombre inválido';
+            return $respuesta;  
+        }
+        if(validarEmail($email)){
+          
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo email  inválido';
+            return $respuesta;  
+        }
+        if(validarWeb($web)){
+          
+        }else{
+            $respuesta['resultado']=FALSE;
+            $respuesta['mensaje']='Campo web  inválido';
+            return $respuesta;  
+        }
+        return $respuesta;    
+        
+    }catch(Exception $e){
+        return $respuesta;
+    }
+}
+
+function validarOrganismo($organismo){
+    $organismos=array('Público','Privado','Social');
+    $x=0;
+    while($x<count($organismo)){
+        if($organismo[$x]==$organismo)
+            return TRUE;
+        $x++;
+    }
+    return FALSE;
+}
+function validarWeb($web){
+    {
+    if (strlen($web)<=40)
+        return (preg_match('/^[http:\/\/|www.|https:\/\/]/i', $web));
+    }
+}
+function validarRazon_social($razon_social){
+    $razon_socials=array('Persona Moral','Persona Física');
+    $x=0;
+    while($x<count($razon_social)){
+        if($razon_socials[$x]==$razon_social)
+            return TRUE;
+        $x++;
+    }
+    return FALSE;
+}
+
+
 function anti_xss($form){//limpiar formularios recibidos 
         foreach ($form as &$valor):
             $valor=  strip_tags($valor);
-            // General   
+            // General
+        //sql
+            $valor=str_replace("select","",$valor);
+            $valor=str_replace("insert","",$valor);
+            $valor=str_replace("delete","",$valor);
+            $valor=str_replace("update","",$valor);
+            $valor=str_replace("drop","",$valor);
+            $valor=str_replace("where","",$valor);
+            $valor=str_replace("create","",$valor);
+            $valor=str_replace("alter","",$valor);
+            $valor=str_replace("index","",$valor);
+            $valor=str_replace("show","",$valor);
+            $valor=str_replace("execute","",$valor);
+            $valor=str_replace("grant","",$valor);
+            $valor=str_replace("super","",$valor);
+            $valor=str_replace("lock","",$valor);
+            $valor=str_replace("trigger","",$valor);
             $valor=str_replace("<","",$valor);   
             $valor=str_replace(">","",$valor);   
             $valor=str_replace("{","",$valor);   
             $valor=str_replace("}","",$valor);   
             $valor=str_replace("[","",$valor);   
             $valor=str_replace("]","",$valor);   
-            $valor=str_replace("(","",$valor);   
-            $valor=str_replace(")","",$valor);   
             $valor=str_replace("/","",$valor);   
             $valor=str_replace("\\","",$valor);   
 
@@ -1235,10 +1572,29 @@ function anti_xss($form){//limpiar formularios recibidos
         return $form;
 }
 
+
+
+
 function anti_xss_cad($cadena){//limpiar cadenas recibidas
             $valor=$cadena;
             $valor=  trim($valor);
             $valor=  strip_tags($valor);
+            //sql
+            $valor=str_replace("select","",$valor);
+            $valor=str_replace("insert","",$valor);
+            $valor=str_replace("delete","",$valor);
+            $valor=str_replace("update","",$valor);
+            $valor=str_replace("drop","",$valor);
+            $valor=str_replace("where","",$valor);
+            $valor=str_replace("create","",$valor);
+            $valor=str_replace("alter","",$valor);
+            $valor=str_replace("index","",$valor);
+            $valor=str_replace("show","",$valor);
+            $valor=str_replace("execute","",$valor);
+            $valor=str_replace("grant","",$valor);
+            $valor=str_replace("super","",$valor);
+            $valor=str_replace("lock","",$valor);
+            $valor=str_replace("trigger","",$valor);
             // General   
             $valor=str_replace("<","",$valor);   
             $valor=str_replace(">","",$valor);   
@@ -1246,8 +1602,6 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
             $valor=str_replace("}","",$valor);   
             $valor=str_replace("[","",$valor);   
             $valor=str_replace("]","",$valor);   
-            $valor=str_replace("(","",$valor);   
-            $valor=str_replace(")","",$valor);   
             $valor=str_replace("/","",$valor);   
             $valor=str_replace("\\","",$valor);   
 

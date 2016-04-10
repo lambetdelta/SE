@@ -1,9 +1,11 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
-$form=array();
-sleep(3);
+
+$datos=array();
+$datos['mensaje']='Error en envío';
+$datos['respuesta']='0';
 if (isset($_POST['no_control'],$_POST['registro']))
 {
     $mysqli->autocommit(false);
@@ -14,26 +16,22 @@ if (isset($_POST['no_control'],$_POST['registro']))
             if(borrar_empresa($mysqli,$_POST['no_control'],$_POST['registro']))
             {
                 $mysqli->commit();
-                echo '1';
+               $datos['mensaje']='hecho';
+               $datos['respuesta']='1';
             }
             else
             {
                 $mysqli->rollback();
-                echo '3';
             }	
         }
         else
         {
             $mysqli->rollback();
-            echo '3';
+            $datos['mensaje']='Imposible guardar en historial';
         }
     }
-    else 
-        echo'2';
 
 }
-else
-    echo "2";//error con el formulario enviado
-	
-	
-?>
+
+
+echo json_encode($datos);

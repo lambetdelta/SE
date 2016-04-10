@@ -1,6 +1,6 @@
 <?php
-include_once '../includes/db_connect.php';
-include_once '../includes/function_ext.php'; 
+include '../includes/db_connect.php';
+include '../includes/function_ext.php'; 
 
 $mensaje='Error en envío';
 $respuesta='error';

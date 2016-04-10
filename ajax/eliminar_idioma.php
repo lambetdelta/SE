@@ -1,18 +1,22 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
-sleep(3);
+include '../includes/db_connect.php';
+include '../includes/functions.php';
+
+$datos=array();
+$datos['respuesta']='0';
+$datos['mensaje']='Error en envío';
 if (isset($_POST['registro'],$_POST['no_control']))
 {
      if(is_numeric($_POST['no_control'])&& is_numeric($_POST['registro']))
      {     
         if(borrar_idioma($mysqli,$_POST['no_control'],$_POST['registro']))
-            echo "1";//exito
+        {
+            $datos['respuesta']='1';
+            $datos['mensaje']='Exito';
+        }
         else
-            echo "0";//error en guardado
+            $datos['mensaje']='Error';
      }
-     else 
-         echo '2';
 }
-else
-    echo "2";//error con el formulario enviado
+ 
+echo json_encode($datos);

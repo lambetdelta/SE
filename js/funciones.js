@@ -21,14 +21,21 @@ function show_SW(){
 	$("#div_dt_software").slideToggle(1000);
 	};	
 function show(){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#contenedor_Datos_Personales').slideToggle(1000);//mostrar animar
-	$('#contenedor_form_datos_personales').slideToggle(1000);
+	$('#contenedor_Datos_Personales').hide();//mostrar animar
+	$('#contenedor_form_datos_personales').show();
+	};
+function show_1(){//animaciones de los contenedores de los datos basicos de los egresados
+	$('#contenedor_form_datos_personales').hide();
+        $('#contenedor_Datos_Personales').show();//mostrar animar
 	};
 function show_idiomas(){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#div_idioma').slideToggle(1000);//mostrar animar
-	$('#div_frm_idioma').slideToggle(1000);
-	$('#img_agregar_empresa').slideToggle(1000);
-	};			
+	$('#div_frm_idioma').hide();
+        $('#div-principal-idioma').show();//mostrar animar
+	};
+function show_idiomas_(){//animaciones de los contenedores de los datos basicos de los egresados
+    $('#div-principal-idioma').hide();//mostrar animar
+    $('#div_frm_idioma').show();
+    };
 function inicio(no_control){//animaciones de los contenedores de los datos basicos de los egresados
 	$('#contenedor_form_datos_personales').hide();	
 	$("#cargando_frm").hide();
@@ -54,7 +61,7 @@ function validar_texto(e)
 	
 	//Tecla de retroceso para borrar, siempre la permite
 	if (tecla==8) return true; 
-	
+	 
 	// Patron de entrada, en este caso solo acepta letras
 	patron =/[A-ZÁÉÍÓÚa-zñáéíóú ]/;  
 	
@@ -84,85 +91,327 @@ if (device.match(/Iphone/i)|| device.match(/Ipod/i)|| device.match(/Android/i)||
 }
 	
 function datos_egresado(no_control){//recuperar datos básicos egresado	
-	$("#cargando_frm").show();
+	
+    try{
+        $('#alert_academico').html('');
+        $("#cargando_frm").show();
+        $('#contendedor_d1').html('');
 	$("#contendedor_d1").hide();
-	jqXHR= $.post("contenidos/dt_egresado.php",{no_control:no_control})
-	.fail(function(){
-			alert_('Error en servidor',$("#alert_personales"),250);})
+	$.post("contenidos/dt_egresado.php",{no_control:no_control})
 	.done(function(data){
-            $("#cargando_frm").hide();
-			$("#contendedor_d1").show();
-			$("#contendedor_d1").html(data);
-            }); 
-	};		
-function cargar_municipios(){	//cargar municpios con ajax
-	 $("#estados option:selected").each(function () {
-            elegido=$(this).val();
-			$("#img_cargando_estado").show();
-          $.post("contenidos/Municipios.php", { elegido: elegido })
-	.fail(function(){
-			$("#img_cargando_estado").hide();
-			alert('Error con el servidor');})
-	.done( function(data){
-			$("#img_cargando_estado").hide();
-            $("#Municipios").html(data);
+                 var p='';
+                datos=$.parseJSON(data);
+                if(datos.resultado==='1'){
+                    
+                    p='<h2>DATOS PERSONALES</h2>';
+                    $('#contendedor_d1').append(p);
+                    p='<img src="Imagenes/editar.png" class="img-responsive editar" id="img_editar" title="EDITAR PERFIL" tabindex="0">';
+                    $('#contendedor_d1').append(p); 
+                    p='<p id="p-nombre" class="p-dt-egresado">Nombre:<b>'+datos.egresado.nombre+' '+datos.egresado.apellido_p+' '+datos.egresado.apellido_m +'</b></p>';
+                     $('#contendedor_d1').append(p);
+                     p='<p id="p-curp" class="p-dt-egresado">CURP:<b>'+datos.egresado.curp+'</b></p>';
+                     $('#contendedor_d1').append(p);
+                     p='<p id="p-curp" class="p-dt-egresado">Género:<b>'+datos.egresado.genero+'</b></p>';
+                     $('#contendedor_d1').append(p);
+                     p='<p id="p-telefono" class="p-dt-egresado">Telefono:<b>'+datos.egresado.telefono+'<b></p>';
+                      $('#contendedor_d1').append(p);
+                     p='<p id="p-email" class="p-dt-egresado">Email:<b>'+datos.egresado.email+'</b></p>';
+                      $('#contendedor_d1').append(p);
+                     p='<p id="p-fecha_nac" class="p-dt-egresado">Fecha de nacimiento:<b>'+datos.egresado.fecha_nacimiento+'</b></p>';
+                      $('#contendedor_d1').append(p);
+                      p='<p id="p-cuidad" class="p-dt-egresado">Ciudad o localidad:<b>'+datos.egresado.ciudad+'</b></p>';
+                     $('#contendedor_d1').append(p);
+                      p='<p id="p-colonia" class="p-dt-egresado">Colonia:<b>'+datos.egresado.colonia+'</b></p>';
+                     $('#contendedor_d1').append(p);
+                     p='<p id="p-calle" class="p-dt-egresado">Calle:<b>'+datos.egresado.calle+'</b></p>';
+                     $('#div-datos-personales').append(p);
+                     p='<p id="p-no-casa" class="p-dt-egresado">No. Casa:<b>'+datos.egresado.numero_casa+'</b></p>';
+                      $('#contendedor_d1').append(p);
+                     p='<p id="p-no-casa" class="p-dt-egresado">C.P:<b>'+datos.egresado.cp+'</b></p>';
+                      $('#contendedor_d1').append(p);
+                     p='<p id="p-estado" class="p-dt-egresado">Estado:<b>'+datos.egresado.estado+'</b></p>';
+                      $('#contendedor_d1').append(p);
+                     p='<p id="p-municipio" class="p-dt-egresado">Municipio:<b>'+datos.egresado.municipio+'</b></p>';
+                      $('#contendedor_d1').append(p);  
+                      $("#cargando_frm").hide();
+                      $('#contendedor_d1').show();
+                }else{
+                    var p='<p id="p-estado" class="p-dt-egresado">ERROR:'+datos.mensaje+'</p>';
+                     $('#contendedor_d1').append(p);
+                     $("#cargando_frm").hide();
+                     $('#contendedor_d1').show();
+                }
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                     $('#contendedor_d1').show();
+                     $("#cargando_frm").hide();
+                    ajax_error(jqXHR,textStatus,$('#contendedor_d1'));
+                  }); 
+    }catch (e){
+        var p='<p id="p-estado" class="p-dt-egresado">ERROR:'+e+'</p>';
+        $('#contendedor_d1').append(p);
+        $("#cargando_frm").hide();
+        $('#contendedor_d1').show();
+    }
+	}		
+function cargar_municipios(){	//cargar municpios con ajax 
+    try{
+    $("#estados option:selected").each(function () {
+        elegido=$(this).val();
+        $("#img_cargando_estado").show();
+        $('#Municipios').html('');
+        $('#Municipios').append('<option value="1">Espere...</option>');
+        $.post("contenidos/Municipios.php", { elegido: elegido })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_cargando_estado").hide();
+                $('#Municipios').append('<option value="1">ERROR</option>'); 
+                ajax_error_alert(jqXHR, textStatus, errorThrown);
+                })
+            .done(function(data){
+                datos=$.parseJSON(data);
+                if(datos.respuesta==='1'){
+                    $("#img_cargando_estado").hide();
+                    $('#Municipios').html('');
+                    $.each(datos.municipio,function(){
+                        $('#Municipios').append('<option value="'+this.codigo_municipio+'">'+this.nombre+'</option>');
+                    });
+                }else{
+                    $("#img_cargando_estado").hide();
+                    $('#Municipios').html('');
+                    $('#Municipios').append('<option value="1">Error:'+datos.mensaje+'</option>'); 
+                } 
             });            
-        });
-		};	
+    });    
+    }catch(e){
+        $("#img_cargando_estado").hide();
+        $('#Municipios').append('<option value="1">ERROR</option>');
+        alert_('Error Javascript',$("#alert_academico"),250);
+    }
+		}	
 function cargar_municipios_empresa(){	//cargar municpios con ajax
-	 $("#estado_empresa option:selected").each(function () {
-            elegido=$(this).val();
-			$("#img_muncipio_empresa").show();
-            $.post("contenidos/Municipios.php", { elegido: elegido })
-	.fail(function(){
-			$("#img_muncipio_empresa").hide();
-			alert('Error con el servidor');})
-	.done( function(data){
-			$("#img_muncipio_empresa").hide();
-            $("#municipio_empresa").html(data);
+    try{
+     $("#estado_empresa option:selected").each(function () {
+        elegido=$(this).val();
+        $("#img_muncipio_empresa").show();
+        $('#municipio_empresa').html('');
+        $('#municipio_empresa').append('<option value="1">Espere...</option>');
+        $.post("contenidos/Municipios.php", { elegido: elegido })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_muncipio_empresa").hide();
+                $('#municipio_empresa').html('');
+                $('#municipio_empresa').append('<option value="1">ERROR</option>'); 
+                 ajax_error_alert(jqXHR, textStatus);
+            })
+            .done(function(data){
+                datos=$.parseJSON(data);
+                $('#municipio_empresa').html('');
+                if(datos.respuesta==='1'){
+                    $("#img_muncipio_empresa").hide();
+                    $.each(datos.municipio,function(){
+                        $('#municipio_empresa').append('<option value="'+this.codigo_municipio+'">'+this.nombre+'</option>');
+                    });
+                }else{
+                    $("#img_muncipio_empresa").hide();
+                    $('#municipio_empresa').append('<option value="1">Error:'+datos.mensaje+'</option>');
+                }  
             });            
-        });
-		};		
+    });    
+    }catch(e){
+    $("#img_muncipio_empresa").hide();
+    $('#municipio_empresa').append('<option value="1">ERROR</option>');
+    }
+		}		
 	
 function cargar_especialidad(){	//cargar municpios con ajax
-	 $("#carrera option:selected").each(function () {
-            elegido=$(this).val();
-			$("#img_cargando").show();
-           $.post("ajax/especialidad.php", { elegido: elegido })
-	.fail(function(){
-			alert('Error con el servidor');})
-	.done( function(data){
-            	$("#especialidad").html(data);
-				$("#img_cargando").hide();
-            });            
-        });
-		};
+    try{
+    $("#carrera option:selected").each(function () {
+        $("#especialidad").html('');
+        $('#especialidad').append('<option value="1">Espere...</option>');
+        elegido=$(this).val();
+        $("#img_cargando").show();
+        $.post("ajax/especialidad.php", { elegido: elegido })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                $("#especialidad").html('');
+                $("#img_cargando").hide();
+                $('#especialidad').append('<option value="1">Error</option>');
+                ajax_error_alert(jqXHR, textStatus);
+            })
+       .done( function(data){
+           $("#img_cargando").hide();
+           datos=$.parseJSON(data);
+           $("#especialidad").html('');
+           if(datos.respuesta=='1'){
+                $("#img_cargando").hide();
+                $.each(datos.especialidad,function(){
+                    $('#especialidad').append('<option value="'+this.codigo_especialidad+'">'+this.nombre+'</option>');
+              }); 
+           }else{
+               $("#img_cargando").hide();
+               $('#especialidad').append('<option value="1">Error'+datos.mensaje+'</option>');
+           }
+       });            
+   });    
+    }catch(e){
+        $("#especialidad").html('');
+        $("#img_cargando").hide();
+        $('#especialidad').append('<option value="1">ERROR</option>');
+    }
+}
 function cargar_idiomas(){
-	$("#idiomas").load("ajax/idiomas.php",function(response, status, xhr){
-		if ( status == "error" ) {
-    		alert_("ERROR EN SERVIDOR",$("#alert_academico"),250);
- 								 }//fin if
-		});
-	};
-function cargar_estados(){
-	$("#estados").load("contenidos/Estados.php",function(response, status, xhr){
-		if ( status == "error" ) {
-    		alert_("ERROR SERVIDOR",$("#alert_personales"),250);
- 								 }//fin if
-		});
-	$("#estado_empresa").load("contenidos/Estados.php",function(response, status, xhr){
-		if ( status == "error" ) {
-    		alert_("ERROR SERVIDOR",$("#alert_personales"),250);
- 								 }//fin if
-		});	
-	};
+	try{
+            $('#idiomas').html('');
+            $.post('ajax/idiomas.php')
+                .done(function(data){
+                    datos=$.parseJSON(data);
+                    if(datos.respuesta==='1'){
+                        $.each(datos.idioma,function(){
+                            $('#idiomas').append('<option value="'+this.codigo_idioma+'">'+this.nombre+'</option>');
+                        });
+                    }else{
+                        $('#idiomas').append('<option value="0">Error:'+datos.mensaje+'</option>'); 
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown){
+                    ajax_error_input(jqXHR, textStatus,$('#idiomas')); 
+                });
+        }catch(e){
+        $("#idiomas").append('<option value="1">ERROR</option>');    
+        }
+	}
+function cargar_estados(){	
+    try{
+      $('#estados').html('');
+      $('#estado_empresa').html('');
+        $.post('contenidos/Estados.php').done(function(data){
+        datos=$.parseJSON(data);
+        if(datos.respuesta==='1'){
+            $('#estados').append('<option value="1">Estado</option>');
+            $('#estado_empresa').append('<option value="1">Estado</option>');
+            $.each(datos.estados,function(){
+                $('#estados').append('<option value="'+this.codigo_estado+'">'+this.nombre+'</option>');
+                $('#estado_empresa').append('<option value="'+this.codigo_estado+'">'+this.nombre+'</option>');
+            });
+        }else{
+            $('#estados').append('<option id="0">ERROR:'+datos.mensage+'</option>');
+            $('#estado_empresa').append('<option id="0">ERROR:'+datos.mensage+'</option>');
+        }
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            ajax_error_input(jqXHR, textStatus,$('#select-estado'));
+        });    
+    }catch(e){
+        $("#estados").append('<option value="1">ERROR</option>'); 
+        $("#estado_empresa").append('<option value="1">ERROR</option>'); 
+    }	
+}
 function cargar_carrera(){
-	$("#carrera").load("ajax/carrera.php",function(response, status, xhr){
-		if ( status == "error" ) {
-    		alert_("ERROR SERVIDOR",$("#alert_academico"),250);
- 								 }//fin if
-		});
-	};								
+        $('#carrera').html('');
+	$.post('ajax/carrera.php').
+            done(function(data){
+                datos=$.parseJSON(data);
+                if(datos.respuesta==='1'){
+                    $('#carrera').append('<option value="1">Carrera</option>');
+                    $.each(datos.carrera,function(){
+                        $('#carrera').append('<option value="'+this.codigo_carrera+'">'+this.nombre+'</option>');
+                    });
+                }else{
+                   $('#carrera').append('<option value="0">Error:'+datos.mensaje+'</option>'); 
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown){
+               ajax_error_input(jqXHR, textStatus,$('#carrera')); 
+            });
+	}
+//errores por parte del servidor, se muestran dentro de el input 
+function ajax_error_input(jqXHR,textStatus,input){
+        if (jqXHR.status === 0) {
+            input.append('<option value="0">ERROR:SIN RESPUESTA DEL SERVIDOR</option>');
+        } else if (jqXHR.status == 404) {
+            input.val('ERROR:PÁGINA NO ENCONTRADA [404]</option>');
+
+        } else if (jqXHR.status == 500) {
+            input.append('<option value="0">ERROR:FALLA DEL SERVIDOR[505]</option>');
+            //Internal Server Error [500]
+                
+        } else if (textStatus === 'parsererror') {
+            input.append('<option value="0">ERROR:DATOS RECIBIDOS CORRUPTOS</option>');
+//            Requested JSON parse failed
+
+        } else if (textStatus === 'timeout') {
+            input.append('<option value="0">ERROR:TIEMPO DE RESPUESTA EXPIRADO</option>');
+//           Time out error
+
+        } else if (textStatus === 'abort') {
+
+//            alert('Ajax request aborted.');
+
+        } else {
+            input.append('<option value="0">ERROR INESPERADO:'+ jqXHR.responseText+'</option>');
+       }
+}        
+function ajax_error(jqXHR,textStatus,div){
+        if (jqXHR.status === 0) {
+            div.append('<p>ERROR:SIN RESPUESTA DEL SERVIDOR</p>');
+        } else if (jqXHR.status == 404) {
+            div.append('<p>ERROR:PÁGINA NO ENCONTRADA [404]</p>');
+
+        } else if (jqXHR.status == 500) {
+            div.append('<p>ERROR:FALLA DEL SERVIDOR[505]</p>');
+            //Internal Server Error [500]
+                
+        } else if (textStatus === 'parsererror') {
+            div.append('<p>ERROR:DATOS RECIBIDOS CORRUPTOS</p>');
+//            Requested JSON parse failed
+
+        } else if (textStatus === 'timeout') {
+            div.append('<p>ERROR:TIEMPO DE RESPUESTA EXPIRADO</p>');
+//           Time out error
+
+        } else if (textStatus === 'abort') {
+
+//            alert('Ajax request aborted.');
+
+        } else {
+            div.append('<p>ERROR INESPERADO:'+ jqXHR.responseText+'</p>');
+       }
+}
+
+function ajax_error_alert(jqXHR,textStatus){
+        if (jqXHR.status === 0) {
+            $('#alert_personales').append('<p>ERROR:SIN RESPUESTA DEL SERVIDOR</p>');
+            alert_Bloq('Error',$('#alert_personales'));
+            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
+        } else if (jqXHR.status == 404) {
+            $('#alert_personales').append('<p>ERROR:PÁGINA NO ENCONTRADA [404]</p>');
+            alert_Bloq('Error',$('#alert_personales'));
+            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
+
+        } else if (jqXHR.status == 500) {
+            $('#alert_personales').append('<p>ERROR:FALLA DEL SERVIDOR[505]</p>');
+            alert_Bloq('Error',$('#alert_personales'));
+            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
+            //Internal Server Error [500]
+                
+        } else if (textStatus === 'parsererror') {
+            $('#alert_personales').append('<p>ERROR:DATOS RECIBIDOS CORRUPTOS</p>');
+            alert_Bloq('Error',$('#alert_personales'));
+            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
+//            Requested JSON parse failed
+
+        } else if (textStatus === 'timeout') {
+            $('#alert_personales').append('<p>ERROR:TIEMPO DE RESPUESTA EXPIRADO</p>');
+            alert_Bloq('Error',$('#alert_personales'));
+            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
+//           Time out error
+
+        } else if (textStatus === 'abort') {
+
+//            alert('Ajax request aborted.');
+
+        } else {
+            $('#alert_personales').append('<p>ERROR INESPERADO:'+ jqXHR.responseText+'</p>');
+            alert_Bloq('Error',$('#alert_personales'));
+            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
+       }
+} 
 function datepicker_esp(){//calendario español
 	 $.datepicker.regional['es'] = {
 	 changeYear: true,
@@ -181,6 +430,8 @@ function datepicker_esp(){//calendario español
 	 dateFormat: 'yy-mm-dd',
 	 firstDay: 1,
 	 isRTL: false,
+         yearRange: "-99:+0",
+         maxDate: "+0m +0d",
 	 showMonthAfterYear: false,
 	 yearSuffix: ''
  };
@@ -188,31 +439,42 @@ function datepicker_esp(){//calendario español
 $(function () {
 	$("#fecha").datepicker();
 });
-	};	
+	};
+        
 function guardar_datos(no_control){//guardar datos básicos egresado
-	$("#enviar").show();//ocultar y mostrar frm, gif de envio
+    try{
+    $('#alert_academico').html('');
+        $("#enviar").show();//ocultar y mostrar frm, gif de envio
 	$("#cancelar").hide();
 	$("#frm_Datos_Personales").hide();	
 	$.post("ajax/guardar_datos.php",{form:$('#frm_Datos_Personales').serialize(),no_control:no_control})
-	.fail(function(){
-			show();
-			setTimeout( "jQuery('#frm_Datos_Personales').show();$('#cancelar').show();",2000 );
-			alert_('ERROR SERVIDOR',$("#alert_personales"),250);})
 	.done(function(data){//evaluando respuesta del servidor
 		$("#enviar").hide();
-		if(data==1){
+                datos=$.parseJSON(data);
+		if(datos.respuesta=='1'){
 			limpiaForm($("#frm_Datos_Personales"));	//exito!!!
 			alert_("DATOS GUARDADOS",$("#alert_personales"),250);
-			show();
+			show_1();
 			datos_egresado(no_control);
 			setTimeout( "jQuery('#frm_Datos_Personales').show();$('#cancelar').show();",2000 );
-			}else{//error!!
-				alert_("TRATÉ DESPUÉS",$("#alert_personales"),250);
-				limpiaForm($("#frm_Datos_Personales"));	//exito!!!
-				$("#frm_Datos_Personales").show();
-			}
-	});
-	};	
+                }else{//error!!
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+                        limpiaForm($("#frm_Datos_Personales"));	
+                        $("#frm_Datos_Personales").show();
+                }
+	}).fail(function(jqXHR, textStatus, errorThrown){
+           limpiaForm($("#frm_Datos_Personales"));	
+           $("#frm_Datos_Personales").show();
+           ajax_error_alert(jqXHR,textStatus);
+        });    
+    }catch(e){
+        $("#alert_personales").append('<p>Informe:'+e+'</p>');
+        alert_("Error",$("#alert_personales"),250);
+        limpiaForm($("#frm_Datos_Personales"));	
+        $("#frm_Datos_Personales").show();    
+    }
+    }	
 	
 function validar_Est_Mun(){//verificar estados y municipios 
 	if($("#Estados").selectedIndex==1){
@@ -227,23 +489,71 @@ function validar_Est_Mun(){//verificar estados y municipios
 		}else
 			return true;
 		}	
-	};
+	}
 		
 function dt_academicos(no_control){//cargar datos academicos
-	$("#datos_academicos").hide();
+	try{
+        $('#alert_academico').html('');
+        $("#datos_academicos").hide();
+        $("#datos_academicos").html('');
 	$("#img_cargando_dt_academicos").show();
 	$.post('ajax/dt_academicos.php',{no_control:no_control}).
-	fail(function(){
-			$("#img_cargando_dt_academicos").hide();
-			alert('Error con el servidor');
-			$("#datos_academicos").show();
-	})
-	.done(function(data){
-		$("#img_cargando_dt_academicos").hide();
-		$("#datos_academicos").html(data);
-		$("#datos_academicos").show();
-		});
-	};
+	done(function(data){
+             datos=$.parseJSON(data);   
+             if(datos.respuesta==='1'){
+                var p='<h2>Datos Academicos</h2>';            
+                $('#datos_academicos').append(p);
+                p='<img id="agregar_carrera" tabindex="0" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ';          
+                $('#datos_academicos').append(p);
+                $.each(datos.carrera,function(){
+                    var div=$('<div/>');
+                    p='<img id="img-dt-academicos'+this.no_registro+'" src="Imagenes/editar.png"  title="EDITAR" class="editar_academico" tabindex="0"/>';
+                    div.append(p);
+                    p='<img tabindex="0" id="'+this.no_registro+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar"/>';
+                    div.append(p);
+                    p='<p>Carrera:<b>'+this.carrera+'</b></p>';
+                    div.append(p);
+                    p='<p>Especialidad:<b>'+this.especialidad+'</b></p>';
+                    div.append(p);
+                    p='<p>Fecha de inicio:<b>'+this.fecha_inicio+'</b></p>';
+                    div.append(p);
+                     p='<p>Fecha de finalización:<b>'+this.fecha_fin+'</b></p>'; 
+                    div.append(p);
+                    p='<p>Titulado:<b>'+this.titulado+'</b></p>'; 
+                    div.append(p);
+                    div.addClass('div_carrera');
+                    div.attr('id','div-dt-academicos'+this.no_registro);
+                    $('#datos_academicos').append(div);
+                    $('#datos_academicos').show();
+                });
+                $("#img_cargando_dt_academicos").hide();
+                $('#datos_academicos').show();
+             }else{
+                var p='<h2>Datos Academicos</h2>';
+                $('#datos_academicos').append(p);
+                p='<img tabindex="0" id="agregar_carrera" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ';          
+                $('#datos_academicos').append(p);
+                p='<p>Informe:'+datos.mensaje+'</p>'; 
+                $('#datos_academicos').append(p);
+                $('#img_cargando_dt_academicos').hide();
+                $('#datos_academicos').show();
+             }   
+            }).fail(function(jqXHR, textStatus, errorThrown){
+              $("#img_cargando_dt_academicos").hide();
+              $('#datos_academicos').show(); 
+              ajax_error(jqXHR,textStatus,$('#datos_academicos'));
+            });    
+        }catch(e){
+            var p='<h2>Datos Academicos</h2>';
+            $('#datos_academicos').append(p);
+            p='<img tabindex="0" id="agregar_carrera" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ';          
+            $('#datos_academicos').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#datos_academicos').append(p);
+            $('#img_cargando_dt_academicos').hide();
+            $('#datos_academicos').show();
+        }
+	}
 			
 function validar_fechas(inicio,fin){ //verificar fechas dobles si son validas
 if (moment(inicio).isValid()) {
@@ -257,19 +567,18 @@ if (moment(inicio).isValid()) {
 }
 	};	
 function guardar_dt_academicos(no_control){//guarda nueva carrera
-	$("#img_enviar_academico").show();//img guardado
+        try{
+            $('#alert_academico').html('');
+        $("#img_enviar_academico").show();//img guardado
 	$("#frm_dt_academico").hide();//ocular formulario
 	$("#div_carrera_actualizar").hide();
 	$("#titlo_carrera").hide();
 	$(".eliminar").show();//ocultar img eliminar y eliminar
 	$(".editar_academico").show();
 	$.post('ajax/guardar_academico.php',{form:$('#frm_dt_academico').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_academico").hide();
-			$("#frm_dt_academico").show();
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);})
 	.done(function(data){
-		if(data=='1'){//exito
+            datos=$.parseJSON(data);
+		if(datos.respuesta=='1'){//exito
 			$("#img_enviar_academico").hide();
 			limpiaForm($("#frm_dt_academico"));
 			alert_('CARRERA AGREGADA',$('#alert_academico'),250);
@@ -277,26 +586,37 @@ function guardar_dt_academicos(no_control){//guarda nueva carrera
 			dt_academicos(no_control);
 			setTimeout('$("#frm_dt_academico").show();',2000);
 			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_academico").hide();
-			limpiaForm($("#frm_dt_academico"));
-			alert_('ERROR FORMULARIO',$('#alert_academico'),250);
-			setTimeout('$("#frm_dt_academico").show();',2000);
-			show_dt_academicos();
-			}
-		else if(data=='3'){//eres muy listo?
+		else if(datos.respuesta=='3'){//eres muy listo?
 			$("#img_enviar_academico").hide();
 			alert_("Max 4 carreras",$('#alert_academico'),250);
 			limpiaForm($("#frm_dt_academico"));	
 			setTimeout('$("#frm_dt_academico").show();',2000);	
 			show_dt_academicos();
-		}else{ //error desde el servidor
+			}
+		else {
 			$("#img_enviar_academico").hide();
-			alert_('ERROR DESCONOCIDO',$('#alert_academico'),250);	
-			setTimeout('$("#frm_dt_academico").show();',2000);
+			$("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+			limpiaForm($("#frm_dt_academico"));	
+			setTimeout('$("#frm_dt_academico").show();',2000);	
 			show_dt_academicos();
 		}
-		});//fin de done
+		})
+            .fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_academico").hide();
+                limpiaForm($("#frm_dt_academico"));	
+                setTimeout('$("#frm_dt_academico").show();',2000);
+                show_dt_academicos();
+                ajax_error_alert(jqXHR, textStatus);
+            });
+        }catch(e){
+            $("#img_enviar_academico").hide();
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            limpiaForm($("#frm_dt_academico"));	
+            setTimeout('$("#frm_dt_academico").show();',2000);	
+            show_dt_academicos();
+        }
 	}//fin de function principal;	
 function confirmar(no_control,registro){ 
    $("#dialogo").dialog({ 
@@ -331,43 +651,51 @@ function val_carrera(){
 	};
 				  
 function actualizar_carrera(no_control,registro){
-	$("#img_enviar_academico").show();
+    try{
+        $('#alert_academico').html('');
+        $("#img_enviar_academico").show();
 	$("#frm_dt_academico").hide();
 	$("#div_carrera_actualizar").hide();
 	$("#titlo_carrera").hide();
 	$.post('ajax/actualizar_academico.php',{form:$('#frm_dt_academico').serialize(),no_control:no_control,registro:registro})
-	.fail(function(){
-			$("#img_enviar_academico").hide();
-			show_dt_academicos();
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			setTimeout('$("#frm_dt_academico").show();$("#div_carrera_actualizar").show();$("#titlo_carrera").show();',2000);
-			})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_academico").hide();
-			limpiaForm($("#frm_dt_academico"));
-			alert_('ACTUALIZADOS',$('#alert_academico'),250);
-			show_dt_academicos();
-			dt_academicos(no_control);
-			setTimeout('$("#frm_dt_academico").show();$("#div_carrera_actualizar").show();$("#titlo_carrera").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_academico").hide();
-			limpiaForm($("#frm_dt_academico"));
-			alert_('ERROR FORMULARIO',$('#alert_academico'),250);
-			show_dt_academicos();
-			setTimeout('$("#frm_dt_academico").show();$("#div_carrera_actualizar").show();$("#titlo_carrera").show();',2000);
-			}
-		else{ //error desde el servidor
-			$("#img_enviar_academico").hide();
-			alert_('ERROR DESCONOCIDO',$('#alert_academico'),250);
-			show_dt_academicos();	
-			setTimeout('$("#frm_dt_academico").show();$("#div_carrera_actualizar").show();$("#titlo_carrera").show();',2000);
-		}
-		});//fin de done
-	};
+	.done(function(data){//evaluando respuesta del servidor
+            datos=$.parseJSON(data);
+            if(datos.respuesta=='1'){
+                $("#img_enviar_academico").hide();
+                limpiaForm($("#frm_dt_academico"));	//exito!!!
+                alert_("DATOS GUARDADOS",$("#alert_personales"),250);
+                show_dt_academicos();
+                dt_academicos(no_control);
+                setTimeout( "jQuery('#frm_dt_academico').show();",2000 );
+            }else{//error!!
+                $("#img_enviar_academico").hide();
+                $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                alert_("Error",$("#alert_personales"),250);
+                limpiaForm($("#frm_dt_academico"));	
+                $("#frm_dt_academico").show();
+                $("#div_carrera_actualizar").show();
+                $("#titlo_carrera").show();
+                }
+	}).fail(function(jqXHR, textStatus, errorThrown){
+            $("#img_enviar_academico").hide();
+            limpiaForm($("#frm_dt_academico"));	
+            $("#frm_dt_academico").show();
+            $("#div_carrera_actualizar").show();
+            $("#titlo_carrera").show();
+            ajax_error_alert(jqXHR,textStatus);
+        });
+    }catch(e){
+        $("#img_enviar_academico").hide();
+        $("#alert_personales").append('<p>Informe:'+e+'</p>');
+        alert_("Error",$("#alert_personales"),250);
+        limpiaForm($("#frm_dt_academico"));	
+        $("#frm_dt_academico").show();
+        $("#div_carrera_actualizar").show();
+        $("#titlo_carrera").show();    
+    }
+}
 	
-function alert_(title,dialog,ancho){ 
+function alert_(title,dialog,ancho){    
 var alert_=dialog;
    alert_.dialog({ 
    		open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).show(); },
@@ -378,7 +706,8 @@ var alert_=dialog;
 		resizable: "false", 
 		modal: "true", 
 		title:title,
-		position: { my: "center", at: "center", of: '#center_diag' }
+		position: { my: "center", at: "center", of: '#center_diag' },
+                close:function(){$('#alert_personales').html('');}
 		});
 	  }		
 	  	
@@ -387,7 +716,7 @@ var alert_=dialog;
    alert_.dialog({ 
   		open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog).hide(); },//ocultar boton de cerrar ventana
 		width:250,  
-		height: 100,
+		height: 250,
 		show: "scale", 
 		hide: "scale", 
 		resizable: "false", 
@@ -397,66 +726,102 @@ var alert_=dialog;
 		});
 	  }			
 function borrar_carrera(no_control,registro){//borrar carrera
-	alert_Bloq('BORRANDO...',$('#alert_academico'));
-	$.post('ajax/eliminar_carrera.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);})
-	.done(function(data){
-		if(data=='1'){//exito
-			alert_('BORRADO EXITOSO',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			dt_academicos(no_control);
-			}
-		else if(data=='2'){//problemas con formulario
-			alert_('ERROR FORMULARIO',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			}
-		else{ //error desde el servidor
-			alert_('ERROR DESCONOCIDO',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-		}
-		});//fin de done
-	};	
+    try{
+    alert_Bloq('BORRANDO...',$('#alert_personales'));
+    $.post('ajax/eliminar_carrera.php',{registro:registro,no_control:no_control})
+    .done(function(data){
+        datos=$.parseJSON(data);
+            if(datos.respuesta=='1'){//exito
+                alert_('BORRADO EXITOSO',$('#alert_personales'),250);
+                setTimeout('$("#alert_personales").dialog( "close" );',1000);
+                dt_academicos(no_control);
+            }
+            else{ //error desde el servidor
+                $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                alert_("Error",$("#alert_personales"),250);
+                setTimeout("$('#alert_personales').dialog('close');",2000);
+            }
+            }).
+    fail(function(jqXHR, textStatus, errorThrown){
+        ajax_error_alert(jqXHR,textStatus);
+    });//fin de done    
+    }catch(e){
+        $("#alert_personales").append('<p>Informe:'+e+'</p>');
+        alert_("Error",$("#alert_personales"),250);
+        setTimeout("$('#alert_personales').dialog('close');",2000);    
+    }
+	}	
 function dt_idioma(no_control){//cargar datos academicos
-	$("#div_idioma_img").show();
-	$("#img_cargando_idiomas").show();
-	$("#div_idioma").hide();
-	jqXHR=$.post('ajax/dt_idiomas.php',{no_control:no_control}).
-	fail(function(){
-			$("#div_idioma").show();
-			alert('Error con el servidor');
-			$("#div_idioma_img").hide();
-	})
-	.done(function(data){
-		$("#div_idioma_img").hide();
-		$("#div_idioma").html(data);
-		$("#div_idioma").show();
-		});
-	};	
+	try{
+            $("#img_cargando_idiomas").show();
+            $("#div_idioma").html('');
+            $("#div_idioma").hide();
+            $.post('ajax/dt_idiomas.php',{no_control:no_control})
+                .done(function(data){
+                 datos=$.parseJSON(data);   
+                 if(datos.respuesta==='1'){
+                    var p='<h2>Idiomas<img tabindex="0" id="agregar_idioma" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /> </h2>';
+                    $('#div_idioma').append(p);
+                    var table = $('<table/>');
+                    table.addClass('tabla');
+                    table.addClass('table');
+                    table.addClass('table-hover');
+                    table.addClass('table table-condensed');
+                    table.append('<tr><th>Idioma</th><th>Habla</th><th>Lectura y escritura</th></tr>');
+                    $.each(datos.idioma,function(){
+                        table.append( '<tr><td><b>' +this.idioma+'</b></td><td><b>' +this.porcentaje_habla+'</b></td><td><b>' +this.porcentaje_lec_escr+'</b></td><td><img tabindex="0" id="img-eliminar-idioma-'+this.id_consecutivo+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar_idioma"/></td></tr>' );
+                    });
+                    $('#div_idioma').append(table);
+                    $('#img_cargando_idiomas').hide();
+                    $('#div_idioma').show();
+                 }else{
+                     var p='<h2>Idiomas<img tabindex="0" id="agregar_idioma" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
+                     $('#div_idioma').append(p);
+                     p='<p>Informe:'+datos.mensaje+'</p>'; 
+                     $('#div_idioma').append(p);
+                     $('#img_cargando_idiomas').hide();
+                     $('#div_idioma').show();
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                  $('#img_cargando_idiomas').hide();
+                  $('#div_idioma').show(); 
+                  ajax_error(jqXHR,textStatus,$('#div_idioma'));
+                });
+        }catch(e){
+            var p='<h2>Idiomas<img tabindex="0" id="agregar_idioma" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
+            $('#div_idioma').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_idioma').append(p);
+            $('#img_cargando_idiomas').hide();
+            $('#div_idioma').show();   
+        }
+	}	
 function borrar_idioma(no_control,registro){//borrar carrera
-	alert_Bloq('BORRANDO...',$('#alert_academico'));
-	$.post('ajax/eliminar_idioma.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			})
-	.done(function(data){
-		if(data=='1'){//exito
-			alert_('BORRADO EXITOSO',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			dt_idioma(no_control);
-			}
-		else if(data=='2'){//problemas con formulario
-			alert_('ERROR FORMULARIO',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			}
-		else{ //error desde el servidor
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-		}
-		});//fin de done
-	};	
+	try{
+            alert_Bloq('BORRANDO...',$('#alert_personales'));
+            $.post('ajax/eliminar_idioma.php',{registro:registro,no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            alert_('BORRADO EXITOSO',$('#alert_personales'),250);
+                            setTimeout('$("#alert_personales").dialog( "close" );',1000);
+                            dt_idioma(no_control);
+                            }
+                    else {//problemas con formulario
+                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                            alert_("Error",$("#alert_personales"),250);
+                            setTimeout("$('#alert_personales').dialog('close');",2000);
+                            }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                ajax_error_alert(jqXHR,textStatus);
+            });
+        }catch(e){
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            setTimeout("$('#alert_personales').dialog('close');",2000);
+        }
+	}	
 	
 function confirmar_idioma(no_control,registro){//preguntar borrado de idioma 
    $("#dialogo_idioma").dialog({ 
@@ -483,121 +848,167 @@ function confirmar_idioma(no_control,registro){//preguntar borrado de idioma
 	  }		
 	  
 function guardar_idioma(no_control){//guardar nuevo idioma
-	$("#img_enviar_idioma").show();//img guardado
-	$("#frm_idioma").hide();//ocular formulario
-	$("#img_cancelar_idiomas").hide();
-	$.post('ajax/agregar_idioma.php',{form:$('#frm_idioma').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_idioma").hide();
-			setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_idioma").hide();
-			limpiaForm($("#frm_idioma"));
-			alert_('IDIOMA AGREGADO',$('#alert_academico'),250);
-			show_idiomas();
-			dt_idioma(no_control);
-			setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_idioma").hide();
-			limpiaForm($("#frm_idioma"));
-			show_idiomas();
-			alert_('ERROR FORMULARIO',$('#alert_academico'),250);
-			setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-			}
-		else if(data=='3'){//eres muy listo?
-			$("#img_enviar_idioma").hide();
-			limpiaForm($("#frm_idioma"));
-			show_idiomas();
-			alert_("MAXIMO 5 IDIOMAS",$('#alert_academico'),250);	
-			setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);	
-		}else{ //error desde el servidor
-			$("#img_enviar_academico").hide();
-			show_idiomas();
-			alert_('ERROR DESCONOCIDO',$('#alert_academico'),250);	
-			setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-			
-		}
-		});//fin de done
-	}//fin de function principal; 
+	try{
+            $("#img_enviar_idioma").show();//img guardado
+            $("#frm_idioma").hide();//ocular formulario
+            $("#img_cancelar_idiomas").hide();
+            $.post('ajax/agregar_idioma.php',{form:$('#frm_idioma').serialize(),no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                if(datos.respuesta=='1'){//exito
+                        $("#img_enviar_idioma").hide();
+                        limpiaForm($("#frm_idioma"));
+                        alert_('IDIOMA AGREGADO',$('#alert_academico'),250);
+                        show_idiomas();
+                        dt_idioma(no_control);
+                        setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
+                        }
+                else if(datos.respuesta=='3'){//
+                        $("#img_enviar_idioma").hide();
+                        limpiaForm($("#frm_idioma"));
+                        show_idiomas();
+                        alert_("MAXIMO 5 IDIOMAS",$('#alert_academico'),250);	
+                        setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
+                        }
+                else {//
+                        $("#img_enviar_idioma").hide();
+                        limpiaForm($("#frm_idioma"));
+                        show_idiomas();
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);	
+                        setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);	
+                }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_idioma").hide();
+                limpiaForm($("#frm_idioma"));
+                show_idiomas();
+                setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
+                ajax_error_alert(jqXHR,textStatus);
+            });//
+        }catch(e){
+            $("#img_enviar_idioma").hide();
+            limpiaForm($("#frm_idioma"));
+            show_idiomas();
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);	
+            setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
+        }
+    }//fin de function principal; 
 function dt_SW(no_control){//cargar datos academicos
-	$("#div_dt_software").hide();
-	$("#img_cargando_sw").show();
-	jqXHR=$.post('ajax/dt_sw.php',{no_control:no_control}).
-	fail(function(){
-			$("#img_cargando_sw").hide();
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			$("#div_dt_software").show();
-	})
-	.done(function(data){
-		$("#img_cargando_sw").hide();
-		$("#div_dt_software").html(data);
-		$("#div_dt_software").show();
-		});
-	};	
+	try{
+            $("#div_dt_software").hide();
+            $("#div_dt_software").html('');
+            $("#img_cargando_sw").show();
+            $.post('ajax/dt_sw.php',{no_control:no_control})
+            .done(function(data){
+                 datos=$.parseJSON(data);   
+                 if(datos.respuesta==='1'){
+                    var p='<h2>Paqueteria de software<img tabindex="0" id="agregar_sw" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /> </h2>';
+                    $('#div_dt_software').append(p);
+                    var table = $('<table/>');
+                    table.addClass('tabla');
+                    table.addClass('table');
+                    table.addClass('table-hover');
+                    table.addClass('table table-condensed');
+                    table.append('<tr><th>Software</th></tr>');
+                    $.each(datos.sw,function(){
+                        table.append( '<tr><td><b>' +this.nombre_sw+'</b></td><td><img tabindex="0" id="img-eliminar-sw-'+this.id_consecutivo+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar_sw"/></td></tr>' );
+                    });
+                    $('#div_dt_software').append(table);
+                    $('#img_cargando_sw').hide();
+                    $('#div_dt_software').show();
+                 }else{
+                     var p='<h2>Software<img tabindex="0" id="agregar_sw" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
+                     $('#div_dt_software').append(p);
+                     p='<p>Informe:'+datos.mensaje+'</p>'; 
+                     $('#div_dt_software').append(p);
+                     $('#img_cargando_sw').hide();
+                     $('#div_dt_software').show();
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                  $('#img_cargando_sw').hide();
+                  $('#div_dt_software').show(); 
+                  ajax_error(jqXHR,textStatus,$('#div_dt_software'));
+                });
+        }catch(e){
+            var p='<h2>Software<img tabindex="0" id="agregar_sw" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
+            $('#div_dt_software').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_dt_software').append(p);
+            $('#img_cargando_sw').hide();
+            $('#div_dt_software').show();
+        }
+	}	
 function guardar_sw(no_control){//guardar nuevo idioma
-	$("#img_enviar_sw").show();//img guardado
-	$("#frm_sw").hide();//ocular formulario
-	$("#img_cancelar_sw").hide();
-	$.post('ajax/agregar_sw.php',{form:$('#frm_sw').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_sw").hide();
-			show_SW();
-			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_sw").hide();
-			limpiaForm($("#frm_sw"));
-			alert_('AGREGADO',$('#alert_academico'),250);
-			show_SW();
-			dt_SW(no_control);
-			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_sw").hide();
-			show_SW();
-			alert_('ERROR FORMULARIO',$('#alert_academico'),250);
-			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-			}
-		else if(data=='3'){//eres muy listo?
-			$("#img_enviar_sw").hide();
-			show_SW();
-			alert_("MÁXIMO 7 ",$('#alert_academico'),250);	
-			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);	
-		}else{ //error desde el servidor
-			$("#img_enviar_sw").hide();
-			alert_('ERROR DESCONOCIDO',$('#alert_academico'),250);	
-			setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-			
-		}
-		});//fin de done
+	try{
+            $("#img_enviar_sw").show();//img guardado
+            $("#frm_sw").hide();//ocular formulario
+            $("#img_cancelar_sw").hide();
+            $.post('ajax/agregar_sw.php',{form:$('#frm_sw').serialize(),no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                        $("#img_enviar_sw").hide();
+                        limpiaForm($("#frm_sw"));
+                        alert_('AGREGADO',$('#alert_academico'),250);
+                        show_SW();
+                        dt_SW(no_control);
+                        setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
+                            }
+                    else if(datos.respuesta=='3'){//eres muy listo?
+                        $("#img_enviar_sw").hide();
+                        show_SW();
+                        alert_("MÁXIMO 7 ",$('#alert_academico'),250);	
+                        setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);	
+                    }else{ //error desde el servidor
+                        $("#img_enviar_sw").hide();
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+                        show_SW();
+                        setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
+
+                    }
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                  $('#img_enviar_sw').hide();
+                  show_SW();
+                  setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
+                  ajax_error_alert(jqXHR,textStatus);
+                });//fin de done
+        }catch(e){
+            $("#img_enviar_sw").hide();
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            show_SW();
+            setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);    
+        }
 	}//fin de function principal;	
 function borrar_sw(no_control,registro){//borrar sw
-	alert_Bloq('BORRANDO...',$('#alert_academico'));
-	$.post('ajax/eliminar_sw.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			})
-	.done(function(data){
-		if(data=='1'){//exito
-			alert_('BORRADO EXITOSO',$('#alert_academico'),250);//msn de borrado
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);//cerrar el dlg
-			dt_SW(no_control);//cargar nuevos datos
-			}
-		else if(data=='2'){//problemas con formulario
-			alert_('ERROR EN ENVIO',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			}
-		else{ //error desde el servidor
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-		}
-		});//fin de done
-};
+	try{
+            alert_Bloq('BORRANDO...',$('#alert_personales'));
+            $.post('ajax/eliminar_sw.php',{registro:registro,no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            alert_('BORRADO EXITOSO',$('#alert_personales'),250);//msn de borrado
+                            setTimeout('$("#alert_personales").dialog( "close" );',1000);//cerrar el dlg
+                            dt_SW(no_control);//cargar nuevos datos
+                            }
+                    else{ //error desde el servidor
+                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                            alert_("Error",$("#alert_personales"),250);
+                            setTimeout("$('#alert_personales').dialog('close');",2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                ajax_error_alert(jqXHR,textStatus);
+            });
+        }catch(e){
+           $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            setTimeout("$('#alert_personales').dialog('close');",2000); 
+        }
+}
 
 function confirmar_sw(no_control,registro){//preguntar borrado de sw 
    $("#dialogo_sw").dialog({
@@ -636,7 +1047,7 @@ function AgregarCampos(){//agregar campos requisitos
 	select_=select_+1;	
 	if (select_<7){	
 	var img_;
-	 img_=' <img src="Imagenes/eliminar_verde.gif" class="eliminar_requisito "  style="color:#666;" id="img'+select_+'requisito"/>';
+	 img_=' <img tabindex="0" src="Imagenes/eliminar_verde.gif" class="eliminar_requisito "  style="color:#666;" id="img'+select_+'requisito"/>';
 	var campo=$("#requisito").clone();		
 	campo.attr('name',select_+'requisito');	
 	campo.attr('id',select_+'requisito');	
@@ -668,17 +1079,14 @@ function eliminar_select(id,clone){//borrar select de requisitos contratacion
 	select_=select_-1;
 	}	
 function guardar_empresa(no_control){//guardar nueva mpresa
-	$("#img_enviar_empresa").show();//img guardado
+    try{
+        $("#img_enviar_empresa").show();//img guardado
 	$("#frm_empresa").hide();//ocular formulario
 	$("#img_cancelar_empresa").hide();
 	$.post('ajax/guardar_empresa.php',{form:$('#frm_empresa').serialize(),no_control:no_control,select_:select_})
-	.fail(function(){
-			$("#img_enviar_empresa").hide();
-			alert_('ERROR SERVIDOR',$('#dialogo_empresa'),250);
-			setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);
-			})
 	.done(function(data){
-		if(data=='1'){//exito
+            datos=$.parseJSON(data);
+		if(datos.respuesta=='1'){//exito
 			$("#img_enviar_empresa").hide();
 			limpiaForm($("#frm_empresa")); 
 			alert_('EMPRESA AGREGADA',$('#dialogo_empresa'),250);
@@ -686,85 +1094,214 @@ function guardar_empresa(no_control){//guardar nueva mpresa
 			dt_empresa(no_control);
 			setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);
 			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_empresa").hide();
-			limpiaForm($("#frm_empresa")); 
-			alert_('ERROR FORMULARIO',$('#dialogo_empresa'),250);
-			setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);
-			}
-		else if(data=='3'){//eres muy listo?
+		else if(datos.respuesta=='3'){//eres muy listo?
 			$("#img_enviar_empresa").hide();
 			alert_("MAXIMO 4 ",$('#dialogo_empresa'),250);	
 			setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);	
 		}else{ //error desde el servidor
 			$("#img_enviar_empresa").hide();
 			limpiaForm($("#frm_empresa")); 
-			alert_('ERROR DESCONOCIDO',$('#dialogo_empresa'),250);	
+			$("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);	
 			setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);
 		}
-		});//fin de done
-	}//fin de function principal;		
+		}).
+        fail(function(jqXHR, textStatus, errorThrown){
+            $("#img_enviar_empresa").hide();
+            limpiaForm($("#frm_empresa"));
+            show_empresa();
+            setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
+            ajax_error_alert(jqXHR,textStatus);
+        });
+    }catch(e){
+        $("#img_enviar_empresa").hide();
+        limpiaForm($("#frm_empresa")); 
+        $("#alert_personales").append('<p>Informe:'+e+'</p>');
+        alert_("Error",$("#alert_personales"),250);	
+        setTimeout('$("#frm_empresa").show();$("#img_cancelar_empresa").show();',2000);
+    }
+}//fin de function principal;		
 	
 function dt_empresa(no_control){//cargar datos academicos
-	$("#div_dt_empresa").hide();
-	$("#img_cargando_empresa").show();
-	jqXHR=$.post('ajax/dt_empresa.php',{no_control:no_control}).
-		fail(function(){
-				$("#img_cargando_empresa").hide();
-				alert('Error con el servidor');
-				$("#div_dt_empresa").show();
-		})
-		.done(function(data){
-			$("#img_cargando_empresa").hide();
-			$("#div_dt_empresa").html(data);
-			$("#div_dt_empresa").show();
-		});
-};
+	try{
+           $("#div_dt_empresa").hide();
+            $("#div_dt_empresa").html('');
+            $("#img_cargando_empresa").show();
+            $.post('ajax/dt_empresa.php',{no_control:no_control})
+                .done(function(data){
+                datos=$.parseJSON(data);   
+                if(datos.respuesta==='1'){
+                    var p='<h2>Datos de la Empresa´s</h2>';            
+                    $('#div_dt_empresa').append(p);
+                    p='<img tabindex="0" id="agregar_empresa" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS EMPRESAS" class="agregar_carrera"/>';          
+                    $('#div_dt_empresa').append(p);
+                    $.each(datos.empresa,function(){
+                        var div=$('<div/>');
+                        p='<p><img tabindex="0" id="img_editar_empresa'+this.codigo_empresa+'" src="Imagenes/editar.png"  title="EDITAR" class="editar_empresa"/><img tabindex="0" id="img_editar_empresa'+this.codigo_empresa+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="elimnar_empresa"/></p>';
+                        div.append(p);
+                        p='<p><img  id="img_empresa'+this.codigo_empresa+'" src="Imagenes/empresa.png" class="img_empresa visible-lg visible-md"/>';
+                        div.append(p);
+                        p='EMPRESA:<b>'+this.nombre+'</b></br>';
+                        div.append(p);
+                        p='GIRO:<b>'+this.giro+'</b></br>';
+                        div.append(p);
+                        p='WEB:<b>'+this.web+'</b></br>';
+                        div.append(p);
+                         p='PUESTO:<b>'+this.puesto+'</b></br>'; 
+                        div.append(p);
+                        p='INGRESO:<b>'+this.año_ingreso+'</b></p>'; 
+                        div.append(p);
+                        div.addClass('div_dt_empresa_Ajax');
+                        div.attr('id','div_empresa'+this.codigo_empresa);
+                        $('#div_dt_empresa').append(div);
+                        $('#div_dt_empresa').show();
+                    });
+                    $("#img_cargando_empresa").hide();
+                    $('#div_dt_empresa').show();
+                 }else{
+                    var p='<h2>Datos de la Empresa´s</h2>';
+                    $('#div_dt_empresa').append(p);
+                    p='<img tabindex="0" id="agregar_empresa" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS EMPRESAS" class="agregar_carrera"/>';            
+                    $('#div_dt_empresa').append(p);
+                    p='<p>Informe:'+datos.mensaje+'</p>'; 
+                    $('#div_dt_empresa').append(p);
+                    $('#img_cargando_empresa').hide();
+                    $('#div_dt_empresa').show();
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    $("#img_cargando_empresa").hide();
+                    $('#div_dt_empresa').show(); 
+                    ajax_error(jqXHR,textStatus,$('#div_dt_empresa'));
+                }); 
+        }catch(e){
+            var p='<h2>Datos de la Empresa´s</h2>';
+            $('#div_dt_empresa').append(p);
+            p='<img tabindex="0" id="agregar_empresa" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS EMPRESAS" class="agregar_carrera"/>';            
+            $('#div_dt_empresa').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_dt_empresa').append(p);
+            $('#img_cargando_empresa').hide();
+            $('#div_dt_empresa').show();
+        }
+    }
 
-function dt_empresa_editar(no_control,empresa){//cargar datos academicos
-	$("#div_dt_empresa_editar").hide();
-	$.post('ajax/all_dt_empresa.php',{no_control:no_control,empresa:empresa}).
-		fail(function(){
-				alert('Error con el servidor');
-		})
-		.done(function(data){
-			$("#div_dt_empresa_editar").fadeIn(2000);
-			$("#div_dt_empresa_editar").html(data);
-		});
-};
+function dt_empresa_editar(no_control,codigo_empresa){//cargar datos academicos
+	try{
+           $('#div_dt_empresa_editar').html('');
+            $("#div_dt_empresa_editar").hide();
+            $.post('ajax/all_dt_empresa.php',{codigo_empresa:codigo_empresa}).done(function(data){
+                 datos=$.parseJSON(data);   
+                 if(datos.respuesta==='1'){
+                    var p='<h2>EMPRESA</h2>';            
+                    $('#div_dt_empresa_editar').append(p);
+                    $.each(datos.empresa,function(){
+                        var div=$('<div/>');
+                        p='<p>Nombre:<b>'+this.nombre+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Giro:<b>'+this.giro+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Web:<b>'+this.web+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Email:<b>'+this.email+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Puesto:<b>'+this.puesto+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Ingreso:<b>'+this.año_ingreso+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Superior inmediato:<b>'+this.nombre_jefe+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Telefono:<b>'+this.telefono+'</b></p>'; 
+                        div.append(p);
+                        div.addClass('col-sm-6');
+                        div.addClass('col-xs-12');
+                        $('#div_dt_empresa_editar').append(div);
+                        div=$('<div/>');
+                        p='<p>Organismo:<b>'+this.organismo+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Razón Social:<b>'+this.razon_social+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Medio búsqueda:'+this.medio_busqueda+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Tiempo de búsqueda:<b>'+this.tiempo_busqueda+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Domicilio</p>'; 
+                        div.append(p);
+                        p='<p>Calle:<b>'+this.calle+' No:'+this.no_domicilio+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Estado:<b>'+this.estado+'</b></p>'; 
+                        div.append(p);
+                        p='<p>Municipio:<b>'+this.municipio+'</b></p>'; 
+                        div.append(p);
+                        div.addClass('col-sm-6');
+                        div.addClass('col-xs-12');
+                        $('#div_dt_empresa_editar').append(div);
+                    });
+                    $('#div_dt_empresa_editar').show();
+                 }else{
+                     var p='<h2>EMPRESA</h2>';
+                     $('#div_dt_empresa_editar').append(p);
+                     p='<div class="cancel"></div>';
+                     $('#div_dt_empresa_editar').append(p);
+                     p='<p>Informe:'+datos.mensaje+'</p>'; 
+                     $('#div_dt_empresa_editar').append(p);
+                     $('#div_dt_empresa_editar').show();
+
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                  $('#div_dt_empresa_editar').show(); 
+                  ajax_error(jqXHR,textStatus,$('#div_dt_empresa_editar'));
+                }); 
+        }catch(e){
+            var p='<h2>EMPRESA</h2>';
+            $('#div_dt_empresa_editar').append(p);
+            p='<div class="cancel"></div>';
+            $('#div_dt_empresa_editar').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_dt_empresa_editar').append(p);
+            $('#div_dt_empresa_editar').show();
+        }
+}
 
 function actualizar_empresa(no_control,registro){
-	$("#img_enviar_empresa").show();
-	$("#frm_empresa").hide();
-	$("#div_dt_empresa_editar").hide();
-	$.post('ajax/actualizar_empresa.php',{form:$('#frm_empresa').serialize(),no_control:no_control,registro:registro,select_:select_})
-	.fail(function(){
-			$("#img_enviar_empresa").hide();
-			setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
-			alert_('ERROR SERVIDOR',$('#dialogo_empresa'),250);})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_empresa").hide();
-			limpiaForm($("#frm_empresa")); 
-			alert_('ACTUALIZADO',$('#dialogo_empresa'),250);
-			show_empresa();
-			dt_empresa(no_control);
-			setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_empresa").hide();
-			limpiaForm($("#frm_empresa")); 
-			alert_('ERROR FORMULARIO',$('#dialogo_empresa'),250);
-			setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
-			}
-		else{ //error desde el servidor
-			$("#img_enviar_empresa").hide();
-			limpiaForm($("#frm_empresa")); 
-			alert_('Error desconocido',$('#dialogo_empresa'),250);	
-			setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
-		}
-		});//fin de done
-	};
+	try{
+            $("#img_enviar_empresa").show();
+            $("#frm_empresa").hide();
+            $("#div_dt_empresa_editar").hide();
+            $.post('ajax/actualizar_empresa.php',{form:$('#frm_empresa').serialize(),no_control:no_control,registro:registro,select_:select_})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            $("#img_enviar_empresa").hide();
+                            limpiaForm($("#frm_empresa")); 
+                            alert_('ACTUALIZADO',$('#dialogo_empresa'),250);
+                            show_empresa();
+                            dt_empresa(no_control);
+                            setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
+                            }
+                    else{ //error desde el servidor
+                            $("#img_enviar_empresa").hide();
+                            limpiaForm($("#frm_empresa")); 
+                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                            alert_("Error",$("#alert_personales"),250);	
+                            setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
+
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_empresa").hide();
+                limpiaForm($("#frm_empresa"));
+                show_empresa();
+                setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
+                ajax_error_alert(jqXHR,textStatus);
+            });//fin de done 
+        }catch(e){
+            $("#img_enviar_empresa").hide();
+            limpiaForm($("#frm_empresa")); 
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);	
+            setTimeout('$("#frm_empresa").show();$("#div_dt_empresa_editar").show();',2000);
+        }
+	}
 
 function evaluar_frm_empresa(){//evaluar select de frm empresa
 	if($("#organismo").val()!='1'){
@@ -850,29 +1387,36 @@ function limpiaForm(miForm) {
 			});//FIN EACH
 }//FIN FUNCIÓN
 
-function borrar_empresa(no_control,registro){//borrar empresa
-	alert_Bloq('BORRANDO...',$('#dialogo_empresa'));
-	$.post('ajax/borrar_empresa.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('ERROR SERVIDOR',$('#dialogo_empresa'),250);
-			setTimeout('$("#dialogo_empresa").dialog( "close" );',1000);})
-	.done(function(data){
-		if(data=='1'){//exito
-			alert_('BORRADO EXITOSO',$('#dialogo_empresa',250));
-			setTimeout('$("#dialogo_empresa").dialog( "close" );',1000);
-			dt_empresa(no_control);
-			dt_historial(no_control);
-			}
-		else if(data=='3'){//problemas con formulario
-			alert_('ERROR FORMULARIO',$('#dialogo_empresa'),250);
-			setTimeout('$("#dialogo_empresa").dialog( "close" );',1000);
-			}
-		else{ //error desde el servidor
-			alert_('ERROR SERVIDOR',$('#dialogo_empresa'),250);
-			setTimeout('$("#dialogo_empresa").dialog( "close" );',1000);
-		}
-		});//fin de done
-}
+function borrar_empresa(no_control,registro){//borrar empresa       
+        try{
+            alert_Bloq('BORRANDO...',$('#alert_personales'));
+            $.post('ajax/borrar_empresa.php',{registro:registro,no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            alert_('BORRADO EXITOSO',$('#alert_personales'),250);//msn de borrado
+                            setTimeout('$("#alert_personales").dialog( "close" );',1000);//cerrar el dlg
+                            dt_empresa(no_control);
+                            $('#div_frm_historial').hide();
+                            $('#div_dt_historial_empresa').show();
+                            dt_historial(no_control);
+                            }
+
+                    else{ //error desde el servidor
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+                        setTimeout("$('#alert_personales').dialog('close');",2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                ajax_error_alert(jqXHR,textStatus);
+            }); 
+        }catch(e){
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            setTimeout("$('#alert_personales').dialog('close');",2000);
+        }
+	}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
 
 function confirmar_empresa(no_control,registro){//preguntar borrado de empresa 
@@ -900,20 +1444,64 @@ function confirmar_empresa(no_control,registro){//preguntar borrado de empresa
 	  }
 	  
 function dt_historial(no_control){//cargar datos historial
-	$("#div_dt_historial_empresa").hide();
-	$("#img_cargando_historial").show();
-	jqXHR=$.post('ajax/dt_historial_empresa.php',{no_control:no_control}).
-		fail(function(){
-				$("#img_cargando_historial").hide();
-				alert('Error con el servidor dt_historial');
-				$("#div_dt_historial_empresa").show();
-		})
-		.done(function(data){
-			$("#img_cargando_historial").hide();
-			$("#div_dt_historial_empresa").html(data);
-			$("#div_dt_historial_empresa").show();
-		});
-};
+	try{
+            $("#div_dt_historial_empresa").hide();
+            $("#div_dt_historial_empresa").html('');
+            $("#img_cargando_historial").show();
+            $.post('ajax/dt_historial_empresa.php',{no_control:no_control})
+                .done(function(data){
+                datos=$.parseJSON(data);   
+                if(datos.respuesta==='1'){
+                    var p='<h2>Historial laboral</h2>';            
+                    $('#div_dt_historial_empresa').append(p);
+                    p='<img tabindex="0" id="agregar_historial" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS EMPRESAS" class="agregar_carrera"/></p>';          
+                    $('#div_dt_historial_empresa').append(p);
+                    $.each(datos.empresa,function(){
+                        var div=$('<div/>');
+                        p='<p><img tabindex="0" id="img_historial_empresa'+this.id_consecutivo+'" src="Imagenes/editar.png"  title="EDITAR" class="editar_empresa"/><img tabindex="0" id="img_historial_empresa'+this.id_consecutivo+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="elimnar_empresa"/></p>';
+                        div.append(p);
+                        p='<p><img  id="img_empresa_historial'+this.id_consecutivo+'" src="Imagenes/empresa.png" class="img_empresa visible-lg visible-md"/>';
+                        div.append(p);
+                        p='EMPRESA:<b>'+this.nombre+'</b></br>';
+                        div.append(p);
+                        p='TELÉFONO:<b>'+this.telefono+'</b></br>';
+                        div.append(p);
+                        p='WEB:<b>'+this.web+'</b></br>';
+                        div.append(p);
+                         p='EMAIL:<b>'+this.email+'</b></br>'; 
+                        div.append(p);
+                        div.addClass('div_dt_empresa_Ajax');
+                        div.attr('id','div_historial_empresa'+this.id_consecutivo);
+                        $('#div_dt_historial_empresa').append(div);
+                    });
+                    $("#img_cargando_historial").hide();
+                    $('#div_dt_historial_empresa').show();
+                 }else{
+                    var p='<h2>Historial laboral</h2>';
+                    $('#div_dt_historial_empresa').append(p);
+                    p='<img tabindex="0" id="agregar_historial" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS EMPRESAS" class="agregar_carrera"/></p>';          
+                    $('#div_dt_historial_empresa').append(p);
+                    p='<p>Informe:'+datos.mensaje+'</p>'; 
+                    $('#div_dt_historial_empresa').append(p);
+                    $('#img_cargando_historial').hide();
+                    $('#div_dt_historial_empresa').show();
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    $("#img_cargando_historial").hide();
+                    $('#div_dt_historial_empresa').show(); 
+                    ajax_error(jqXHR,textStatus,$('#div_dt_historial_empresa'));
+                }); 
+        }catch(e){
+            var p='<h2>Historial laboral</h2>';
+            $('#div_dt_historial_empresa').append(p);
+            p='<img tabindex="0" id="agregar_historial" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS EMPRESAS" class="agregar_carrera"/></p>';          
+            $('#div_dt_historial_empresa').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_dt_historial_empresa').append(p);
+            $('#img_cargando_historial').hide();
+            $('#div_dt_historial_empresa').show();
+        }
+	}
 	
 function mostrar(){
 	$(".editar_empresa").show();
@@ -924,66 +1512,75 @@ function ocultar(){
 	$(".elimnar_empresa").hide();
 	}		  
 function actualizar_historial(no_control,registro){//actualizar historial
-	$("#img_enviar_historial").show();
-	$("#frm_historial").hide();
-	$("#div_dt_historial_editar").hide();
-	$("#img_cerrar_frm_historial").hide();
-	$.post('ajax/actualizar_historial.php',{form:$('#frm_historial').serialize(),no_control:no_control,registro:registro})
-	.fail(function(){
-			$("#img_enviar_historial").hide();
-			show_historial();
-			setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").hide();',2000);//controlar animaciones
-			alert_('ERROR SERVIDOR',$('#dialogo_historial'),250);})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_historial").hide();
-			limpiaForm($("#frm_historial")); 
-			alert_('ACTUALIZADO',$('#dialogo_historial'),250);
-			mostrar();
-			show_historial();
-			dt_historial(no_control);
-			setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_historial").hide();
-			limpiaForm($("#frm_historial")); 
-			alert_('ERROR FORMULARIO',$('#dialogo_historial'),250);
-			mostrar();
-			show_historial();
-			setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").show();',2000);
-			}
-		else{ //error desde el servidor
-			$("#img_enviar_historial").hide();
-			limpiaForm($("#frm_historial")); 
-			alert_('Error desconocido',$('#dialogo_historial'),250);
-			show_historial();	
-			setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").show();',2000);
-		}
-		});//fin de done
-	};	  
+	try{
+            $("#img_enviar_historial").show();
+            $("#frm_historial").hide();
+            $("#div_dt_historial_editar").hide();
+            $("#img_cerrar_frm_historial").hide();
+            $.post('ajax/actualizar_historial.php',{form:$('#frm_historial').serialize(),no_control:no_control,registro:registro})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                        $("#img_enviar_historial").hide();
+                        limpiaForm($("#frm_historial")); 
+                        alert_('ACTUALIZADO',$('#dialogo_historial'),250);
+                        mostrar();
+                        show_historial();
+                        dt_historial(no_control);
+                        setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").show();',2000);
+                        }
+                    else{ //error desde el servidor
+                        $("#img_enviar_historial").hide();
+                        limpiaForm($("#frm_historial")); 
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+                        show_historial();	
+                        setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").show();',2000);
+                        }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_historial").hide();
+                limpiaForm($("#frm_historial"));
+                show_historial();
+                setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();',2000);
+                ajax_error_alert(jqXHR,textStatus);
+            });//fin de done 
+        }catch(e){
+            $("#img_enviar_historial").hide();
+            limpiaForm($("#frm_historial")); 
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            show_historial();	
+            setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();$("#img_cerrar_frm_historial").show();',2000);
+        }
+	}	  
 	
 function borrar_historial(no_control,registro){//borrar empresa
-	alert_Bloq('BORRANDO...',$('#dialogo_historial'));
-	$.post('ajax/borrar_historial.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('FALLA DE SERVIDOR',$('#dialogo_historial'),250);
-			setTimeout('$("#dialogo_historial").dialog( "close" );',1000);})
-	.done(function(data){
-		if(data=='1'){//exito
-			alert_('BORRADO EXITOSO',$('#dialogo_historial'),250);
-			setTimeout('$("#dialogo_historial").dialog( "close" );',1000);
-			dt_historial(no_control);
-			}
-		else if(data=='3'){//problemas con formulario
-			alert_('ERROR CON GUARDADO',$('#dialogo_historial'),250);
-			setTimeout('$("#dialogo_historial").dialog( "close" );',1000);
-			}
-		else{ //error desde el servidor
-			alert_('ERROR SERVIDOR',$('#dialogo_empresa'),250);
-			setTimeout('$("#dialogo_historial").dialog( "close" );',1000);
-		}
-		});//fin de done
-}	
+	try{
+           alert_Bloq('BORRANDO...',$('#alert_personales'));
+            $.post('ajax/borrar_historial.php',{registro:registro,no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            alert_('BORRADO EXITOSO',$('#alert_personales'),250);
+                            setTimeout('$("#alert_personales").dialog( "close" );',1000);
+                            dt_historial(no_control);
+                            }
+                    else{ //error desde el servidor
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+                        setTimeout("$('#alert_personales').dialog('close');",2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                ajax_error_alert(jqXHR,textStatus);
+            }); 
+        }catch(e){
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            setTimeout("$('#alert_personales').dialog('close');",2000);
+        }
+	}      
 function confirmar_historial(no_control,registro){//preguntar borrado de empresa 
    $("#div_borrar_historial").dialog({ 
 		width: 250,  
@@ -1008,115 +1605,169 @@ function confirmar_historial(no_control,registro){//preguntar borrado de empresa
 		});
 	  }
 function guardar_historial(no_control){//guardar nueva mpresa
-	$("#img_enviar_historial").show();//img guardado
-	$("#frm_historial").hide();//ocular formulario
-	$("#img_cerrar_frm_historial").hide();
-	$.post('ajax/guardar_historial.php',{form:$('#frm_historial').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_historial").hide();
-			show_historial();
-			setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
-			alert_('ERROR SERVIDOR',$('#dialogo_empresa'),250);})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_historial").hide();
-			limpiaForm($("#frm_historial")); 
-			alert_('EMPRESA AGREGADA',$('#dialogo_empresa'),250);
-			show_historial();
-			dt_historial(no_control);
-			setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_historial").hide();
-			limpiaForm($("#frm_historial")); 
-			alert_('ERROR FORMULARIO',$('#dialogo_empresa'),250);
-			show_historial();
-			setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
-			}
-		else{ //error desde el servidor
-			$("#img_enviar_historial").hide();
-			limpiaForm($("#frm_historial")); 
-			alert_('ERROR DESCONOCIDO',$('#dialogo_empresa'),250);
-			show_historial();	
-			setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
-		}
-		});//fin de done
-	}//fin de function principal;			  
+	try{
+            $("#img_enviar_historial").show();//img guardado
+            $("#frm_historial").hide();//ocular formulario
+            $("#img_cerrar_frm_historial").hide();
+            $.post('ajax/guardar_historial.php',{form:$('#frm_historial').serialize(),no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            $("#img_enviar_historial").hide();
+                            limpiaForm($("#frm_historial")); 
+                            alert_('EMPRESA AGREGADA',$('#dialogo_empresa'),250);
+                            show_historial();
+                            dt_historial(no_control);
+                            setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
+                            }
+                    else{ //error desde el servidor
+                            $("#img_enviar_historial").hide();
+                            limpiaForm($("#frm_historial")); 
+                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                            alert_("Error",$("#alert_personales"),250);
+                            show_historial();	
+                            setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_historial").hide();
+                limpiaForm($("#frm_historial"));
+                show_historial();
+                setTimeout('$("#frm_historial").show();$("#div_dt_historial_editar").show();',2000);
+                ajax_error_alert(jqXHR,textStatus);
+            });//fin de done 
+        }catch(e){
+            $("#img_enviar_historial").hide();
+            limpiaForm($("#frm_historial")); 
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            show_historial();	
+            setTimeout('$("#frm_historial").show();$("#img_cerrar_frm_historial").show();',2000);
+        }
+	}		  
 	
 function dt_social(no_control){//cargar datos social
-	$("#div_dt_social").hide();
-	$("#img_cargando_social").show();
-	 xhr=$.post('ajax/dt_social.php',{no_control:no_control}).
-		fail(function(){
-				$("#img_cargando_social").hide();
-				alert('Error con el servidor dt_social');
-				$("#div_dt_social").show();
-		})
-		.done(function(data){
-			$("#img_cargando_social").hide();
-			$("#div_dt_social").html(data);
-			$("#div_dt_social").show();
-		});
-};
+	try{
+            $("#div_dt_social").hide();
+            $("#div_dt_social").html('');
+            $("#img_cargando_social").show();
+            $.post('ajax/dt_social.php',{no_control:no_control}).done(function(data){
+                datos=$.parseJSON(data);   
+                if(datos.respuesta==='1'){
+                    var p='<h2>Asociaciones Sociales</h2>';            
+                    $('#div_dt_social').append(p);
+                    p='<img tabindex="0" id="agregar_social" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS ACTIVIDADES SOCIALES" class="agregar_carrera"/>';          
+                    $('#div_dt_social').append(p);
+                    $.each(datos.social,function(){
+                        var div=$('<div/>');
+                        p='<p><img tabindex="0" id="img_eliminar_social'+this.id_consecutivo+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="elimnar_empresa" style="margin-left:30%"/></p>';
+                        div.append(p);
+                        p='<p>NOMBRE:<b>'+this.nombre+'</b></p>';
+                        div.append(p);
+                        p='<p>Tipo:<b>'+this.tipo+'</b></p>'; 
+                        div.append(p);
+                        div.addClass('div_dt_social');
+                        div.attr('id','div_social'+this.id_consecutivo);
+                        $('#div_dt_social').append(div);
+                    });
+                    $("#img_cargando_social").hide();
+                    $('#div_dt_social').show();
+                 }else{
+                    var p='<h2>Asociaciones Sociales</h2>';
+                    $('#div_dt_social').append(p);
+                    p='<img tabindex="0" id="agregar_social" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS ACTIVIDADES SOCIALES" class="agregar_carrera"/>';            
+                    $('#div_dt_social').append(p);
+                    p='<p>Informe:'+datos.mensaje+'</p>'; 
+                    $('#div_dt_social').append(p);
+                    $('#img_cargando_social').hide();
+                    $('#div_dt_social').show();
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    $("#img_cargando_social").hide();
+                    $('#div_dt_social').show(); 
+                    ajax_error(jqXHR,textStatus,$('#div_dt_social'));
+                });    
+        }catch(e){
+            var p='<h2>Asociaciones Sociales</h2>';
+            $('#div_dt_social').append(p);
+            p='<img tabindex="0" id="agregar_social" style="width:40px;height:40px;left:35%;" src="Imagenes/agregar.png"  title="AGREGAR MÁS ACTIVIDADES SOCIALES" class="agregar_carrera"/>';            
+            $('#div_dt_social').append(p);
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_dt_social').append(p);
+            $('#img_cargando_social').hide();
+            $('#div_dt_social').show();
+        }
+	}
 
 function guardar_social(no_control){//guardar nueva mpresa
-	$("#img_enviar_social").show();//img guardado
-	$("#frm_social").hide();//ocular formulario
-	$("#img_cerrar_frm_social").hide();
-	$.post('ajax/guardar_social.php',{form:$('#frm_social').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_social").hide();
-			show_social();
-			setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
-			alert_('ERROR SERVIDOR',$('#dialogo_social'),250);})
-	.done(function(data){
-		if(data=='1'){//exito
-			$("#img_enviar_social").hide();
-			limpiaForm($("#frm_social")); 
-			alert_('EXITO',$('#dialogo_social'),250);
-			show_social();
-			dt_social(no_control);
-			setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
-			}
-		else if(data=='2'){//problemas con formulario
-			$("#img_enviar_social").hide();
-			limpiaForm($("#frm_social")); 
-			alert_('ERROR FORMULARIO',$('#dialogo_social'),280);
-			show_social();
-			setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
-			}
-		else{ //error desde el servidor
-			$("#img_enviar_social").hide();
-			limpiaForm($("#frm_social")); 
-			alert_('ERROR DESCONOCIDO',$('#dialogo_social'),280);
-			show_social();	
-			setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
-		}
-		});//fin de done
-	}//fin de function principal;
+	try{
+            $("#img_enviar_social").show();//img guardado
+            $("#frm_social").hide();//ocular formulario
+            $("#img_cerrar_frm_social").hide();
+            $.post('ajax/guardar_social.php',{form:$('#frm_social').serialize(),no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            $("#img_enviar_social").hide();
+                            limpiaForm($("#frm_social")); 
+                            alert_('EXITO',$('#dialogo_social'),250);
+                            show_social();
+                            dt_social(no_control);
+                            setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
+                            }
+                    else{ //error desde el servidor
+                            $("#img_enviar_social").hide();
+                            limpiaForm($("#frm_social")); 
+                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                            alert_("Error",$("#alert_personales"),250);
+                            show_social();	
+                            setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_social").hide();
+                limpiaForm($("#frm_social")); 
+                show_social();
+                setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
+                ajax_error_alert(jqXHR,textStatus);
+            });//fin de done    
+        }catch(e){
+            $("#img_enviar_social").hide();
+            limpiaForm($("#frm_social")); 
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            show_social();	
+            setTimeout('$("#frm_social").show();$("#img_cerrar_frm_social").show();',2000);
+                 
+        }
+	}
 	
 function borrar_social(no_control,registro){//borrar empresa
-	alert_Bloq('BORRANDO...',$('#dialogo_social'));
-	$.post('ajax/borrar_social.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('FALLA DE SERVIDOR',$('#dialogo_social'),280);
-			setTimeout('$("#dialogo_social").dialog( "close" );',1000);})
-	.done(function(data){
-		if(data=='1'){//exito
-			alert_('BORRADO EXITOSO',$('#dialogo_social'),280);
-			setTimeout('$("#dialogo_social").dialog( "close" );',1000);
-			dt_social(no_control);
-			}
-		else if(data=='3'){//problemas con formulario
-			alert_('ERROR CON GUARDADO',$('#dialogo_social')),250;
-			setTimeout('$("#dialogo_social").dialog( "close" );',1000);
-			}
-		else{ //error desde el servidor
-			alert_('ERROR SERVIDOR',$('#dialogo_social'),250);
-			setTimeout('$("#dialogo_social").dialog( "close" );',1000);
-		}
-		});//fin de done
-}	
+	try{
+            alert_Bloq('BORRANDO...',$('#alert_personales'));
+            $.post('ajax/borrar_social.php',{registro:registro,no_control:no_control})
+            .done(function(data){
+                datos=$.parseJSON(data);
+                    if(datos.respuesta=='1'){//exito
+                            alert_('BORRADO EXITOSO',$('#alert_personales'),280);
+                            setTimeout('$("#alert_personales").dialog( "close" );',1000);
+                            dt_social(no_control);
+                            }
+                    else{ //error desde el servidor
+                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                        alert_("Error",$("#alert_personales"),250);
+                        setTimeout("$('#alert_personales').dialog('close');",2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                ajax_error_alert(jqXHR,textStatus);
+            });    
+        }catch(e){
+            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            setTimeout("$('#alert_personales').dialog('close');",2000);    
+        }
+	} 
 
 function confirmar_social(no_control,registro){//preguntar borrado de empresa 
    $("#div_borrar_social").dialog({ 
@@ -1143,38 +1794,87 @@ function confirmar_social(no_control,registro){//preguntar borrado de empresa
 	  }  
 	  
 function dt_posgrado(no_control){//cargar datos academicos
-	$("#div_dt_posgrado").hide();
-	$("#img_cargando_posgrado").show();
-	jqXHR=$.post('ajax/dt_posgrado.php',{no_control:no_control}).
-	fail(function(){
-			$("#img_cargando_posgrado").hide();
-			alert_('Error con el servidor',$('#alert_academico'),250);
-			$("#div_dt_posgrado").show();
-	})
-	.done(function(data){
-		$("#img_cargando_posgrado").hide();
-		$("#div_dt_posgrado").html(data);
-		$("#div_dt_posgrado").show();
-		});
-	};	  
+	try{
+            $("#div_dt_posgrado").hide();
+            $("#div_dt_posgrado").html('');
+            $("#img_cargando_posgrado").show();
+            $.post('ajax/dt_posgrado.php',{no_control:no_control})
+            .done(function(data){
+                 datos=$.parseJSON(data);   
+                 if(datos.respuesta==='1'){
+                    var p='<h2>Posgrado</h2>';            
+                    $('#div_dt_posgrado').append(p);
+                    p='<img tabindex="0" id="agregar_posgrado" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar pogrado" /> ';          
+                    $('#div_dt_posgrado').append(p);
+                    $.each(datos.posgrado,function(){
+                        var div=$('<div/>');
+                        p='<img tabindex="0" id="img_posgrado_borrar'+this.id_posgrado+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar"/>';
+                        div.append(p);
+                        p='<p>Posgrado:<b>'+this.nombre+'</b></p>';
+                        div.append(p);
+                        p='<p>Escuela:<b>'+this.escuela+'</b></p>';
+                        div.append(p);
+                        p='<p>titulado:<b>'+this.titulado+'</b></p>';
+                        div.append(p);
+                         p='<p>Tipo:<b>'+this.posgrado+'</b></p>'; 
+                        div.append(p);
+                        div.addClass('div_carrera');
+                        div.attr('id','div_posgrado'+this.id_posgrado);
+                        $('#div_dt_posgrado').append(div);
+                    });
+                    $("#img_cargando_posgrado").hide();
+                    $('#div_dt_posgrado').show();
+                 }else{
+                        var p='<h2>Posgrado</h2>';
+                        $('#div_dt_posgrado').append(p);
+                        p='<img tabindex="0" id="agregar_posgrado" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar posgrado" /> ';          
+                        $('#div_dt_posgrado').append(p);
+                        p='<p>Informe:'+datos.mensaje+'</p>'; 
+                        $('#div_dt_posgrado').append(p);
+                        $('#img_cargando_posgrado').hide();
+                        $('#div_dt_posgrado').show();
+                 }   
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                  $("#img_cargando_posgrado").hide();
+                  $('#div_dt_posgrado').show(); 
+                  ajax_error(jqXHR,textStatus,$('#div_dt_posgrado'));
+                }); 
+        }catch(e){
+            var p='<h2>Posgrado</h2>';
+            p='<p>Informe:'+e+'</p>'; 
+            $('#div_dt_posgrado').append(p);
+            p='<img tabindex="0" id="agregar_posgrado" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar posgrado" /> ';       
+            $('#div_dt_posgrado').append(p);
+            $('#img_cargando_posgrado').hide();
+            $('#div_dt_posgrado').show();
+        }
+	}	  
 	
 function borrar_posgrado(no_control,registro){//borrar empresa
-	alert_Bloq('BORRANDO...',$('#alert_academico'));
-	$.post('ajax/borrar_posgrado.php',{registro:registro,no_control:no_control})
-	.fail(function(){
-			alert_('FALLA DE SERVIDOR',$('#alert_academico'),280);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);})
-	.done(function(response){
-		respuesta = $.parseJSON(response);
-	 	if(respuesta.respuesta == 'done'){
-			alert_('BORRADO EXITOSO',$('#alert_academico'),280);
-			setTimeout('$("#alert_academico").dialog( "close" );',1000);
-			dt_posgrado(no_control);
-		}
-		else{
-			alert_(respuesta.mensaje,$("#alert_academico"),500);
-		}
-		});//fin de done
+	try{
+            alert_Bloq('BORRANDO...',$('#alert_personales'));
+            $.post('ajax/borrar_posgrado.php',{registro:registro,no_control:no_control})
+            .done(function(response){
+                    respuesta = $.parseJSON(response);
+                    if(respuesta.respuesta == 'done'){
+                            alert_('BORRADO EXITOSO',$('#alert_personales'),280);
+                            setTimeout('$("#alert_personales").dialog( "close" );',1000);
+                            dt_posgrado(no_control);
+                    }
+                    else{
+                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
+                            alert_("Error",$("#alert_personales"),250);
+                            setTimeout("$('#alert_personales').dialog('close');",2000);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                ajax_error_alert(jqXHR,textStatus);
+            });//fin de done 
+        }catch(e){
+            $("#alert_personales").append('<p>Informe:'+e+'</p>');
+            alert_("Error",$("#alert_personales"),250);
+            setTimeout("$('#alert_personales').dialog('close');",2000);
+        }
 }		
 
 function confirmar_posgrado(no_control,registro){//preguntar borrado de empresa 
@@ -1202,79 +1902,103 @@ function confirmar_posgrado(no_control,registro){//preguntar borrado de empresa
 	  }
 	  
 function guardar_posgrado(no_control){//guardar nuevo idioma
-	$("#img_enviar_posgrado").show();//img guardado
-	$("#frm_posgrado").hide();//ocular formulario
-	$.post('ajax/guardar_posgrado.php',{form:$('#frm_posgrado').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_posgrado").hide();
-			setTimeout('$("#frm_posgrado").show();',2000);
-			alert_('ERROR SERVIDOR',$('#alert_academico'),255);})
-	.done(function(response){
-		respuesta = $.parseJSON(response);
-	 	if(respuesta.respuesta == 'done'){
-			$("#img_enviar_posgrado").hide();
-			limpiaForm($("#frm_posgrado")); 
-			alert_('POSGRADO AGREGADO',$('#alert_academico'),300);
-			show_posgrado();
-			dt_posgrado(no_control);
-			setTimeout('$("#frm_posgrado").show();',1500);
-		}
-		else{
-			$("#img_enviar_posgrado").hide();
-			limpiaForm($("#frm_posgrado")); 
-			alert_(respuesta.mensaje,$("#alert_academico"),500);
-			show_posgrado();
-			setTimeout('$("#frm_posgrado").show();',1500);
-		}
-		});//fin de done
+	try{
+            $("#img_enviar_posgrado").show();//img guardado
+            $("#frm_posgrado").hide();//ocular formulario
+            $.post('ajax/guardar_posgrado.php',{form:$('#frm_posgrado').serialize(),no_control:no_control})
+            .done(function(response){
+                    respuesta = $.parseJSON(response);
+                    if(respuesta.respuesta == 'done'){
+                            $("#img_enviar_posgrado").hide();
+                            limpiaForm($("#frm_posgrado")); 
+                            alert_('POSGRADO AGREGADO',$('#alert_academico'),300);
+                            show_posgrado();
+                            dt_posgrado(no_control);
+                            setTimeout('$("#frm_posgrado").show();',1500);
+                    }
+                    else{
+                            $("#img_enviar_posgrado").hide();
+                            limpiaForm($("#frm_posgrado")); 
+                            alert_(respuesta.mensaje,$("#alert_academico"),500);
+                            show_posgrado();
+                            setTimeout('$("#frm_posgrado").show();',1500);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_posgrado").hide();
+                limpiaForm($("#frm_posgrado")); 
+                show_posgrado();
+                setTimeout('$("#frm_posgrado").show();',1500);
+                ajax_error_alert(jqXHR,textStatus);
+            });//fin de done    
+        }catch(e){
+            $("#img_enviar_posgrado").hide();
+            limpiaForm($("#frm_posgrado")); 
+            alert_(respuesta.mensaje,$("#alert_academico"),500);
+            show_posgrado();
+            setTimeout('$("#frm_posgrado").show();',1500);
+        }
 	}//fin de function principal; 	  
 	
 function guardar_residencia(no_control){//guardar nuevo idioma
-	$("#img_enviar_residencia").show();//img guardado
-	$("#frm_residencia").hide();//ocular formulario
-	$.post('ajax/guardar_residencia.php',{form:$('#frm_residencia').serialize(),no_control:no_control})
-	.fail(function(){
-			$("#img_enviar_residencia").hide();
-			setTimeout('$("#frm_residencia").show();',2000);
-			alert_('ERROR SERVIDOR',$('#alert_academico'),250);})
-	.done(function(response){
-		respuesta = $.parseJSON(response);
-	 	if(respuesta.respuesta == 'done'){
-			$("#img_enviar_residencia").hide();
-			$("#div_frm_residencia").fadeOut(500);
-			limpiaForm($("#frm_residencia")); 
-			alert_('ÉXITO',$('#alert_academico'),250);
-			setTimeout('$("#frm_residencia").show();',1500);
-			
-		}
-		else{
-			$("#img_enviar_residencia").hide();
-			limpiaForm($("#frm_residencia")); 
-			$("#div_frm_residencia").fadeOut(500);
-			alert_(respuesta.mensaje,$("#alert_academico"),500);
-			setTimeout('$("#frm_residencia").show();',1500);
-		}
-		});//fin de done
+	try{
+           $("#img_enviar_residencia").show();//img guardado
+            $("#frm_residencia").hide();//ocular formulario
+            $.post('ajax/guardar_residencia.php',{form:$('#frm_residencia').serialize(),no_control:no_control})
+            .done(function(response){
+                    respuesta = $.parseJSON(response);
+                    if(respuesta.respuesta == 'done'){
+                            $("#img_enviar_residencia").hide();
+                            $("#div_frm_residencia").fadeOut(500);
+                            limpiaForm($("#frm_residencia")); 
+                            alert_('ÉXITO',$('#alert_academico'),250);
+                            setTimeout('$("#frm_residencia").show();',1500);
+
+                    }
+                    else{
+                            $("#img_enviar_residencia").hide();
+                            limpiaForm($("#frm_residencia")); 
+                            $("#div_frm_residencia").fadeOut(500);
+                            alert_(respuesta.mensaje,$("#alert_academico"),250);
+                            setTimeout('$("#frm_residencia").show();',1500);
+                    }
+                    }).
+            fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_residencia").hide();
+                $("#div_frm_residencia").fadeOut(500);
+                ajax_error_alert(jqXHR,textStatus);
+            }); 
+        }catch(e){
+            $("#img_enviar_residencia").hide();
+            limpiaForm($("#frm_residencia")); 
+            $("#div_frm_residencia").fadeOut(500);
+            alert_(e,$("#alert_academico"),250);
+            setTimeout('$("#frm_residencia").show();',1500);
+        }
 	}//fin de function principal;
 function nueva_contraseña(no_control){
-    $("#frm_pass").hide();//ocultar campos
-    $("#img_enviar_pass").show();
-    var p = document.createElement("input"); 
-    p.name = "p";
-    p.type = "hidden";
-    p.value = hex_sha512($('#viejo_pass').val());
-    $("#frm_pass").append(p); 
-    $('#viejo_pass').val('no ver');
-    var x = document.createElement("input"); 
-    x.name = "x";
-    x.type = "hidden";
-    x.value = hex_sha512($('#pass_nuevo').val());
-    $("#frm_pass").append(x);
-    $('#pass_nuevo').val('no ver');
-    $('#pass_nuevo_reafirmar').val('no ver');
-    $.post('ajax/nueva_contrasena.php',{form:$("#frm_pass").serialize(),no_control:no_control})
-            .fail(function(){
-                
+    try{
+        $("#frm_pass").hide();//ocultar campos
+        $("#img_enviar_pass").show();
+        var p = document.createElement("input"); 
+        p.name = "p";
+        p.type = "hidden";
+        p.value = hex_sha512($('#viejo_pass').val());
+        $("#frm_pass").append(p); 
+        $('#viejo_pass').val('no ver');
+        var x = document.createElement("input"); 
+        x.name = "x";
+        x.type = "hidden";
+        x.value = hex_sha512($('#pass_nuevo').val());
+        $("#frm_pass").append(x);
+        $('#pass_nuevo').val('no ver');
+        $('#pass_nuevo_reafirmar').val('no ver');
+        $.post('ajax/nueva_contrasena.php',{form:$("#frm_pass").serialize(),no_control:no_control})
+            .fail(function(jqXHR, textStatus, errorThrown){
+                $("#img_enviar_pass").hide();
+                ajax_error_alert(jqXHR,textStatus); 
+                limpiaForm($('#frm_pass'));
+                $("#frm_pass").show();
             })
             .done(function(data){
             respuesta=$.parseJSON(data);
@@ -1290,12 +2014,17 @@ function nueva_contraseña(no_control){
                     limpiaForm($('#frm_pass'));
                     $("#frm_pass").show();
                 }
-            
             });
-    p.remove(); 
-    x.remove();
-    $('#span_pass').hide();
-    $('#span-pass-correcto').hide();
+        p.remove(); 
+        x.remove();
+        $('#span_pass').hide();
+        $('#span-pass-correcto').hide();    
+    }catch(e){
+        $("#img_enviar_pass").hide();
+        alert_(e,$('#alert_pass'),250);
+        limpiaForm($('#frm_pass'));
+        $("#frm_pass").show();
+    }
 }
 
 function evaluar_pass(input){//evaluar password

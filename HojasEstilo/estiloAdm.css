@@ -41,6 +41,20 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     font-size:12px;
     text-align: center;
 }
+#div-recomendaciones{
+   display:none;    
+    color: #000000;
+    line-height:28px;
+    font-size:12px;
+    text-align: center; 
+}
+#dialogo{
+    display:none;    
+    color: #000000;
+    line-height:28px;
+    font-size:12px;
+    text-align: center;
+}
 .img-centrada-oculta{
     position: absolute;
     top:0px;
@@ -71,6 +85,9 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     bottom:0;
     margin: auto;   
 }
+.img-centrar{
+    margin: 0px auto;
+}
 .nav-personal{
     background-color: #FF5722;
 }
@@ -86,6 +103,7 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
 .navbar-default .navbar-nav > li > a:focus {
   	color:#FFF;
 	background:#ff6666 url(../Imagenes/gradient.png) repeat-x;
+        outline: none ;
 }
 .navbar-header:hover{
     background:#ff3333 url(../Imagenes/gradient.png) repeat-x;
@@ -110,12 +128,19 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     left:0px;
     top: 0px;
 }
+#input-buscador:focus{
+    background-color: #ff7979; 
+    color: #FFF;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
 #div-principal{
     position: relative;
     min-height: 450px;
 }
 #div-contenedor-resultados{
     position: relative;
+    height: 0px;
 }
 #div-resultados{
     position: absolute;
@@ -135,18 +160,23 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     border:none;
     border-radius: 0px 5px 5px 0px;
     margin: 0px auto;
+    position: relative;
 }
-#div-buscar-todos{
+.div-buscar-todos{
     height: 33px;
     background: url(../Imagenes/adm/perfil_n.png) #FF5722 top  no-repeat;
     transition: .3s;
     text-align: left;
     position: relative;
+    cursor:pointer;
 }
-#div-buscar-todos:hover{
+.div-buscar-todos:hover{
     height: 32px;
     background: url(../Imagenes/adm/perfil_b.png) #FFF top  no-repeat;
-    border: #FF5722 solid 1px;
+}
+.div-buscar-todos-hover{
+    height: 32px;
+    background: url(../Imagenes/adm/perfil_b.png) #FFF top  no-repeat;
 }
 #span-buscar-todos{
     font-size: 18px;
@@ -159,14 +189,23 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
 #div-barra-busqueda:hover{
     background-color: #ff7979;  
 }
+#div-barra-busqueda:focus{
+    background-color: #ff7979;  
+    border:  #003300 solid 1px;
+    outline: none ;
+}
 
-#div-img-encontrar{
+.div-img-encontrar{
     float: right;
     background-color: #efe1e1;
     border-radius: 0px 5px 5px 0px;
     border-bottom: #FF5722 solid 1px;
+    cursor:pointer;
 }
-#div-img-encontrar:hover{
+.div-img-encontrar:hover{
+    background-color: #ff7979;
+}
+.div-img-encontrar-hover{
     background-color: #ff7979;
 }
 .div-resultado{
@@ -174,6 +213,7 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     height: 80px;
     position: relative;
     overflow: auto;
+    cursor:pointer;
 }
 #div-img-cargar-datos-mas{
     width:100%;
@@ -182,6 +222,16 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
 }
 .div-resultado:hover{
     background-color: #ff7979;
+}
+.div-resultado:focus{
+    background-color: #ff7979;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
+#div-principal-empresa:focus{
+    background-color: #f3f3f8;
+    border:  #003300 solid 1px;
+    outline: none ;
 }
 .div-miniatura{
     float: right;
@@ -229,7 +279,9 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
 .img-egresado{
     width: 60px;
     height: 60px;
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 #row-datos-academicos{
     min-height: 100px;
@@ -253,12 +305,52 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
   height: 450px;
   position: relative;
 }
+#div-principal-datos-personales:focus{
+    background-color: #f3f3f8;
+   border:  #003300 solid 1px;
+   outline: none ;
+}
+#div-principal-foto:focus{
+    background-color: #f3f3f8;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
+#div-principal-datos-sw:focus{
+    background-color: #f3f3f8;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
+#div-principal-datos-idioma:focus{
+    background-color: #f3f3f8;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
+#div-datos-historial:focus{
+  background-color: #f3f3f8; 
+  border:  #003300 solid 1px;
+  outline: none ;
+}
 #div-principal-foto{
     height: 450px;
 }
 
 #div-datos-academicos{
     min-height: 450px;
+}
+#div-datos-academicos:focus{
+    background-color: #f3f3f8;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
+#div-datos-posgrado:focus{
+   background-color: #f3f3f8;
+   border:  #003300 solid 1px;
+   outline: none ;
+}
+#div-principal-social:focus{
+   background-color: #f3f3f8; 
+   border:  #003300 solid 1px;
+   outline: none ;
 }
 #div-principal-ingenieria{
     position: relative;
@@ -299,6 +391,12 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
      background-color: #ff7f83;
      border-radius: 10px;
 }
+#div-img-posgrado:focus{
+     background-color: #ff7f83;
+     border-radius: 10px;
+     border:  #003300 solid 1px;
+     outline: none ;
+}
 #div-img-ingenieria{
     position: relative;
     width: 64px; 
@@ -308,6 +406,12 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
 #div-img-ingenieria:hover{
      background-color: #ff7f83;
      border-radius: 10px;
+}
+#div-img-ingenieria:focus{
+     background-color: #ff7f83;
+     border-radius: 10px;
+     border:  #003300 solid 1px;
+     outline: none ;
 }
 .separador{
     background:url('../Imagenes/adm/cabeza.png') #FF5722 center no-repeat;
@@ -376,6 +480,7 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     height: 300px;
     font-size: 16px;    
 }
+
 .tabla{
     text-align: center;
     border: none;
@@ -391,6 +496,17 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     background-color: #FFF;
     text-align: center;
 }
+#div-principal-agregar-egresado{
+    min-height: 200px;
+    display: none;
+    position: relative;
+    border: #FF5722 solid 5px;
+    border-radius: 5px;
+    transition: 2s;
+    background-color: #FFF;
+    text-align: center; 
+    top:0px;
+}
 #div-principal-empresa{
    min-height: 450px;
    position: relative; 
@@ -403,10 +519,19 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     position: relative;
 }
 .div-datos-empresa-resultado{
-    
+    cursor:pointer;
 }
 .div-datos-empresa-resultado:hover{
     background-color: #f3f3f8;
+}
+.div-datos-empresa-resultado:focus{
+    background-color: #f3f3f8;
+    outline: none ;
+}
+#div-datos-empresa:focus{
+    background-color: #f3f3f8;
+    border:  #003300 solid 1px;
+    outline: none ;
 }
 .cancel{
     width: 32px;
@@ -415,9 +540,14 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     border-radius: 5px;
     transition: 1s;
     margin: 0 auto;
+    cursor:pointer;
 }
 .cancel:hover{
   background:url('../Imagenes/adm/cancel_b.png') #FF3333 center no-repeat;  
+}
+.cancel:focus{
+  outline: none ;  
+  border:  #003300 solid 1px;
 }
 .margen-izq{
     margin-left: 5px;
@@ -440,14 +570,355 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     color: #000;
     border-radius: 5px;
     border: none;
-    background:#ffffff url('../img/gradient.png') repeat-x;
+    background:#ffffff url('../Imagenes/gradient.png') repeat-x;
 }
 .boton:hover{
     background-color: #ffb151;
+}
+.boton:focus{
+    background-color: #ffb151;
+    outline: none ;
+}
+.guardar{
+    width: 60%;
+    margin: 10px auto;
+    height: 40px;
+    color: #000;
+    border-radius: 5px;
+    border: #FF5722 solid 1px;
+    background:#ffffff url('../Imagenes/gradient.png') repeat-x;
+}
+.guardar:hover{
+    background: rgba(240,47,23,1);
+background: -moz-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(240,47,23,1)), color-stop(8%, rgba(240,47,23,1)), color-stop(51%, rgba(230,87,69,1)), color-stop(100%, rgba(231,56,39,1)));
+background: -webkit-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+background: -o-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+background: -ms-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+}
+.guardar:focus{
+    background: rgba(240,47,23,1);
+background: -moz-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(240,47,23,1)), color-stop(8%, rgba(240,47,23,1)), color-stop(51%, rgba(230,87,69,1)), color-stop(100%, rgba(231,56,39,1)));
+background: -webkit-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+background: -o-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+background: -ms-linear-gradient(45deg, rgba(240,47,23,1) 0%, rgba(240,47,23,1) 8%, rgba(230,87,69,1) 51%, rgba(231,56,39,1) 100%);
+outline: none ;
 }
 .p-ver-mas{
     text-align: center;
 }
 .p-ver-mas:hover{
     background-color: #ff7979;
+}
+.p-ver-mas:focus{
+    background-color: #ff7979;
+    border:  #003300 solid 1px;
+    outline: none ;
+}
+#div-agregar-egresado{
+   background:#FF5722 url('../Imagenes/adm/agregar_b.png') center no-repeat ;
+   height: 33px;
+   transition: 1s;
+   cursor:pointer;
+}
+#div-agregar-egresado:hover{
+   background:#FFF url('../Imagenes/adm/agregar_n.png') left no-repeat ;
+}
+#div-agregar-egresado:focus{
+   background:#FFF url('../Imagenes/adm/agregar_n.png') left no-repeat ;
+   outline: none ;
+}
+#span-agregar-egresado{
+   font-size:18px;
+   margin-left: 32px;
+   display: none;
+   text-align: center;
+}
+
+#div-cerrar-agregar-egresado{
+    width: 32px;
+    height: 32px;
+    background:url('../Imagenes/adm/cancel_w.png') #FF5722 center no-repeat;
+    border-radius: 5px;
+    transition: 1s;
+    margin: 0 auto;
+}
+#div-cerrar-agregar-egresado:hover{
+  background:url('../Imagenes/adm/cancel_a.png') #FFF center no-repeat;  
+}
+#div-cerrar-agregar-egresado:focus{
+  background:url('../Imagenes/adm/cancel_a.png') #FFF center no-repeat;   
+  border:  #003300 solid 1px;
+  outline: none ;
+}
+.img-mininmizar{
+    height: 32px;
+    width: 32px;
+   position: absolute;
+}
+.img-mininmizar:hover{
+    border: #FFF solid 1px;
+    border-radius: 5px;
+}
+.img-mininmizar:focus{
+    border: #FFF solid 1px;
+    border-radius: 5px;
+    outline: none ;
+}
+.img-minimizar-borrar{
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    margin-left: 32px;
+}
+.img-minimizar-borrar:hover{
+    border: #FFF solid 1px;
+    border-radius: 5px;
+}
+.img-minimizar-borrar:focus{
+    border: #FFF solid 1px;
+    border-radius: 5px;
+    outline: none ;
+}
+@media(min-width: 360px){
+   #form-agregar-egresado{
+    background-color: #FF5722;
+    border-radius: 0px 0px 5px 5px;
+    width: 95%;
+    text-align: center;
+    margin: 0 auto;
+} 
+}
+
+@media(max-width:359px){
+    #form-agregar-egresado{
+    background-color: #FF5722;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+} 
+}
+#div-eliminar-egresado{
+    background: #FF5722 url("../Imagenes/adm/less_b.png") no-repeat scroll center center;
+    height: 33px;
+    transition: all 1s ease 0s;
+    position: relative;
+    cursor:pointer;
+}
+#div-eliminar-egresado:hover{
+   background:#FFF url('../Imagenes/adm/less_o.png') left no-repeat ;
+}
+#div-eliminar-egresado:focus{
+   background:#FFF url('../Imagenes/adm/less_o.png') left no-repeat ;
+   outline: none ;
+}
+#span-eliminar-egresado{
+   font-size:18px;
+   margin-left: 32px;
+   display: none;
+   text-align: center;
+}
+#div-row-eliminar-egresado{
+    display: none;
+}
+#div-col-frm-agregar-administradores{
+    min-height: 374px;
+    position: relative;
+    border: #FF5722 solid 5px;
+    transition: 2s;
+    background-color: #FFF;
+    text-align: center; 
+    top:0px;
+}
+
+.formularios{
+    width: 100%;
+    border-radius:5px;
+    text-align:center;
+}
+.input{
+    width: 60%;
+    margin: 10px auto;
+    height: 40px;
+    color: #000;
+    border-radius: 5px;
+    border: #FF5722 solid 1px;
+    background:#ffffff url('../Imagenes/gradient.png') repeat-x;
+}
+#input-administrador-password{
+   width: 60%;
+    margin: 10px auto;
+    height: 40px;
+    color: #000;
+    border-radius: 5px;
+    border: #FF5722 solid 1px; 
+}
+#input-administrador-password-editar{
+   width: 60%;
+    margin: 10px auto;
+    height: 40px;
+    color: #000;
+    border-radius: 5px;
+    border: #FF5722 solid 1px; 
+}
+
+.input:hover{
+    background-color: #ffb151;
+}
+.input-hover{
+    background-color: #ffb151;
+}
+.input:focus{
+    background-color: #ffb151;
+    outline: none ;
+}
+#div-col-frm-borrar-administradores{
+    min-height: 374px;
+    position: relative;
+    border: #FF5722 solid 5px;
+    transition: 2s;
+    background-color: #FFF;
+    text-align: center; 
+    top:0px;
+}
+
+.span_pass-incorrecto{
+    color:#333333;
+    background-color:#ff0033;
+    border-radius:5px;
+    display:none;
+    font-size: 18px;
+}
+#span-pass-correcto{
+    color:#0C0;
+    background-color:#C3FF88;
+    border-radius:5px;
+    display:none;
+    font-size: 18px;
+}
+#span-pass-correcto-editar{
+    color:#0C0;
+    background-color:#C3FF88;
+    border-radius:5px;
+    display:none;
+    font-size: 18px;
+}
+
+.muy-debil{
+    background-color:#ff0033;
+    border: 1px solid #ff0033;
+}
+.debil{
+    background-color:#ff9999;
+    border: 1px solid #ff9999;
+}
+.media{
+    background-color: #ffcc66;
+    border: 1px solid #ffcc66;
+}
+.alta{
+    background-color: #00cc33;
+    border: 1px solid #00cc33;
+}
+
+#img-ayuda-pass{
+    display: none;
+}
+#img-ayuda-pass-editar{
+    display: none;
+}
+.margen-top{
+    margin-top: 10px;
+}
+
+#div-col-frm-editar-administradores{
+    min-height: 374px;
+    position: relative;
+    border: #FF5722 solid 5px;
+    transition: 2s;
+    background-color: #FFF;
+    text-align: center; 
+    top:0px;
+}
+.div-contenedor{
+    min-height: 374px;
+    position: relative;
+    border: #FF5722 solid 5px;
+    transition: 2s;
+    background-color: #FFF;
+    text-align: center; 
+}
+#div-row-principal-datos-escuela{
+   min-height: 374px; 
+}
+
+b{
+    color: #15a30a;
+    font-weight: normal;
+}
+#div-principal-frm-datos-escuela{
+    display: none;
+    min-height: 586px;
+    position: relative
+}
+#div-principal-img-datos-escuela{
+    position: relative;
+    height: 128px;
+}
+.img-giro{
+    transition: 1s;
+    cursor:pointer;
+}
+.img-giro:hover{
+        transform : rotate(360deg);
+	-moz-transform : rotate(360deg); /* Firefox */
+	-webkit-transform : rotate(360deg); /* Chrome - Safari */
+	-o-transform : rotate(360deg); /* Opera */
+}
+.img-giro:focus{
+        transform : rotate(360deg);
+	-moz-transform : rotate(360deg); /* Firefox */
+	-webkit-transform : rotate(360deg); /* Chrome - Safari */
+	-o-transform : rotate(360deg); /* Opera */
+        outline: none ;
+}
+#div-principal-datos-escuela{
+    min-height: 586px;
+}
+#div-row-principal-img-escuela{
+    position: relative;
+    min-height: 200px;
+}
+#div-col-img-mexico{
+    position: relative;
+    height: 128px;
+}
+#div-col-img-jalisco{
+   position: relative;
+   height: 128px; 
+}
+#div-img-estadisticas{
+    position: relative;
+    height: 128px;
+}
+#div-img-adm{
+  position: relative;
+    height: 128px;  
+}
+
+#div-col-img-idioma,#div-row-img-carrera{
+    min-height: 128px;
+    position: relative
+}
+#div-col-img-carrera{
+position: relative;
+height: 128px;
+}
+.img-info{
+    margin-left: 5px;
+    cursor:pointer;
+}
+.loading{
+    cursor:progress;
 }

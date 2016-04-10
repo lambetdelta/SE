@@ -1,0 +1,35 @@
+GRANT USAGE ON *.* TO 'egresado'@'localhost' IDENTIFIED BY PASSWORD '*DEE77414F30C0572502D1EABC81E452FDEDD57F3';
+
+GRANT SELECT ON `se`.`especialidad` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON `se`.`datos_egresado` TO 'egresado'@'localhost';
+
+GRANT SELECT ON `se`.`carrera` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON `se`.`foto_egresado` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`idiomas_egresado` TO 'egresado'@'localhost';
+
+GRANT SELECT ON `se`.`municipio` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`requesitos_contratacion` TO 'egresado'@'localhost';
+
+GRANT SELECT ON `se`.`estado` TO 'egresado'@'localhost';
+
+GRANT SELECT ON `se`.`idioma` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`paquetes_sw` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, DELETE, REFERENCES ON `se`.`posgrado` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`actividad_social` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`datos_empresa` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON `se`.`intentos` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`historial_academico` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`historial_laboral` TO 'egresado'@'localhost';
+
+GRANT SELECT, INSERT, DELETE, REFERENCES ON `se`.`reseteo_contrasena` TO 'egresado'@'localhost';

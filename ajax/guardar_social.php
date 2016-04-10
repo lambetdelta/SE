@@ -1,23 +1,31 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
-$form=array();
-sleep(3);
+
+$datos=array();
+$datos['mensaje']='Error en envío';
+$datos['respuesta']='0';
 if (isset($_POST['form'],$_POST['no_control']))
 {
     if(is_numeric($_POST['no_control']))
     {
     parse_str($_POST['form'],$form);
     $form=anti_xss($form);
-    if(guardar_social($mysqli,$_POST['no_control'],$form['nombre'],$form['tipo']))
-        echo "1";//exito
-    else
-        echo "0";
+    if (validarSocial($form['tipo'])){
+        if(strlen($form['nombre'])<=40){
+            if(guardar_social($mysqli,$_POST['no_control'],$form['nombre'],$form['tipo']))
+            {
+                $datos['mensaje']='bien';
+                $datos['respuesta']='1';
+            }
+            else
+                $datos['mensaje']='Error en guardado';
+        }else
+            $datos['mensaje']='Campo nombre muy largo 40 caracteres máximo';
+    }else
+        $datos['mensaje']='Campo tipo de asociación inválido';
     }
-    else 
-        echo '2';
 }
-else
-    echo "2";//error con el formulario enviado
-?>
+
+echo json_encode($datos);

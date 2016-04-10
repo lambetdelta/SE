@@ -2,7 +2,6 @@
 
 include '../includes/conexion-bd-adm.php';
 include '../includes/functions_adm.php';
-sleep(3);
 $resultado='0';
 $mensaje='Datos inválidos';
 $img='Imagenes/businessman_green.png';

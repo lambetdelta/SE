@@ -1,23 +1,29 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
 $form=array();
-sleep(3);
+$datos=array();
+$datos['respuesta']='0';
+$datos['mensaje']='Error en envío';
 if (isset($_POST['form'],$_POST['no_control'],$_POST['registro']))
 {
     parse_str($_POST['form'],$form);
     $form=anti_xss($form);
-    if(is_numeric($_POST['no_control']))
+    if((is_numeric($_POST['no_control']))&&(is_numeric($_POST['registro'])))
     {
-        if(actualizar_historial($mysqli,$_POST['no_control'],$form['nombre'],$form['tel'],$form['web'],$form['email'],$_POST['registro']))
-            echo "1";
-        else
-            echo "0";
+        $valides=validarHistorial($form['nombre'],$form['tel'],$form['email'],$form['web']);
+        if($valides['resultado']){
+            if(actualizar_historial($mysqli,$_POST['no_control'],$form['nombre'],$form['tel'],$form['web'],$form['email'],$_POST['registro']))
+            {
+                $datos['respuesta']='1';
+                $datos['mensaje']='bien';
+            }
+            else
+                $datos['mensaje']='Error en guardado';
+        }else
+             $datos['mensaje']=$valides['mensaje'];
     }
-    else
-        echo '2';
 }
-else
-    echo "2";//error con el formulario enviado
-?>
+
+echo json_encode($datos);

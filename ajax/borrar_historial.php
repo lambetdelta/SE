@@ -1,23 +1,20 @@
 <?php 
-include_once '../includes/functions.php';
-include_once '../includes/db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
-$form=array();
-sleep(3);
+$datos=array();
+$datos['respuesta']='0';
+$datos['mensaje']='Error en envío';
 if (isset($_POST['no_control'],$_POST['registro']))
 {
     if(is_numeric($_POST['no_control'])&& is_numeric($_POST['registro']))
     {
         if(borrar_historial($mysqli,$_POST['no_control'],$_POST['registro']))
-            echo '1';
-        else
-            echo '3';
-    }
-    else 
-       echo'2';     
-}	
-else
-    echo "2";//error con el formulario enviado
-	
-	
-?>
+        {
+            $datos['respuesta']='1';
+            $datos['mensaje']='bien';
+        }
+    }  
+}
+
+echo json_encode($datos);

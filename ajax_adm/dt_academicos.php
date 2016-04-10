@@ -2,7 +2,6 @@
 
 include '../includes/conexion-bd-adm.php';
 include '../includes/functions_adm.php';
-sleep(3);
 $datos=Array();
 $datos['respuesta']='0';
 $datos['mensage']='Error en envío de datos';

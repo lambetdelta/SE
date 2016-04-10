@@ -10,34 +10,21 @@ sec_session_start();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Bienvenido</title>
 <link href="HojasEstilo/estiloBienvenido.css" rel="stylesheet" type="text/css" />
+<link href="HojasEstilo/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<script type="text/javascript">
-$("document").ready(function() {
-	$( "#Estados" ).load( "contenidos/Estados.php" );
-	$("#Estados").change(function()
-	 	{
-		var id_estado=$("#Estados").val();
-		$.get("contenidos/Municipios.php",{param_id_estado:id_estado})
-		.done(function(data)
-			{
-			$("#Municipio").html(data);
-			}/*fin de done*/)
-		}/*fin de change*/ );
-		
-}/*fin de load*/);
-</script>
      <?php if (login_check($mysqli) == true) : ?>
      <body>
  	<header>
     	<figure>
-        	<img src="Imagenes/banner_ittj.png" class="centrar"/>
+        	<img src="Imagenes/banner_ittj.png" class=" img-responsive centrar"/>
          </figure>
     </header>
-     	<section> 
+         <div id="div-row-section" class="row">
+             <section> 
           <div class="frase">
           	<?php 
-				list($fechaCon,$direccion,$cargo,$domicilio,$email,$web)=datos();
+				list($fechaCon,$direccion,$cargo,$domicilio,$tel,$email,$web)=datos();
 				echo $fechaCon;
 			?>
           </div>
@@ -46,7 +33,7 @@ $("document").ready(function() {
               echo $fecha; ?>
           </div>
           <article class="Escolar" style="color:#333">
-              <div class="Mensagge">
+              <div id="div-col-mensaje" class="col-xs-12 Mensagge">
               <h1>ESTIMADO EGRESADO</h1>
                <br/>
              
@@ -60,19 +47,25 @@ $("document").ready(function() {
                <p>Con nuestro agradecimiento por tu cooperación, recibe un cordial saludo.</p>
                <br />
                <br />
-               <p>ATENTAMENTE</p>
-               <i>Educando Para La Sociedad Actual Y Los Retos Del Futuro</i>
-               <figure style="margin-left:0%">
-               		<img src="Imagenes/firmaDirector.JPG" />
-               </figure>
-               	<?php 
-				echo $direccion;
-			    ?>
-            <br/>
-            <?php 
-				echo $cargo;
-			?>
-            <a href="perfil.php" class="ir_perfil">ACEPTAR</a>
+               <div id="div-row-mensaje" class="row">
+                   <div id="dov-col-mensaje" class="col-lg-6 col-xs-12">
+                    <p>ATENTAMENTE</p>
+                    <i>Educando Para La Sociedad Actual Y Los Retos Del Futuro</i>
+                    <figure style="margin-left:0%">
+                             <img src="Imagenes/firmaDirector.png" />
+                    </figure>
+                     <?php 
+                                     echo $direccion;
+                                 ?>
+                    <br/>
+                    <?php 
+                                     echo $cargo;
+                             ?>
+                   </div>
+                   <div id="div-col-boton" class="col-lg-6 col-xs-12">
+                    <a href="perfil.php" class="ir_perfil">ACEPTAR</a>
+                    </div>
+                </div>
           </div>
                         <?php else : ?>
                           <body class="Body_error">
@@ -92,18 +85,16 @@ $("document").ready(function() {
                         <?php endif; ?>
                 </article>
         </section>
+         </div>
         <footer>
         	<div class="Pie">
-            	<figure style="margin-left:0px">
-            		<img src="Imagenes/logo_ittj.png" />
-                </figure>
-                <div class="Contacto"><?php 
-				echo $domicilio;
+                <div class="Contacto">
+                    <h3>Contacto</h3>
+                    <?php 
+				echo $domicilio.$tel;
 			?><a href="mailto:ittj@ittlajomulco.edu.mx"><?php echo $email?></a>,<a href="http://www.ittlajomulco.edu.mx/"><?php echo $web?></a> </div>
-                <figure class="imgRight">
-                	<img src="Imagenes/logo_ittj.png" />
-                </figure>
             </div>
         </footer>
 </body>
+<script src="js/bootstrap.js" type="text/javascript"></script>
 </html>

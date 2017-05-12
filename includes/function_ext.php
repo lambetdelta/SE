@@ -51,16 +51,13 @@ function borrar_token($no_control,$mysqli){
  }
 function validar_email($mysqli,$no_control,$email){//validar email dado por el usuario
     try{
-        if ($stmt = $mysqli->prepare("SELECT  email FROM datos_egresado WHERE (no_control=? AND email=?)")){
-		$stmt->bind_param('is',$no_control,$email); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result();
-                $stmt->close();
-		if($resultado->num_rows >0)
-			return TRUE;
-		else
-			return FALSE;
-	}
+        $query="SELECT  email FROM datos_egresado WHERE (no_control=$no_control AND email=$email)";
+        if ($stmt = $mysqli->query($query)){
+    		if($stmt->num_rows >0)
+    			return TRUE;
+    		else
+    			return FALSE;
+	   }
         else {
             return FALSE;
         }
@@ -71,22 +68,18 @@ function validar_email($mysqli,$no_control,$email){//validar email dado por el u
 }
 function validar_token($mysqli,$no_control,$token){//buscar token creado
     try{
-        if ($stmt = $mysqli->prepare("SELECT no_controlfk FROM reseteo_contrasena WHERE token = ?")){
-		$stmt->bind_param('s',$token); 
-		$stmt->execute();    // Ejecuta la consulta preparada.
-                $resultado=$stmt->get_result();
-                $stmt->close();
-		if($resultado->num_rows >0)
-                    {
-                    $usuario = $resultado->fetch_assoc();
-                    if( sha1($usuario['no_controlfk']) == $no_control )
-                        return TRUE;
-                    else 
-                       return FALSE; 
-                    }
-		else
-			return FALSE;
-	}
+        $query="SELECT no_controlfk FROM reseteo_contrasena WHERE token = $token";
+        if ($stmt = $mysqli->query($query)){
+        	if($stmt->num_rows >0){
+                $usuario = $stmt->fetch_assoc();
+                if( sha1($usuario['no_controlfk']) == $no_control )
+                    return TRUE;
+                else 
+                   return FALSE; 
+            }
+		    else
+			    return FALSE;
+	   }
         else {
             return FALSE;
         }
@@ -144,14 +137,11 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
 
 
 function enviar_email($no_control,$correo,$mysqli){//enviar email con solicitud de cambio de contraseña
-    if($stmt=$mysqli->prepare('select nombre,apellido_p,apellido_m from datos_egresado where no_control=?'))
+    $query='select nombre,apellido_p,apellido_m from datos_egresado where no_control=$no_control';
+    if($stmt=$mysqli->query($query))
     {
-        $stmt->bind_param('i',$no_control); 
-        $stmt->execute();    // Ejecuta la consulta preparada.
-        $resultado=$stmt->get_result(); 
-        $stmt->close();
-        if($resultado->num_rows >0){
-            while ($fila=$resultado->fetch_assoc()){
+        if($stmt->num_rows >0){
+            while ($fila=$stmt->fetch_assoc()){
                 $nombre=$fila['nombre'];
                 $apellido_m=$fila['apellido_m'];
                 $apellido_p=$fila['apellido_p'];

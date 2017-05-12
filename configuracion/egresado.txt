@@ -6,8 +6,6 @@ GRANT SELECT, INSERT, UPDATE, REFERENCES ON `se`.`datos_egresado` TO 'egresado'@
 
 GRANT SELECT ON `se`.`carrera` TO 'egresado'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, REFERENCES ON `se`.`foto_egresado` TO 'egresado'@'localhost';
-
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`idiomas_egresado` TO 'egresado'@'localhost';
 
 GRANT SELECT ON `se`.`municipio` TO 'egresado'@'localhost';

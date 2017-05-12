@@ -128,10 +128,8 @@ background: #FFF url('../Imagenes/gradient.png') repeat-x;
     left:0px;
     top: 0px;
 }
-#input-buscador:focus{
-    background-color: #ff7979; 
-    color: #FFF;
-    border:  #003300 solid 1px;
+#input-buscador:focus{ 
+    color: black;
     outline: none ;
 }
 #div-principal{

@@ -1,14 +1,14 @@
 <?php
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
-//<!--sistema desarrollado por Osvaldo uriel Garcia Gomez del ITTJ para cuaqluier duda enviar un correo a lambetdelta@hotmail.com con el asunto Sistema de seguimiento de egresados--> 
+/* Cualquier duda repecto al código o en que diablos estaba pensando cuando lo hice :) enviar un correo 
+ *  con el asunto SE a la siguiente direccion lambetdelta@hotmail.com con el  Ing. Osvaldo Uriel Garcia Gomez*/ 
 sec_session_start();
 if($mysqli->connect_errno){
     header('Location: error_bd.php');
 }else{
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head> 
 <meta charset="UTF-8">   
@@ -28,8 +28,13 @@ if($mysqli->connect_errno){
 </script>
 	<header>
     	<figure>
-        	<img src="Imagenes/banner_ittj.png"   class="img-responsive" style="margin:auto" />
-         </figure>
+        	<blockquote>
+        	  <p>
+        	      <img src="Imagenes/banner_ittj.png"   class="img-responsive" style="margin:auto" />
+        	      <img src="Imagenes/titulo_se.png" class="img-responsive" style="margin:auto" alt="">
+      	      </p>
+      	  </blockquote>
+    	</figure>
     </header>
     <section>
         <div class="row" >

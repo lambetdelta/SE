@@ -18,7 +18,6 @@ function validarFecha($cadena){
            return FALSE;
        }    
 }  
-
 function validarCarrera($carrera,$mysqli){
    try{
         $query='select nombre from carrera where codigo_carrera="'.$carrera.'"';
@@ -41,7 +40,6 @@ function validarCarrera_num($carrera,$mysqli){
                 return 1;
             }else
                 return 0;
-        
         }else
             return 3;
     }catch (Exception $e){
@@ -80,33 +78,23 @@ function anti_xss($form){//limpiar formularios recibidos
             $valor=str_replace(")","",$valor);   
             $valor=str_replace("/","",$valor);   
             $valor=str_replace("\\","",$valor);   
-
             // PHP   
-
             $valor= str_replace("function" , "" , $valor);   
             $valor= str_replace("php" , "" , $valor);   
             $valor= str_replace("echo" , "" , $valor);   
             $valor= str_replace("print" , "" , $valor);   
             $valor= str_replace("return" , "" , $valor);   
-
             // HTML   
-
             $valor= str_replace("html" , "" , $valor);   
             $valor= str_replace("body" , "" , $valor);   
             $valor= str_replace("head" , "" , $valor);   
-
             // JS   
-
             $valor= str_replace("script" , "" , $valor);   
-
             // Ajax y Otros   
-
             $valor= str_replace("xml" , "" , $valor);   
             $valor= str_replace("version" , "" , $valor);   
             $valor= str_replace("encoding" , "" , $valor);   
-
             // CSS   
-
             $valor= str_replace("style" , "" , $valor); 
         endforeach;
         unset($valor);
@@ -146,37 +134,26 @@ function anti_xss_cad($cadena){//limpiar cadenas recibidas
             $valor=str_replace(")","",$valor);   
             $valor=str_replace("/","",$valor);   
             $valor=str_replace("\\","",$valor);   
-
             // PHP   
-
             $valor= str_replace("function" , "" , $valor);   
             $valor= str_replace("php" , "" , $valor);   
             $valor= str_replace("echo" , "" , $valor);   
             $valor= str_replace("print" , "" , $valor);   
             $valor= str_replace("return" , "" , $valor);   
-
             // HTML   
-
             $valor= str_replace("html" , "" , $valor);   
             $valor= str_replace("body" , "" , $valor);   
             $valor= str_replace("head" , "" , $valor);   
-
             // JS   
-
             $valor= str_replace("script" , "" , $valor);   
-
             // Ajax y Otros   
-
             $valor= str_replace("xml" , "" , $valor);   
             $valor= str_replace("version" , "" , $valor);   
             $valor= str_replace("encoding" , "" , $valor);   
-
             // CSS   
-
             $valor= str_replace("style" , "" , $valor); 
             return $valor;
 }
-
 function  buscar($dato,$mysqli,$cantidad,$no_registro){//busqueda general
     if(is_numeric($dato)){
         $resultado=buscar_no_control($dato, $mysqli,$cantidad,$no_registro);
@@ -186,14 +163,12 @@ function  buscar($dato,$mysqli,$cantidad,$no_registro){//busqueda general
         return $resultado;
     }
 }
-
 function buscar_no_control($dato,$mysqli,$cantidad,$no_registro){
      $sentencia='select id_consecutivo,nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where (no_control like"'.$dato.'%" and  id_consecutivo> '.$no_registro.' ) limit '.$cantidad;
     if($query=$mysqli->query($sentencia))
         {
         if($query->num_rows>0){
-        return $query;
-        
+            return $query;   
         }
         else
             return 'vacio';
@@ -288,7 +263,6 @@ function buscar_nombre_completo($nombre,$apellido_p,$apellido_m,$mysqli,$cantida
     else
         return FALSE; 
 }
-
 function buscar_apellidos($apellido_p,$apellido_m,$mysqli,$cantidad,$no_registro){
      $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where( apellido_p like "'.$apellido_p.'%" or apellido_m like "'.$apellido_m.'%" and id_consecutivo>'.$no_registro.') LIMIT '.$cantidad;
     if($query=$mysqli->query($sentencia))
@@ -301,7 +275,6 @@ function buscar_apellidos($apellido_p,$apellido_m,$mysqli,$cantidad,$no_registro
     else
         return FALSE;
 }
-
 function buscar_apellido_p($apellido_p,$mysqli,$cantidad,$no_registro){
      $sentencia='select nombre, apellido_p,apellido_m,no_control,imagen from datos_egresado where (apellido_p like "'.$apellido_p.'%" and id_consecutivo>'.$no_registro.') LIMIT '.$cantidad;
    if($query=$mysqli->query($sentencia))
@@ -314,7 +287,6 @@ function buscar_apellido_p($apellido_p,$mysqli,$cantidad,$no_registro){
     else
         return FALSE;   
 }
-
 function buscar_todos($mysqli,$no_registro){
     try{
         $query='select no_control, id_consecutivo,nombre, apellido_p, '
@@ -329,29 +301,23 @@ function buscar_todos($mysqli,$no_registro){
     }
 
 }
-
 function cargar_foto($mysqli,$no_control){
     try{
-        if ($stmt = $mysqli->prepare("SELECT imagen FROM datos_egresado WHERE  no_control=? limit 1")) {
-            $stmt->bind_param('i',$no_control); 
-            $stmt->execute();    // Ejecuta la consulta preparada.
-            $resultado=$stmt->get_result();
-            $stmt->close();
-            $dato=$resultado->fetch_assoc();
+        if ($stmt = $mysqli->query("SELECT imagen FROM datos_egresado WHERE  no_control=".$no_control." limit 1")) {
+            $dato=$stmt->fetch_assoc();
             $img='fotos_egresados/'.$dato['imagen'].'';
             return $img;
         }else
         {
-            $img='"Imagenes/businessman_green.png"';
+            $img='Imagenes/businessman_green.png';
             return $img;   
         }
     }catch(Exception $e){
-        $img='"Imagenes/businessman_green.png"';
+        $img='Imagenes/businessman_green.pn"';
         return $img;
     }
 
 }
-
 function dt_egresado($no_control,$mysqli){
     try{    
         $query='select nombre,apellido_m,apellido_p,fecha_nacimiento,curp,genero,
@@ -367,7 +333,6 @@ function dt_egresado($no_control,$mysqli){
     }
 
 }
-
 function estado_municipio($estado,$municipio,$mysqli){
     try{    
         $query='SELECT estado.nombre,municipio.nombre as municipio FROM estado,municipio WHERE (estado.codigo_estado="'.$estado.'" and municipio.codigo_municipio="'.$municipio.'") limit 1';
@@ -383,12 +348,10 @@ function estado_municipio($estado,$municipio,$mysqli){
         }
         else
             return FALSE;
-    }  catch (Exception $e){
+    }catch (Exception $e){
         return FALSE;
     }
-
 }
-
 function dt_academicos($no_control,$mysqli){
     try{    
         $query='SELECT historial_academico.no_registro, historial_academico.fecha_inicio, '
@@ -406,9 +369,7 @@ function dt_academicos($no_control,$mysqli){
     }catch(Exception $e){
         return FALSE;
     }
-
 }
-
 function dt_idioma($no_control,$mysqli){
     try{
         $query='SELECT idiomas_egresado.porcentaje_habla, idiomas_egresado.porcentaje_lec_escr, idioma.nombre as idioma FROM idiomas_egresado,idioma WHERE (no_controlfk='.$no_control.' and  idiomas_egresado.codigo_idiomafk=idioma.codigo_idioma) limit 5';
@@ -422,49 +383,39 @@ function dt_idioma($no_control,$mysqli){
         return FALSE;
     }
 }
-
 function dt_sw($no_control,$mysqli){
     try{
         $query='select nombre_sw from paquetes_sw where no_controlfk='.$no_control.' limit 7';
         if($resultado=$mysqli->query($query)){
             return $resultado;           
         }else
-            return  FALSE;
-        
-        
+            return  FALSE;  
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function dt_posgrado($no_control,$mysqli){
     try{
         $query='select posgrado,nombre,escuela,titulado from posgrado where no_controlfk='.$no_control;
         if($resultado=$mysqli->query($query)){
             return $resultado;           
         }else
-            return  FALSE;
-        
-        
+            return  FALSE;   
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function dt_social($no_control,$mysqli){
     try{
         $query='select nombre,tipo from actividad_social where no_controlfk='.$no_control;
         if($resultado=$mysqli->query($query)){
             return $resultado;           
         }else
-            return  FALSE;
-        
-        
+            return  FALSE;    
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function dt_empresa($no_control,$mysqli){
     try{
         $query='select codigo_empresa,nombre,giro,email,puesto,web,año_ingreso from datos_empresa where no_controlfk='.$no_control.' limit 4';
@@ -478,7 +429,6 @@ function dt_empresa($no_control,$mysqli){
         return FALSE;
     }
 }
-
 function dt_empresa_completa($codigo_empresa,$mysqli){
     try{
         $query='select datos_empresa.nombre,datos_empresa.giro,datos_empresa.email,'
@@ -493,14 +443,11 @@ function dt_empresa_completa($codigo_empresa,$mysqli){
         if($resultado=$mysqli->query($query)){
             return $resultado;           
         }else
-            return  FALSE;
-        
-        
+            return  FALSE;   
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function dt_historial($no_control,$mysqli){
     try{
         $query='select nombre,email,web,telefono from historial_laboral where no_controlfk='.$no_control;
@@ -508,13 +455,10 @@ function dt_historial($no_control,$mysqli){
             return $resultado;           
         }else
             return  FALSE;
-        
-        
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function carreras($mysqli){
     try{
         $query='select nombre,codigo_carrera from carrera ';
@@ -522,13 +466,10 @@ function carreras($mysqli){
             return $resultado;           
         }else
             return  FALSE;
-        
-        
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function administrador($mysqli){
     try{
         $query='select no_administrador,nombre from datos_administrador where nombre!="Administrador" ';
@@ -536,13 +477,10 @@ function administrador($mysqli){
             return $resultado;           
         }else
             return  FALSE;
-        
-        
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function estadistica_fecha_carrera($fecha,$carrera,$mysqli){
     try{
         $query='select datos_egresado.nombre, '
@@ -565,13 +503,10 @@ function estadistica_fecha_carrera($fecha,$carrera,$mysqli){
             return $resultado;           
         }else
             return  FALSE;
-        
-        
     }catch(Exception $e){
         return FALSE;
     }
 }
-
 function excel_query($query,$campos,$titulo,$creador,$descripcion,$clave_estudios){
     try{
         if(count($campos)==$query->field_count){
@@ -682,7 +617,6 @@ function imagen_excel(){
         return FALSE;
     }
 }
-
 function validar_egresado($form){
     $x=1;
     $long=count($form);
@@ -694,7 +628,6 @@ function validar_egresado($form){
     }
     return TRUE;
 }
-
 function nuevo_egresado($no_control,$mysqli){
     try{
         if(buscar_egresado($no_control, $mysqli))
@@ -716,7 +649,6 @@ function nuevo_egresado($no_control,$mysqli){
         return FALSE;
     } 
 }
-
 function buscar_egresado($no_control,$mysqli){
     try{
         $query='select no_control from datos_egresado where no_control='.$no_control.' limit 1';
@@ -729,7 +661,6 @@ function buscar_egresado($no_control,$mysqli){
         return FALSE;
     }
 }
-
 function borrar_egresado($mysqli,$no_control){
     $query='delete from datos_egresado where no_control='.$no_control;
     if($mysqli->query($query)){
@@ -740,7 +671,6 @@ function borrar_egresado($mysqli,$no_control){
     }else
         return 3;
 }
-
 function nuevo_adm($mysqli,$nombre,$pass){//borrar social
     try{
         $salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
@@ -763,7 +693,6 @@ function nuevo_adm($mysqli,$nombre,$pass){//borrar social
     }
 
 }
-
 function borrar_adm($mysqli,$no_adm){
     try{
         if($query=$mysqli->prepare('delete from datos_administrador where no_administrador=?')){
@@ -781,7 +710,6 @@ function borrar_adm($mysqli,$no_adm){
         return FALSE;
     }
 }
-
 function validar_adm($mysqli,$adm){
     $query='select no_administrador from datos_administrador where no_administrador='.$adm;
     if($res=$mysqli->query($query)){
@@ -792,7 +720,6 @@ function validar_adm($mysqli,$adm){
     }else
         return 3;
 }
-
 function validar_nombre_adm($mysqli,$adm){
    $query='select no_administrador from datos_administrador where nombre="'.$adm.'"';
     if($res=$mysqli->query($query)){
@@ -803,7 +730,6 @@ function validar_nombre_adm($mysqli,$adm){
     }else
         return 3; 
 }
-
 function editar_adm($mysqli,$nombre,$pass,$no_adm){
     try{
         $salt= hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
@@ -823,9 +749,6 @@ function editar_adm($mysqli,$nombre,$pass,$no_adm){
         return FALSE;
     }
 }
-
-
-
 function validar_escuela($director,$tel,$web,$email,$domicilio,$cargo,$fecha_con){
         $respuesta=array();
         $respuesta['resultado']=FALSE;
@@ -886,7 +809,6 @@ function validar_escuela($director,$tel,$web,$email,$domicilio,$cargo,$fecha_con
         
         return $respuesta;
 }
-
 function validarEmail($cadena){//cortesia de Juan Valencia Escalante  en http://www.jveweb.net/archivo/2011/07/algunas-expresiones-regulares-y-como-usarlas-en-php.html
     try{
         $cadena=  trim($cadena);
@@ -903,14 +825,12 @@ function validarEmail($cadena){//cortesia de Juan Valencia Escalante  en http://
         return FALSE;
     } 
 }  
-
 function validarWeb($web){
     {
     if (strlen($web)<=40)
         return (preg_match('/^[http:\/\/|www.|https:\/\/]/i', $web));
     }
 }
-
 function validarEstado($mysqli,$estado){
      try{
         $query='select codigo_estado from estado where codigo_estado="'.$estado.'"';
@@ -924,7 +844,7 @@ function validarEstado($mysqli,$estado){
             return 3;
     }catch (Exception $e){
             return FALSE;
-        } 
+    } 
 }
 function validarMun($municipio,$mysqli){
     try{
@@ -934,14 +854,12 @@ function validarMun($municipio,$mysqli){
                 return 1;
             }else
                 return 0;
-        
         }else
             return 3;;
     }catch (Exception $e){
             return FALSE;
         } 
 }
-
 function validarTelefono($cadena){//cortesia de Juan Valencia Escalante  en http://www.jveweb.net/archivo/2011/07/algunas-expresiones-regulares-y-como-usarlas-en-php.html
     try{
         $cadena=  trim($cadena);
@@ -959,8 +877,6 @@ function validarTelefono($cadena){//cortesia de Juan Valencia Escalante  en http
         return FALSE;
     } 
 }    
-
-
 function guardar_dt_escuela($director,$tel,$web,$email,$domicilio,$cargo,$fecha_con){
     try{
         $validar='../contenidos/datos.txt';
@@ -980,7 +896,6 @@ function guardar_dt_escuela($director,$tel,$web,$email,$domicilio,$cargo,$fecha_
         return FALSE;
     }
 }
-
 function datos(){//datos basicos del servidor 
     try{
 	$fp = fopen("../contenidos/datos.txt", "r");
@@ -997,7 +912,6 @@ function datos(){//datos basicos del servidor
         return array('$fechaCon','$direccion','$cargo','$domicilio','$tel','$email','$web');
     }
 }
-
 function validar_img($img){
     $respuesta=array();
     $respuesta['resultado']=FALSE;
@@ -1031,7 +945,6 @@ function validar_img($img){
     return $respuesta;
         
 }
-
 function validar_firma($img){
     $respuesta=array();
     $respuesta['resultado']=FALSE;
@@ -1061,11 +974,8 @@ function validar_firma($img){
             $respuesta['mensaje']='Solo se permiten imagenes png';
     }else
         $respuesta['mensaje']='Posible ataque';
-    
-    return $respuesta;
-        
+    return $respuesta;   
 }
-
 function nuevo_estado($mysqli,$nombre){
     $cons='select codigo_estado from estado';
     if($res=$mysqli->query($cons)){
@@ -1085,7 +995,6 @@ function nuevo_estado($mysqli,$nombre){
     }else
         return 3;
 }
-
 function borrar_estado($mysqli,$codigo){
     if($query=$mysqli->prepare('delete from estado where codigo_estado=?')){
         $query->bind_param('s',$codigo);
@@ -1100,7 +1009,6 @@ function borrar_estado($mysqli,$codigo){
     else 
         return 3;
 }
-
 function nuevo_municipio($mysqli,$nombre,$estado){
     $cons='select codigo_municipio from municipio';
     if($res=$mysqli->query($cons)){
@@ -1121,7 +1029,6 @@ function nuevo_municipio($mysqli,$nombre,$estado){
         return 3;
     }
 }
-
 function borrar_municipio($mysqli,$codigo){
     if($query=$mysqli->prepare('delete from municipio where codigo_municipio=?')){
         $query->bind_param('s',$codigo);
@@ -1136,7 +1043,6 @@ function borrar_municipio($mysqli,$codigo){
     else 
         return 3;
 }
-
 function validarIdioma($idioma,$mysqli){
    try{
         $query='select codigo_idioma from idioma where codigo_idioma="'.$idioma.'"';
@@ -1152,7 +1058,6 @@ function validarIdioma($idioma,$mysqli){
             return FALSE;
         }  
 }
-
 function nuevo_idioma($mysqli,$codigo,$nombre){
     if($query=$mysqli->prepare('insert into idioma(codigo_idioma,nombre) values(?,?)')){
         $query->bind_param('ss',$codigo,$nombre);
@@ -1167,8 +1072,6 @@ function nuevo_idioma($mysqli,$codigo,$nombre){
     else 
         return 3;
 }
-
-
 function borrar_idioma($mysqli,$codigo){
     if($query=$mysqli->prepare('delete from idioma where codigo_idioma=?')){
         $query->bind_param('s',$codigo);
@@ -1183,8 +1086,6 @@ function borrar_idioma($mysqli,$codigo){
     else 
         return 3;
 }
-
-
 function nueva_carrera($mysqli,$codigo,$nombre){
     if($query=$mysqli->prepare('insert into carrera(codigo_carrera,nombre) values(?,?)')){
         $query->bind_param('ss',$codigo,$nombre);
@@ -1214,7 +1115,6 @@ function borrar_carrera($mysqli,$codigo){
     else 
         return 3;
 }
-
 function validarEspecialidad($especialidad,$mysqli){
    try{
         $query='select codigo_especialidad from especialidad where codigo_especialidad="'.$especialidad.'"';
@@ -1230,7 +1130,6 @@ function validarEspecialidad($especialidad,$mysqli){
             return FALSE;
         }  
 }
-
 function nueva_especialidad($mysqli,$codigo,$nombre,$carrera){
     if($query=$mysqli->prepare('insert into especialidad(codigo_especialidad,nombre,codigo_carrerafk) values(?,?,?)')){
         $query->bind_param('sss',$codigo,$nombre,$carrera);
@@ -1245,7 +1144,6 @@ function nueva_especialidad($mysqli,$codigo,$nombre,$carrera){
     else 
         return 3;
 }
-
 function borrar_especialidad($mysqli,$codigo){
     if($query=$mysqli->prepare('delete from especialidad where codigo_especialidad=?')){
         $query->bind_param('s',$codigo);

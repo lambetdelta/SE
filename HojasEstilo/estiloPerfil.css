@@ -11,6 +11,9 @@ html { font-size:100%; }
 .loading{
     cursor:progress;
 }
+#contenedor_form_datos_personales,#cargando_frm,#frm_datos_academicos,#img_cargando,#img_cargando_dt_academicos,#img_enviar_academico{
+    display: none;
+}
 .cursor{
     cursor: pointer;
 }

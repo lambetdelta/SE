@@ -1,4 +1,6 @@
 <?php
+/* Cualquier duda repecto al código o en que diablos estaba pensando cuando lo hice :) enviar un correo 
+ *  con el asunto SE a la siguiente direccion lambetdelta@hotmail.com con el  Ing. Osvaldo Uriel Garcia Gomez*/ 
 include_once '../includes/conexion-bd-adm.php';
 include_once '../includes/functions.php';
 if (($gestor = fopen("estados.CSV", "r")) !== FALSE) {

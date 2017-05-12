@@ -16,6 +16,7 @@ if($mysqli->connect_errno){
 <script src="js/jquery.jrumble.1.3.min.js" type="text/javascript"></script>
 <script type="text/JavaScript" src="js/bootstrap.js"></script>
 <script type="text/JavaScript" src="js/sha512.js"></script> 
+<script type="text/JavaScript" src="js/bootbox.min.js"></script> 
 <script src="js/jquery.ba-bbq.js" type="text/javascript"></script>
 <script type="text/javascript">
 $("document").ready(function() { 
@@ -45,37 +46,6 @@ $("document").ready(function() {
 	$('#carrera').change(function(){//cargar select especialidad con ajax
 		cargar_especialidad();
 		});		
-	$("#contendedor_d1").on('click',".editar",function(){
-		show();
-                $('#nombre').focus();
-	});//animacion contendor de datos
-        $("#contendedor_d1").on('keypress',".editar",function(e){
-            if(e.which===13){
-                show();
-                $('#nombre').focus();
-            }
-	});//animacion contendor de datos
-	$("#frm_Datos_Personales").submit(function (e) {//validar formulario y enviar
-        e.preventDefault();
-	 if(validar_Est_Mun()){
-	 	guardar_datos(no_control);}
-        });	
-	$("#frm_dt_academico").submit(function (e) {//validar formulario y enviar dt academicos
-		 e.preventDefault();
-		 if(val_carrera() && $("#select_titulado").val()!='0'){
-		 var inicio=$('#dp_academico_inicio').val();
-		 var fin=$('#dp_academico_fin').val();
-		 	if (validar_fechas(inicio,fin)){
-				if(tipo!="+"){
-					actualizar_carrera(no_control,tipo);	
-				}else
-					guardar_dt_academicos(no_control);	
-				}
-			else
-				alert_('Datos Incompletos',$('#alert_academico'),250);
-		 }else
-		 	alert_('Datos Incompletos',$('#alert_academico'),250);		
-        });
         $('#img-ayuda-pass').click(function(){
             alert_('Recomedaciones',$('#div-ayuda-pass'),250);
         });
@@ -101,7 +71,7 @@ $("document").ready(function() {
             });      
         });
         
-        $('#frm_pass').submit(function(e){//enviar formulario de pass
+        $('#frm_pass').submit(function(e){//!importante usar nueva clase
           e.preventDefault();
           if(igualdad==='1' && $('#pass_nuevo').length>0){
             nueva_contraseña(no_control); $('#span-pass-seguridad').html('');$('#pass_nuevo').removeClass();}
@@ -109,155 +79,8 @@ $("document").ready(function() {
               alert_('Datos Incompletos',$('#alert_academico'),250);    
           igualdad='0';
         });
-	$("#frm_idioma").submit(function(e){
-		e.preventDefault();
-		if($("#idiomas").val()!='1'){
-			guardar_idioma(no_control);
-		}else
-			alert_('Datos Incompletos',$('#alert_academico'),250);
-		
-		});
-	$("#div_frm_posgrado").submit(function(e) {
-        e.preventDefault();
-		if($("#select_posgrado").val()!='0' && $("#select_titulado_posgrado").val()!='0'){
-			guardar_posgrado(no_control);
-			}
-		else
-			alert_('Datos Incompletos',$('#alert_academico'),250);
-    });	
-	$("#frm_sw").submit(function(e){
-		e.preventDefault();
-		guardar_sw(no_control);
-		});	
-	$("#img_posgrado").click(function(e) {/*cambiar a div de posgrado*/
-                $(this).css('border','1px solid #999');
-		$(this).attr('src','Imagenes/posgrado_activo.png');
-		$("#img_ingenieria").css('border','none');
-		$("#img_ingenieria").attr('src','Imagenes/ingenieria.png');
-		$("#div_ingenieria").hide();
-		$("#div_posgrado").fadeIn(1000);
-		$(".eliminar").show();
-        });	
-        $("#img_posgrado").keypress(function(e) {/*cambiar a div de posgrado*/
-           if(e.which===13){
-                $(this).css('border','1px solid #999');
-                $(this).attr('src','Imagenes/posgrado_activo.png');
-                $("#img_ingenieria").css('border','none');
-                $("#img_ingenieria").attr('src','Imagenes/ingenieria.png');
-                $("#div_ingenieria").hide();
-                $("#div_posgrado").fadeIn(1000);
-                $(".eliminar").show();
-           } 
-        });
-	
-	$("#img_ingenieria").click(function() {/*cambiar a div de ingenieria*/
-            $(this).css('border','1px solid #999');
-            $(this).attr('src','Imagenes/ingenieria_activo.png');
-            $("#img_posgrado").css('border','none');
-            $("#img_posgrado").attr('src','Imagenes/posgrado.png');
-            $("#div_posgrado").hide();
-            $("#div_ingenieria").fadeIn(1000);
-        });
-        $("#img_ingenieria").keypress(function(e) {/*cambiar a div de ingenieria*/
-            if(e.which===13){
-                $(this).css('border','1px solid #999');
-		$(this).attr('src','Imagenes/ingenieria_activo.png');
-		$("#img_posgrado").css('border','none');
-		$("#img_posgrado").attr('src','Imagenes/posgrado.png');
-		$("#div_posgrado").hide();
-		$("#div_ingenieria").fadeIn(1000);
-            }
-        });
-	$("#cancelar").click(function () {//cancelar y mostrar frm de datos_egresado
-        show_1();
-	 limpiaForm($("#frm_Datos_Personales"));
-        });
-        $("#cancelar").keypress(function (e) {//cancelar y mostrar frm de datos_egresado
-            if(e.which===13){
-                show_1();
-                limpiaForm($("#frm_Datos_Personales"));
-            }
-        });
-	$("#img_cancelar_posgrado").click(function(e) {
-            limpiaForm($("#frm_posgrado"));  
-        });
-        $("#img_cancelar_posgrado").keypress(function(e) {
-            if(e.which===13)
-            limpiaForm($("#frm_posgrado"));  
-        });
-	$("#img_cancelar_posgrado").click(function(e) {
-            $("#frm_posgrado");
-            show_posgrado();   
-        });
-        $("#img_cancelar_posgrado").keypress(function(e) {
-            if(e.which===13){
-                $("#frm_posgrado");
-                show_posgrado();
-            }   
-        });
-	$("#img_limpiar_frm_Idioma").click(function(e) {
-            limpiaForm($("#frm_idioma"));    
-        });
-        $("#img_limpiar_frm_Idioma").keypress(function(e) {
-            if(e.which===13)
-                limpiaForm($("#frm_idioma"));    
-        });
-	$("#img_cancelar_idiomas").click(function(){
-            limpiaForm($("#frm_idioma"));
-            show_idiomas();
-        });
-        $("#img_cancelar_idiomas").keypress(function(e){
-            if(e.which===13){
-                limpiaForm($("#frm_idioma"));
-                show_idiomas();
-            }
-        });
-	$("#img_cancelar_sw").click(function(){//cerrar frm de sw y mostrar datos
-            limpiaForm($("#frm_sw"));
-            show_SW();
-        });
-        $("#img_cancelar_sw").keypress(function(e){//cerrar frm de sw y mostrar datos
-            if(e.which===13){
-                limpiaForm($("#frm_sw"));
-                show_SW();
-            }
-        });
-	$("#imgfrm_cancelar_academicos").click(function () {//cancelar y mostrar frm de dt academicos
-            limpiaForm($("#frm_dt_academico"));
-            show_dt_academicos();
-            setTimeout('jQuery(".editar_academico").show();$(".eliminar").show()',500);//mostrar img eliminar y eliminar
-            setTimeout('jQuery("#div_carrera_actualizar").hide();;$("#titlo_carrera").hide();',500);
-        });
-        $("#imgfrm_cancelar_academicos").keypress(function (e) {//cancelar y mostrar frm de dt academicos
-            if(e.which===13){
-                limpiaForm($("#frm_dt_academico"));
-                show_dt_academicos();
-                setTimeout('jQuery(".editar_academico").show();$(".eliminar").show()',500);//mostrar img eliminar y eliminar
-                setTimeout('jQuery("#div_carrera_actualizar").hide();;$("#titlo_carrera").hide();',500);
-            }
-        });
-	$("#datos_academicos").on('click',".eliminar",function(){//imagen eliminar  de datos academicos
-		var id=$(this).attr('id').toString();
-		confirmar(no_control,id);
-	});
-        $("#datos_academicos").on('keypress',".eliminar",function(e){//imagen eliminar  de datos academicos
-	    if(e.which===13){
-                var id=$(this).attr('id').toString();
-		confirmar(no_control,id);
-            }
-	});
-	$("#div_dt_software").on('click',"#agregar_sw",function(){//agrgar sw
-            show_SW();
-            $('#select-sw').focus();
-	});
-        $("#div_dt_software").on('keypress',"#agregar_sw",function(e){//agrgar sw
-            if(e.which===13){
-                show_SW();
-                $('#select-sw').focus();
-            }
-	});
 	$("#div_dt_software").on('click',".eliminar_sw",function(){//imagen eliminar  de datos sw
-            var id=$(this).attr('id').slice(16);
+            // var id=$(this).attr('id').slice(16);
             confirmar_sw(no_control,id);
 	});
         $("#div_dt_software").on('keypress',".eliminar_sw",function(e){//imagen eliminar  de datos sw
@@ -265,50 +88,6 @@ $("document").ready(function() {
                 var id=$(this).attr('id').slice(16);
                 confirmar_sw(no_control,id);
             }
-	});
-	$("#datos_academicos").on('click',".editar_academico",function(){//mostrar el frm de datos academicos
-		tipo=$(this).attr('id').slice(17);
-                var nombre='div-dt-academicos'+tipo;
-		$("#div_carrera_actualizar").show();
-		$("#titlo_carrera").show();
-		show_dt_academicos();
-		document.getElementById("div_carrera_actualizar").innerHTML=document.getElementById(nombre).innerHTML;
-		$(".editar_academico").hide();
-		$(".eliminar").hide();
-                $('#carrera').focus();
-	});
-        $("#datos_academicos").on('keypress',".editar_academico",function(e){//mostrar el frm de datos academicos
-		if(e.which===13){
-                    tipo=$(this).attr('id').slice(17);
-                    var nombre='div-dt-academicos'+tipo;
-                    $("#div_carrera_actualizar").show();
-                    $("#titlo_carrera").show();
-                    show_dt_academicos();
-                    document.getElementById("div_carrera_actualizar").innerHTML=document.getElementById(nombre).innerHTML;
-                    $(".editar_academico").hide();
-                    $(".eliminar").hide();
-                    $('#carrera').focus();
-                }
-	});
-	$("#datos_academicos").on('click',"#agregar_carrera",function(){//mostrar el frm de datos academicos y agregar carrera
-		tipo="+";
-		$("#div_carrera_actualizar").hide();
-		$(".editar_academico").hide();
-		$("#titlo_carrera").hide();		
-		$(".eliminar").hide();//ocultar img eliminar y eliminar
-		show_dt_academicos();
-                $('#carrera').focus();
-	});
-        $("#datos_academicos").on('keypress',"#agregar_carrera",function(e){//mostrar el frm de datos academicos y agregar carrera
-	    if(e.which===13){
-                tipo="+";
-		$("#div_carrera_actualizar").hide();
-		$(".editar_academico").hide();
-		$("#titlo_carrera").hide();		
-		$(".eliminar").hide();//ocultar img eliminar y eliminar
-		show_dt_academicos();
-                $('#carrera').focus();
-            } 
 	});
 	/*clases generales*/
 	$(".limpiar").mouseenter(function() {
@@ -395,7 +174,7 @@ $("document").ready(function() {
             $('#div_dt_empresa_editar').hide();
             show_empresa();
             $("#frm_empresa").fadeIn(2000);
-            tipo_empresa='+';
+            document.getElementById('frm_empresa').dataset.registro=null;
             setTimeout("$('#input-nombre-empresa').focus();",1000);
         });
         $("#div_dt_empresa").on('keypress',".agregar_carrera",function(e){// click agregar empresa
@@ -403,7 +182,7 @@ $("document").ready(function() {
                 $('#div_dt_empresa_editar').hide();
                 show_empresa();
                 $("#frm_empresa").fadeIn(2000);
-                tipo_empresa='+';
+                document.getElementById('frm_empresa').dataset.registro=null;
                 setTimeout("$('#input-nombre-empresa').focus();",1000);
             }
         });
@@ -415,7 +194,7 @@ $("document").ready(function() {
             $("#frm_empresa").fadeIn(2000);
             setTimeout("$('#input-nombre-empresa').focus();",1000);
             dt_empresa_editar(no_control,id);
-            tipo_empresa=id;
+            document.getElementById('frm_empresa').dataset.registro=id;
         });
         $("#div_dt_empresa").on('keypress',".editar_empresa",function(e){//editar datos empresa
             if(e.which===13){
@@ -426,7 +205,7 @@ $("document").ready(function() {
                 $("#frm_empresa").fadeIn(2000);
                 setTimeout("$('#input-nombre-empresa').focus();",1000);
                 dt_empresa_editar(no_control,id);
-                tipo_empresa=id;
+                document.getElementById('frm_empresa').dataset.registro=id;
             }
         });
 	$("#div_dt_empresa").on('click',".elimnar_empresa",function(){//eliminar  empresa
@@ -449,7 +228,7 @@ $("document").ready(function() {
             var div='div_historial_empresa'+id_historial ;
             document.getElementById("div_dt_historial_editar").innerHTML=document.getElementById(div).innerHTML;
             ocultar();
-            tipo_historial='1';
+            document.getElementById('frm_historial').dataset.registro=id_historial;
             show_historial();
             $('#input-nombre-historial').focus();
         });
@@ -461,7 +240,7 @@ $("document").ready(function() {
                 var div='div_historial_empresa'+id_historial ;
                 document.getElementById("div_dt_historial_editar").innerHTML=document.getElementById(div).innerHTML;
                 ocultar();
-                tipo_historial='1';
+                document.getElementById('frm_historial').dataset.registro=id_historial;
                 show_historial();
                 $('#input-nombre-historial').focus();
             }
@@ -480,14 +259,14 @@ $("document").ready(function() {
         });
 	$("#div_dt_historial_empresa").on('click',".agregar_carrera",function(){// click agregar historial empresa
             show_historial();
-            tipo_historial='+';
+            document.getElementById('frm_historial').dataset.registro=null;
             $("#div_dt_historial_editar").hide();
             $('#input-nombre-historial').focus();
         });
         $("#div_dt_historial_empresa").on('keypress',".agregar_carrera",function(e){// click agregar historial empresa
             if(e.which===13){
                 show_historial();
-                tipo_historial='+';
+                document.getElementById('frm_historial').dataset.registro=null;
                 $("#div_dt_historial_editar").hide();
                 $('#input-nombre-historial').focus();
             }
@@ -524,13 +303,13 @@ $("document").ready(function() {
         });
 	$("#div_dt_social").on('click',".agregar_carrera",function(){// click agregar social 
             show_social(); 
-            tipo_social='+';
+            document.getElementById('frm_social').dataset.registro=null;
             $('#input-nombre-asociacion').focus();
         });
         $("#div_dt_social").on('keypress',".agregar_carrera",function(e){// click agregar social 
             if(e.which===13){
                 show_social(); 
-                tipo_social='+';
+                document.getElementById('frm_social').dataset.registro=null;
                 $('#input-nombre-asociacion').focus();
             }	
         });
@@ -553,42 +332,6 @@ $("document").ready(function() {
             if(e.which===13)
                 limpiaForm($("#frm_social"));   
         });
-	$("#frm_social").submit(function(e) {
-        e.preventDefault();
-		if($("#select_social").val()!='1'){
-		if(tipo_social!="+"){
-			//sin implementar actualizar	
-				}else{
-					guardar_social(no_control);	
-				}
-				}else
-				alert_('Datos Incompletos',$('#alert_academico'),250);
-    });
-	$("#frm_empresa").submit(function(e) {//guardar datos empresa
-       e.preventDefault();
-	   if(evaluar_frm_empresa()){
-		   if(tipo_empresa!='+'){
-				actualizar_empresa(no_control,tipo_empresa);   
-		   }else{
-				guardar_empresa(no_control);
-				$("#div_dt_historial_editar").show();
-				}
-		}
-    });
-	
-	$("#frm_residencia").submit(function(e) {
-        e.preventDefault();
-		guardar_residencia(no_control);
-    });
-	
-	$("#frm_historial").submit(function(e) {
-        e.preventDefault();
-		if(tipo_historial!='+'){
-				actualizar_historial(no_control,id_historial);   
-		   }else{
-				guardar_historial(no_control);
-				}
-    });
 }/*fin de load*/);
 </script>
 <script type="text/javascript">
@@ -1322,6 +1065,7 @@ $("document").ready(function() {//evaluar passs
                     <img src="Imagenes/loading45.gif" class="enviando loading" id="enviar"  style="display:none" />
                     <img id="cancelar" src="Imagenes/cancelar.png"  title="CERRAR FORMULARIO" class="cancelar" tabindex="0"/>
                     <form id="frm_Datos_Personales" style="text-align:left; padding-left:10px" method="post">
+                    <h2>Datos Personales</h2>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
                         	<div class="form-group">
@@ -1504,7 +1248,7 @@ $("document").ready(function() {//evaluar passs
                                     </p>
                                     <p style="text-align:center">
                                         <input type="submit" value="GUARDAR" id="guardar_idoma" title="GUARDAR" class="guardar" style=" width:40%" />
-                                        <img id="img_limpiar_frm_Idioma"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar"  style="width:40px; height:40px" tabindex="0" />
+                                        <img id="img_limpiar_frm_Idioma"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar limpiar_form" data-target="frm_idioma"  style="width:40px; height:40px" tabindex="0" />
                                     </p>
                                 </form>
                             </div>
@@ -1829,7 +1573,23 @@ $("document").ready(function() {//evaluar passs
         </div>
     </div>
 </div>
-</body>   
+</body> 
+<script type="text/javascript" src="js/EventosForm.js"></script>
+<script type="text/javascript" src="js/Animaciones.js"></script>
+<script type="text/javascript" src="js/LimpiarForm.js"></script>
+<script type="text/javascript" src="js/DatosAcademicos.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
+        EventosForm.init();
+        EventosForm.setNoControl(no_control);
+        Animaciones.init();
+        LimpiarForm.init();
+        DatosAcademicos.init();
+        DatosAcademicos.setNoControl(no_control);
+        DatosAcademicos.dt_academicos(no_control);
+    });
+</script>  
 </html>    
         <?php else : header('Location: error.php'); ?>
          

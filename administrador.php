@@ -1,4 +1,6 @@
 <?php
+    /* Cualquier duda repecto al código o en que diablos estaba pensando cuando lo hice :) enviar un correo 
+ *  con el asunto SE a la siguiente direccion lambetdelta@hotmail.com con el  Ing. Osvaldo Uriel Garcia Gomez*/ 
     include_once 'includes/conexion-bd-adm.php';
     include_once 'includes/functions.php';
     sec_session_start();
@@ -500,9 +502,11 @@
         var alto_img=$('#div-img-banner').height();//alto de la img principal
         var $pos = alto_img+50;
         var no_control_;
-        //acomodar el top del  div  de acuerdo a el buscador , menu e imagen para evitar solapammiento
+        /*para el menu fixed es necesario conocer la altura del menu dependiendo del tipo de pantalla
+         ya que cuando el usuario se desplaza hacia abajo se crea un relleno para evitar que todo el contenido
+        se mueva una vez que el buscador adquiere la propiedad fixed por ello se calcula el alto de la banner principal*/
         $('#div-principal-empresa-completa').css({'top':$pos+$('#div-principal-buscador').height()+'px'});
-        var min_height=$(window).height()-$pos;//alto de contenido principal n base a la pantalla donde se ve
+        var min_height=$(window).height()-$pos;//alto de contenido principal en base a la pantalla donde se ve
         //alto del relleno usado en la barra búsqueda fixed
         $('#div-relleno').height($('#div-principal-buscador').height());
         if($(window).height()>1900){//recalcular contenido principal si se ve un dispositivo mayor de 1900 px
@@ -538,8 +542,12 @@
     <script type="text/javascript">
         var egresados=1;
         $(document).ready(function(){//buscador principal ocultar al click
-            $('*:not(div-resultados,.div-resultado,#div-buscador)').on('click',function(){
-              ocultar_buscador();  
+            $('#input-buscador').on('focusout',function(){
+              setTimeout('ocultar_buscador();',200);
+              var div=$('#div-pefil');
+              if(div.is(':visible')){
+                  $('#div-row-eliminar-egresado').show();
+              }
             });
             //buscador
            $('#input-buscador').keyup(function(e){

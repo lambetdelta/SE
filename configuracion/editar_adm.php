@@ -1,4 +1,6 @@
 <?php
+/* Cualquier duda repecto al código o en que diablos estaba pensando cuando lo hice :) enviar un correo 
+ *  con el asunto SE a la siguiente direccion lambetdelta@hotmail.com con el  Ing. Osvaldo Uriel Garcia Gomez*/ 
 include "../includes/conexion-bd-adm.php";
 //contraseña  del administrador 
 $contraseña='ITTJ10940256_10940255!?!';//solo necesita cambiar esta parte, nada más  

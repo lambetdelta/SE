@@ -1,3 +1,4 @@
+<?php include 'includes/functions.php'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -13,6 +14,6 @@
         </header> 
     <body class="row">
         <div class="col-sx-12">
-            <p style="text-align: center"><?php session_start(); echo $_SESSION['mensage'];?></p>
+            <p style="text-align: center"><?php sec_session_start(); echo $_SESSION['mensage'];?></p>
         </div>
     </body>

@@ -44,5 +44,4 @@ if (isset($_POST['form'],$_POST['no_control'],$_POST['registro']))
             $dato['mensaje']='Error en BD';
     }
 }
-
 echo json_encode($dato);

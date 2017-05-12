@@ -12,8 +12,6 @@ GRANT SELECT, INSERT ON `se`.`intentos_adm` TO 'administrador'@'localhost';
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`municipio` TO 'administrador'@'localhost';
 
-GRANT SELECT, DELETE, REFERENCES ON `se`.`foto_egresado` TO 'administrador'@'localhost';
-
 GRANT SELECT, DELETE, REFERENCES ON `se`.`datos_empresa` TO 'administrador'@'localhost';
 
 GRANT SELECT, REFERENCES ON `se`.`posgrado` TO 'administrador'@'localhost';
@@ -21,8 +19,6 @@ GRANT SELECT, REFERENCES ON `se`.`posgrado` TO 'administrador'@'localhost';
 GRANT SELECT, REFERENCES ON `se`.`historial_laboral` TO 'administrador'@'localhost';
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`especialidad` TO 'administrador'@'localhost';
-
-GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`login_attempts` TO 'administrador'@'localhost';
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON `se`.`datos_egresado` TO 'administrador'@'localhost';
 

@@ -1,3 +1,13 @@
+/*Casi todos los contenidos por ajax siguen la siguiente secuencia:
+ * -ocultar div donde se uetarn datos-
+ * -mostrar imagen de carga-
+ * -validar respuesta-
+ * -cargar respuesta mediante html generado con javascript */
+/*Para borrar datos es casi la misma secuencia pero con la diferencia de que primero se lanza un evento de 
+ * pregunta antes de borrar.
+ /* Cualquier duda repecto al código o en que diablos estaba pensando cuando lo hice :) enviar un correo 
+ *  con el asunto SE a la siguiente direccion lambetdelta@hotmail.com con el  Ing. Osvaldo Uriel Garcia Gomez*/ 
+
 var no_registro=0;
 var no_registro_b=0;
 function salir(){
@@ -270,6 +280,7 @@ function ocultar_buscador(){
     $('#div-resultados').hide();
     $('#div-resultados').attr('z-index','0');
     $('#div-resultados').html('');
+    
 }
 //buscar todos los egresados solo los primeros 10
 function buscar_todos(){

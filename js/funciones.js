@@ -1,52 +1,78 @@
-
-function show_dt_academicos(){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#datos_academicos').slideToggle(1000);//mostrar animar
-	$('#frm_datos_academicos').slideToggle(1000);
+  function alert(msn){
+    msn=String(msn);
+    bootbox.alert(msn);
+  }
+  function alert_bloqueado(msn){
+    return bootbox.dialog({
+        message: msn,
+        closeButton: false
+    });
+  }
+  function confirmarEliminacion(msn,funcion,no_control,registro){
+    bootbox.confirm({
+      message: msn,
+      buttons: {
+          confirm: {
+              label: 'Aceptar',
+              className: 'btn-success'
+          },
+          cancel: {
+              label: 'Cancelar',
+              className: 'btn-danger'
+          }
+      },
+      callback: function (result) {
+        if (result) {
+          funcion(no_control,registro)
+        }
+      }
+    });
+  }
+  function show_dt_academicos(){//animaciones de los contenedores de los datos basicos de los egresados
+    showForm('datos_academicos','frm_datos_academicos')
 	};
 	
-function show_historial(){
-	$("#div_dt_historial_empresa").slideToggle(1000);
-	$("#div_frm_historial").slideToggle(1000);
+  function show_historial(){
+    showForm('div_dt_historial_empresa','div_frm_historial')
 	};		
-function show_social(){
-	$("#div_dt_social").slideToggle(1000);
-	$("#div_frm_social").slideToggle(1000);
+  function show_social(){
+    showForm('div_dt_social','div_frm_social')
 	};		
-function show_posgrado(){
-	$("#div_frm_posgrado").slideToggle(1000);
-	$("#div_dt_posgrado").slideToggle(1000);
+  function show_posgrado(){
+    showForm('div_dt_posgrado','div_frm_posgrado')
 	}	
-function show_SW(){
-	$("#div_frm_software").slideToggle(1000);
-	$("#div_dt_software").slideToggle(1000);
+  function show_SW(){
+    showForm('div_dt_software','div_frm_software')
 	};	
-function show(){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#contenedor_Datos_Personales').hide();//mostrar animar
-	$('#contenedor_form_datos_personales').show();
+  function show(){//animaciones de los contenedores de los datos basicos de los egresados
+    showForm('contenedor_Datos_Personales','contenedor_form_datos_personales')
+	}
+  function showForm(id_container,id_form){
+    var display_container=document.getElementById(id_container);
+    var display_form=document.getElementById(id_form);
+    if (display_container.clientHeight > 0 && display_container.clientWidth > 0) {
+        display_container.style.display='none';
+        display_form.style.display='block';
+    }else{
+        display_container.style.display='block';
+        display_form.style.display='none';
+    }
+  }
+  function show_1(){//animaciones de los contenedores de los datos basicos de los egresados
+	  $('#contenedor_form_datos_personales').hide();
+    $('#contenedor_Datos_Personales').show();//mostrar animar
 	};
-function show_1(){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#contenedor_form_datos_personales').hide();
-        $('#contenedor_Datos_Personales').show();//mostrar animar
+  function show_idiomas(){//animaciones de los contenedores de los datos basicos de los egresados
+    showForm('div-principal-idioma','div_frm_idioma')
 	};
-function show_idiomas(){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#div_frm_idioma').hide();
-        $('#div-principal-idioma').show();//mostrar animar
-	};
-function show_idiomas_(){//animaciones de los contenedores de los datos basicos de los egresados
-    $('#div-principal-idioma').hide();//mostrar animar
-    $('#div_frm_idioma').show();
-    };
+  function show_idiomas_(){//animaciones de los contenedores de los datos basicos de los egresados
+    showForm('div-principal-idioma','div_frm_idioma')
+  };
 function inicio(no_control){//animaciones de los contenedores de los datos basicos de los egresados
-	$('#contenedor_form_datos_personales').hide();	
-	$("#cargando_frm").hide();
-	$("#frm_datos_academicos").hide();
-	$("#img_cargando").hide();
-	$("#img_cargando_dt_academicos").hide();
-	$("#img_enviar_academico").hide();
 	cargar_idiomas();
 	cargar_carrera();
 	cargar_estados();
-	dt_academicos(no_control);//solicitar datos academicos
+	//dt_academicos(no_control);//solicitar datos academicos
 	datos_egresado(no_control);//solicitar datos egresado funcion mediate ajax
 	dt_idioma(no_control);
 	dt_SW(no_control);//dt de sw
@@ -493,12 +519,12 @@ function validar_Est_Mun(){//verificar estados y municipios
 		
 function dt_academicos(no_control){//cargar datos academicos
 	try{
-        $('#alert_academico').html('');
-        $("#datos_academicos").hide();
-        $("#datos_academicos").html('');
-	$("#img_cargando_dt_academicos").show();
-	$.post('ajax/dt_academicos.php',{no_control:no_control}).
-	done(function(data){
+    $('#alert_academico').html('');
+    $("#datos_academicos").hide();
+    $("#datos_academicos").html('');
+  	$("#img_cargando_dt_academicos").show();
+  	$.post('ajax/dt_academicos.php',{no_control:no_control}).
+  	done(function(data){
              datos=$.parseJSON(data);   
              if(datos.respuesta==='1'){
                 var p='<h2>Datos Academicos</h2>';            
@@ -618,28 +644,7 @@ function guardar_dt_academicos(no_control){//guarda nueva carrera
             show_dt_academicos();
         }
 	}//fin de function principal;	
-function confirmar(no_control,registro){ 
-   $("#dialogo").dialog({ 
-		width: 250,  
-		height: 250,
-		show: "scale", 
-		hide: "scale", 
-		resizable: "false", 
-		modal: "true", 
-		position: { my: "center", at: "center", of: '#center_diag' },
-		buttons: {
-			ACEPTAR: function() {
-				// ir al sitio oficial jquery.com
-				 borrar_carrera(no_control,registro);
-				 $(this).dialog("close");
-		},
-			CANCELAR: function() {
-				// Ir al sitio oficial jqueryui.com
-				$(this).dialog( "close" );
-		}
-		}
-		});
-	  }	
+
 function val_carrera(){
 	if($("#carrera").val()!="1"){
 		if($("#especialidad").val()!="1")
@@ -725,32 +730,6 @@ var alert_=dialog;
 		position: { my: "center", at: "center", of: '#center_diag' }
 		});
 	  }			
-function borrar_carrera(no_control,registro){//borrar carrera
-    try{
-    alert_Bloq('BORRANDO...',$('#alert_personales'));
-    $.post('ajax/eliminar_carrera.php',{registro:registro,no_control:no_control})
-    .done(function(data){
-        datos=$.parseJSON(data);
-            if(datos.respuesta=='1'){//exito
-                alert_('BORRADO EXITOSO',$('#alert_personales'),250);
-                setTimeout('$("#alert_personales").dialog( "close" );',1000);
-                dt_academicos(no_control);
-            }
-            else{ //error desde el servidor
-                $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                alert_("Error",$("#alert_personales"),250);
-                setTimeout("$('#alert_personales').dialog('close');",2000);
-            }
-            }).
-    fail(function(jqXHR, textStatus, errorThrown){
-        ajax_error_alert(jqXHR,textStatus);
-    });//fin de done    
-    }catch(e){
-        $("#alert_personales").append('<p>Informe:'+e+'</p>');
-        alert_("Error",$("#alert_personales"),250);
-        setTimeout("$('#alert_personales').dialog('close');",2000);    
-    }
-	}	
 function dt_idioma(no_control){//cargar datos academicos
 	try{
             $("#img_cargando_idiomas").show();
@@ -2072,4 +2051,13 @@ function evaluar_pass(input){//evaluar password
         $('#pass_nuevo').addClass('alta');
         $('#span-pass-seguridad').html('Alta');
     }
+}
+function evaluarEvento(evento,funcion,obj){
+    if (evento.originalEvent == "KeyboardEvent keypress") {
+      if(evento.which===13){
+              funcion(obj);
+          }
+          return false;
+      }
+    funcion(obj);
 }

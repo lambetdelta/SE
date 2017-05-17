@@ -6,9 +6,10 @@ var Animaciones={
 		$("#img_cancelar_idiomas").on('click keypress',Animaciones.showFormIdiomas);
 		$("#contendedor_d1").on('click keypress',".editar",Animaciones.showFormDatosEgresado);
 		$("#cancelar").on('click keypress',Animaciones.showFormDatosEgresado);
-		$("#img_cancelar_sw,#div_dt_software").on('click keypress',Animaciones.showFormSW);
+		$("#img_cancelar_sw,#agregar_sw").on('click keypress',Animaciones.showFormSW);
+		$("#div_dt_software").on('click keypress','#agregar_sw',Animaciones.showFormSW);
 		$("#imgfrm_cancelar_academicos").on('click keypress',Animaciones.showContenedorAcademicos);
-		$("#datos_academicos").on('click keypress','img.editar_academico',Animaciones.showFormEdicionDatosAcademicos);
+		$("#datos_academicos").on('click keypress','img.symbol-edit',Animaciones.showFormEdicionDatosAcademicos);
 		$("#datos_academicos").on('click keypress','#agregar_carrera',Animaciones.showContenedorAcademicos);
 	},
 	showContenedorPosgrado:function(e){

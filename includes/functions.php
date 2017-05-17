@@ -27,7 +27,7 @@ function sec_session_start() {
 function login($N_control, $password, $mysqli) {
     // Usar declaraciones preparadas significa que la inyección de SQL no será posible.
     try{
-    if ($stmt = $mysqli->prepare("SELECT no_control, password,nombre,salt,id_tecnologico_fk 
+    if ($stmt = $mysqli->prepare("SELECT no_control, password,nombre,salt 
         FROM datos_egresado
        WHERE no_control = ?
         LIMIT 1")) {
@@ -35,7 +35,7 @@ function login($N_control, $password, $mysqli) {
         $stmt->execute();    // Ejecuta la consulta preparada.
         $stmt->store_result();
         // Obtiene las variables del resultado.
-        $stmt->bind_result($No_control, $pass, $nombre,$salt,$id_tecnologico);
+        $stmt->bind_result($No_control, $pass, $nombre,$salt);
         $stmt->fetch();
         // Hace el hash de la contraseña con una sal única.
         $password = hash('sha512', $password . $salt);
@@ -622,10 +622,10 @@ function guardar_sw($mysqli,$no_control,$sw){//nueva sw
         if ($stmt = $mysqli->prepare("INSERT INTO paquetes_sw(no_controlfk,nombre_sw) VALUES (?,?)")) {
             $stmt->bind_param('is', $no_control,$sw); 
             if($stmt->execute()){    // Ejecuta la consulta preparada.
-            if($stmt->affected_rows >0)
-                return TRUE;
-            else
-                return FALSE;        
+                if($stmt->affected_rows >0)
+                    return TRUE;
+                else
+                    return FALSE;        
             }else
                 return FALSE;
         }else

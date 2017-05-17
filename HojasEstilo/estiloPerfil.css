@@ -47,7 +47,13 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering:optimizeLegibility;
-	}	
+    overflow-y: auto!important;
+    padding: 0px !important;/*corregir error modal de bootboxmin*/
+	}	    
+body.modal-open{/*corregir error modal de bootboxmin*/
+    overflow-y: auto!important;
+    padding: 0px !important;/*corregir error modal de bootboxmin*/
+}    
 #contenedor_foto_e{
     min-height: 400px;
         }
@@ -149,24 +155,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#686868', end
 .tab{/*estilo de los tab*/
 
 }
-.cancelar{/*img cerrar frm sw y datos academicos*/
-    cursor: pointer;
-    transition:1s ease;
-}				
-.cancelar:hover{/*animar img*/
-	transform:rotate(360deg);
-	}
-.cancelar:focus{/*animar img*/
-	transform:rotate(360deg);
-        outline: none ;
-	}
 .tabs{
-	background:#090 url(../Imagenes/gradient.png) repeat-x;
+	background:#5DA85D;
 	}
 .font{
 	color: #000;}			
 a.active{ /*estilo del tab cuando esta activo*/
-	background:#7CEE6C url(../Imagenes/gradient.png) repeat-x;}
+	background:#006600 url(../Imagenes/gradient.png) repeat-x;}
 
 .tab a:hover{/*estilo del tab cuando esta en hover*/
 	background:#0C3 url(../Imagenes/gradient.png) repeat-x;}
@@ -464,20 +459,9 @@ h1.domicilio{/*etiquets de domcilio*/
 	text-align:center;
 	font-size:1.5rem;}
 b{/*estilo de datos del servidor*/
-	color: #090;
+	color: #5DA85D;
 	font-weight:100;
 	}	
-img.editar{/*img editar de formulario de datos personales*/
-    margin-left:75%;
-    transition:1s ease;
-    cursor:pointer;}
-img.editar:hover{/*girar*/
-	transform:rotate(360deg);
-}
-img.editar:focus{/*girar*/
-	transform:rotate(360deg);
-        outline: none ;
-}
 #contendedor_d1{/*div donde se cargan los datos academicos con ajax*/
     width:100%;
     margin-left: 20px;
@@ -631,14 +615,20 @@ select.domicilio:focus{
     text-align:left;
     margin-top:22px;
     position:relative;
-    border:none;
+    border: 1px solid transparent;
+    border-radius: 5px;
 }	
-.div_carrera:hover{
-    background-color: #b1ffa4;
-}
-.div_carrera:focus{
-    background-color: #b1ffa4;
-    outline: none ;
+.div_carrera:after {
+    content:""; 
+    background: transparent; 
+    position: absolute; 
+    bottom: 0;
+    height: 1px;
+    width: 90%;
+    right: 5%;
+    border-right: 100px solid transparent;
+    border-left: 100px solid transparent;
+    border-top: 3px solid #5DA85D;
 }
 img.eliminar{/*img eliminar carrera*/
     position:relative;
@@ -653,33 +643,12 @@ img.eliminar{/*img eliminar carrera*/
     width:45px; 
     height:45px; 
     margin-left:10px
-}	
-#img_limpiar_frm_dt_personales:hover{
-    transform:rotate(360deg);
-}
-#img_limpiar_frm_dt_personales:focus{
-    transform:rotate(360deg);
-    outline: none ;
-}
-img.eliminar:hover{/*animar img*/
-    transform:rotate(360deg);
-}
-img.eliminar:focus{/*animar img*/
-    transform:rotate(360deg);
-    outline: none ;
 }
 img.editar_academico{/*img editar carrera*/
     position:relativa;
     width:29px;
     height:29px;
     transition:1s ease;
-}
-img.editar_academico:hover{
-    transform:rotate(360deg);
-}
-img.editar_academico:focus{
-    transform:rotate(360deg);
-    outline: none ;
 }
 input.frm_acedemico_{	
     width:30%;
@@ -709,13 +678,6 @@ input.frm_acedemico_:focus{
 #imgfrm_cancelar_academicos{/*img cancelar frm datos academicos*/
     transition:1s ease;
 }
-#imgfrm_cancelar_academicos:hover{/*animar img*/
-    transform:rotate(360deg);
-}
-#imgfrm_cancelar_academicos:focus{/*animar img*/
-    transform:rotate(360deg);
-    outline: none ;
-}
 #dt_academicos_idiomas_sw{/*div de idiomas y software*/
     width:100%;
     min-height:400px;
@@ -732,14 +694,7 @@ input.frm_acedemico_:focus{
 img.agregar_carrera{/*img agregar carrera */
     transition:1s ease;
     cursor: pointer;
-}				
-img.agregar_carrera:hover{/*animar img*/
-    transform:rotate(360deg);
-}
-img.agregar_carrera:focus{/*animar img*/
-    transform:rotate(360deg);
-    outline: none ;
-}
+}	
 #div-principal-idioma{
     min-height: 300px;
 }	
@@ -760,13 +715,6 @@ img.agregar_carrera:focus{/*animar img*/
 position: relative}	
 #img_cancelar_idiomas{/*img cancelar frm idomas*/
 	transition:1s ease;}
-#img_cancelar_idiomas:hover{/*animar img*/
-	transform:rotate(360deg);
-	}
-#img_cancelar_idiomas:focus{/*animar img*/
-    transform:rotate(360deg);
-    outline: none ;
-}
 #div_software{/*div de software*/
     width:100%;
     min-height:200px;
@@ -783,6 +731,8 @@ position: relative}
     width:100%;
     min-height:200px;
     background-color:#FFF;
+    overflow-y: auto;
+    max-height: 400px;
 }	
 img.eliminar_sw{/*img eliminar carrera*/
     width:20px;
@@ -793,13 +743,6 @@ img.eliminar_sw{/*img eliminar carrera*/
     width:50%;
     text-align:center;
 }	
-img.eliminar_sw:hover{/*animar img*/
-    transform:rotate(360deg);
-}
-img.eliminar_sw:focus{/*animar img*/
-    transform:rotate(360deg);
-    outline: none ;
-}
 p.frm_idiomas{/*parafo idiomas*/
     margin-left:1px;
     text-align:left
@@ -827,25 +770,10 @@ table.idiomas{/*tabla de idomas cargados del servidor cargada una por cada idiom
 .tb{
     width:25%;
 }	
-		
-img.editar_idioma:hover{
-    transform:rotate(360deg);
-    cursor: pointer
-}
-img.editar_idioma:focus{
-    transform:rotate(360deg);
-    outline: none ;
-}
 img.eliminar_idioma{/*img eliminar */
     width:20px;
     height:20px;
     transition:1s ease;
-}
-img.eliminar_idioma:hover{/*animar img*/
-    transform:rotate(360deg);
-}
-img.eliminar_idioma:focus{/*animar img*/
-    transform:rotate(360deg);
 }	
 img.enviando_idioma{
     position:absolute;
@@ -1067,10 +995,12 @@ img.elimnar_empresa:focus{/*animar img*/
     font-size:1.2rem;
 }
 #div_ingenieria{
-    width:100%;
-    height:100%;
-    position:absolute;
-    bottom:0px;
+    width: 94%;
+    height: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 3%;
+    top: 0px
 }	
 #div_posgrado{
     width:100%;
@@ -1094,9 +1024,11 @@ img.elimnar_empresa:focus{/*animar img*/
     width:100%;
 }
 #div_academia{
-    width:100%;
-    bottom:0px;
-    height:100%
+    width: 100%;
+    bottom: 0px;
+    height: 100%;
+    padding: 0px 3%;
+    position: relative
 }				
 									
 #frm_pass{
@@ -1180,6 +1112,73 @@ img.elimnar_empresa:focus{/*animar img*/
 .img-giro{
     transition: 1s;
 }
-.img-giro:hover{
-    transform:rotate(360deg);
+.display-flex{
+    display: flex;
+}
+.symbol-edit{
+    background:transparent url(../Imagenes/editar-verder-pri.png)  center  no-repeat;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+}
+.symbol-edit:hover{
+    background:transparent url(../Imagenes/editar-verder-sec.png)  center  no-repeat;
+}
+.symbol-delete{
+    background:transparent url(../Imagenes/eliminar-rojo.png)  center  no-repeat;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+}
+.symbol-delete:hover{
+    background:transparent url(../Imagenes/eliminar-verde.png)  center  no-repeat;
+}
+.symbol-add{
+    background:transparent url(../Imagenes/add-verde-pri.png)  center  no-repeat;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+}
+.symbol-cancel{
+    background:transparent url(../Imagenes/cancel-verde-pri.png)  center  no-repeat;
+}
+.symbol-cancel:hover{
+    background:transparent url(../Imagenes/cancel-verde-sec.png)  center  no-repeat;
+}
+.symbol-add:hover{
+    background:transparent url(../Imagenes/add-verde-sec.png)  center  no-repeat;
+}
+.symbol-edit,.symbol-delete,.symbol-add,.symbol-cancel,.limpiar_form{
+    cursor: pointer;
+}
+.limpiar_form{
+    background:transparent url(../Imagenes/rubber-verde-pri.png)  center  no-repeat;
+}
+.limpiar_form:hover{
+    background:transparent url(../Imagenes/rubber-verde-sec.png)  center  no-repeat;
+}
+.display-flex-justify-end{
+    display: flex;
+    justify-content: flex-end;
+}
+.margin-both-sides-10{
+    margin-left: 10px;
+    margin-left: 10px;
+}
+.margin-sides-10{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.btn-success{
+    background-color: #5DA85D;
+}
+.btn-danger{
+    background-color: red;
+}
+.filter-contrast:hover{
+    -webkit-filter: invert(100%);
+filter: invert(100%);
 }

@@ -1,12 +1,20 @@
   function alert(msn){
     msn=String(msn);
-    bootbox.alert(msn);
+    bootbox.alert({
+      message: msn,
+      backdrop: true
+    });
   }
-  function alert_bloqueado(msn){
-    return bootbox.dialog({
-        message: msn,
+  function alertBloqueado(msn){
+    msn='<span id="span-bootbox-locked">'+msn+'</span>';
+    var box= bootbox.dialog({
+        message: msn ,
         closeButton: false
     });
+    box.changeMsn=function(msn){
+      document.getElementById('span-bootbox-locked').innerHTML=msn;
+    };
+    return box;
   }
   function confirmarEliminacion(msn,funcion,no_control,registro){
     bootbox.confirm({
@@ -75,7 +83,6 @@ function inicio(no_control){//animaciones de los contenedores de los datos basic
 	//dt_academicos(no_control);//solicitar datos academicos
 	datos_egresado(no_control);//solicitar datos egresado funcion mediate ajax
 	dt_idioma(no_control);
-	dt_SW(no_control);//dt de sw
 	dt_empresa(no_control);
 	dt_historial(no_control);
 	dt_social(no_control);
@@ -131,7 +138,7 @@ function datos_egresado(no_control){//recuperar datos básicos egresado
                     
                     p='<h2>DATOS PERSONALES</h2>';
                     $('#contendedor_d1').append(p);
-                    p='<img src="Imagenes/editar.png" class="img-responsive editar" id="img_editar" title="EDITAR PERFIL" tabindex="0">';
+                    p='<img src="Imagenes/edit-green-64-pri.png" class="img-responsive editar filter-contrast" id="img_editar" title="EDITAR PERFIL" tabindex="0">';
                     $('#contendedor_d1').append(p); 
                     p='<p id="p-nombre" class="p-dt-egresado">Nombre:<b>'+datos.egresado.nombre+' '+datos.egresado.apellido_p+' '+datos.egresado.apellido_m +'</b></p>';
                      $('#contendedor_d1').append(p);
@@ -373,22 +380,22 @@ function ajax_error_input(jqXHR,textStatus,input){
             input.append('<option value="0">ERROR INESPERADO:'+ jqXHR.responseText+'</option>');
        }
 }        
-function ajax_error(jqXHR,textStatus,div){
+function ajax_error(jqXHR,textStatus){
         if (jqXHR.status === 0) {
-            div.append('<p>ERROR:SIN RESPUESTA DEL SERVIDOR</p>');
+            alert('ERROR:SIN RESPUESTA DEL SERVIDOR');
         } else if (jqXHR.status == 404) {
-            div.append('<p>ERROR:PÁGINA NO ENCONTRADA [404]</p>');
+            alert('ERROR:PÁGINA NO ENCONTRADA [404]');
 
         } else if (jqXHR.status == 500) {
-            div.append('<p>ERROR:FALLA DEL SERVIDOR[505]</p>');
+            alert('ERROR:FALLA DEL SERVIDOR[505]');
             //Internal Server Error [500]
                 
         } else if (textStatus === 'parsererror') {
-            div.append('<p>ERROR:DATOS RECIBIDOS CORRUPTOS</p>');
+            alert('ERROR:DATOS RECIBIDOS CORRUPTOS');
 //            Requested JSON parse failed
 
         } else if (textStatus === 'timeout') {
-            div.append('<p>ERROR:TIEMPO DE RESPUESTA EXPIRADO</p>');
+            alert('ERROR:TIEMPO DE RESPUESTA EXPIRADO');
 //           Time out error
 
         } else if (textStatus === 'abort') {
@@ -396,7 +403,7 @@ function ajax_error(jqXHR,textStatus,div){
 //            alert('Ajax request aborted.');
 
         } else {
-            div.append('<p>ERROR INESPERADO:'+ jqXHR.responseText+'</p>');
+            alert('ERROR INESPERADO:'+ jqXHR.responseText);
        }
 }
 
@@ -592,58 +599,6 @@ if (moment(inicio).isValid()) {
   
 }
 	};	
-function guardar_dt_academicos(no_control){//guarda nueva carrera
-        try{
-            $('#alert_academico').html('');
-        $("#img_enviar_academico").show();//img guardado
-	$("#frm_dt_academico").hide();//ocular formulario
-	$("#div_carrera_actualizar").hide();
-	$("#titlo_carrera").hide();
-	$(".eliminar").show();//ocultar img eliminar y eliminar
-	$(".editar_academico").show();
-	$.post('ajax/guardar_academico.php',{form:$('#frm_dt_academico').serialize(),no_control:no_control})
-	.done(function(data){
-            datos=$.parseJSON(data);
-		if(datos.respuesta=='1'){//exito
-			$("#img_enviar_academico").hide();
-			limpiaForm($("#frm_dt_academico"));
-			alert_('CARRERA AGREGADA',$('#alert_academico'),250);
-			show_dt_academicos();
-			dt_academicos(no_control);
-			setTimeout('$("#frm_dt_academico").show();',2000);
-			}
-		else if(datos.respuesta=='3'){//eres muy listo?
-			$("#img_enviar_academico").hide();
-			alert_("Max 4 carreras",$('#alert_academico'),250);
-			limpiaForm($("#frm_dt_academico"));	
-			setTimeout('$("#frm_dt_academico").show();',2000);	
-			show_dt_academicos();
-			}
-		else {
-			$("#img_enviar_academico").hide();
-			$("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                        alert_("Error",$("#alert_personales"),250);
-			limpiaForm($("#frm_dt_academico"));	
-			setTimeout('$("#frm_dt_academico").show();',2000);	
-			show_dt_academicos();
-		}
-		})
-            .fail(function(jqXHR, textStatus, errorThrown){
-                $("#img_enviar_academico").hide();
-                limpiaForm($("#frm_dt_academico"));	
-                setTimeout('$("#frm_dt_academico").show();',2000);
-                show_dt_academicos();
-                ajax_error_alert(jqXHR, textStatus);
-            });
-        }catch(e){
-            $("#img_enviar_academico").hide();
-            $("#alert_personales").append('<p>Informe:'+e+'</p>');
-            alert_("Error",$("#alert_personales"),250);
-            limpiaForm($("#frm_dt_academico"));	
-            setTimeout('$("#frm_dt_academico").show();',2000);	
-            show_dt_academicos();
-        }
-	}//fin de function principal;	
 
 function val_carrera(){
 	if($("#carrera").val()!="1"){
@@ -654,51 +609,6 @@ function val_carrera(){
 	}else
 	return false;
 	};
-				  
-function actualizar_carrera(no_control,registro){
-    try{
-        $('#alert_academico').html('');
-        $("#img_enviar_academico").show();
-	$("#frm_dt_academico").hide();
-	$("#div_carrera_actualizar").hide();
-	$("#titlo_carrera").hide();
-	$.post('ajax/actualizar_academico.php',{form:$('#frm_dt_academico').serialize(),no_control:no_control,registro:registro})
-	.done(function(data){//evaluando respuesta del servidor
-            datos=$.parseJSON(data);
-            if(datos.respuesta=='1'){
-                $("#img_enviar_academico").hide();
-                limpiaForm($("#frm_dt_academico"));	//exito!!!
-                alert_("DATOS GUARDADOS",$("#alert_personales"),250);
-                show_dt_academicos();
-                dt_academicos(no_control);
-                setTimeout( "jQuery('#frm_dt_academico').show();",2000 );
-            }else{//error!!
-                $("#img_enviar_academico").hide();
-                $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                alert_("Error",$("#alert_personales"),250);
-                limpiaForm($("#frm_dt_academico"));	
-                $("#frm_dt_academico").show();
-                $("#div_carrera_actualizar").show();
-                $("#titlo_carrera").show();
-                }
-	}).fail(function(jqXHR, textStatus, errorThrown){
-            $("#img_enviar_academico").hide();
-            limpiaForm($("#frm_dt_academico"));	
-            $("#frm_dt_academico").show();
-            $("#div_carrera_actualizar").show();
-            $("#titlo_carrera").show();
-            ajax_error_alert(jqXHR,textStatus);
-        });
-    }catch(e){
-        $("#img_enviar_academico").hide();
-        $("#alert_personales").append('<p>Informe:'+e+'</p>');
-        alert_("Error",$("#alert_personales"),250);
-        limpiaForm($("#frm_dt_academico"));	
-        $("#frm_dt_academico").show();
-        $("#div_carrera_actualizar").show();
-        $("#titlo_carrera").show();    
-    }
-}
 	
 function alert_(title,dialog,ancho){    
 var alert_=dialog;
@@ -874,120 +784,6 @@ function guardar_idioma(no_control){//guardar nuevo idioma
             setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
         }
     }//fin de function principal; 
-function dt_SW(no_control){//cargar datos academicos
-	try{
-            $("#div_dt_software").hide();
-            $("#div_dt_software").html('');
-            $("#img_cargando_sw").show();
-            $.post('ajax/dt_sw.php',{no_control:no_control})
-            .done(function(data){
-                 datos=$.parseJSON(data);   
-                 if(datos.respuesta==='1'){
-                    var p='<h2>Paqueteria de software<img tabindex="0" id="agregar_sw" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /> </h2>';
-                    $('#div_dt_software').append(p);
-                    var table = $('<table/>');
-                    table.addClass('tabla');
-                    table.addClass('table');
-                    table.addClass('table-hover');
-                    table.addClass('table table-condensed');
-                    table.append('<tr><th>Software</th></tr>');
-                    $.each(datos.sw,function(){
-                        table.append( '<tr><td><b>' +this.nombre_sw+'</b></td><td><img tabindex="0" id="img-eliminar-sw-'+this.id_consecutivo+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar_sw"/></td></tr>' );
-                    });
-                    $('#div_dt_software').append(table);
-                    $('#img_cargando_sw').hide();
-                    $('#div_dt_software').show();
-                 }else{
-                     var p='<h2>Software<img tabindex="0" id="agregar_sw" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
-                     $('#div_dt_software').append(p);
-                     p='<p>Informe:'+datos.mensaje+'</p>'; 
-                     $('#div_dt_software').append(p);
-                     $('#img_cargando_sw').hide();
-                     $('#div_dt_software').show();
-                 }   
-                }).fail(function(jqXHR, textStatus, errorThrown){
-                  $('#img_cargando_sw').hide();
-                  $('#div_dt_software').show(); 
-                  ajax_error(jqXHR,textStatus,$('#div_dt_software'));
-                });
-        }catch(e){
-            var p='<h2>Software<img tabindex="0" id="agregar_sw" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
-            $('#div_dt_software').append(p);
-            p='<p>Informe:'+e+'</p>'; 
-            $('#div_dt_software').append(p);
-            $('#img_cargando_sw').hide();
-            $('#div_dt_software').show();
-        }
-	}	
-function guardar_sw(no_control){//guardar nuevo idioma
-	try{
-            $("#img_enviar_sw").show();//img guardado
-            $("#frm_sw").hide();//ocular formulario
-            $("#img_cancelar_sw").hide();
-            $.post('ajax/agregar_sw.php',{form:$('#frm_sw').serialize(),no_control:no_control})
-            .done(function(data){
-                datos=$.parseJSON(data);
-                    if(datos.respuesta=='1'){//exito
-                        $("#img_enviar_sw").hide();
-                        limpiaForm($("#frm_sw"));
-                        alert_('AGREGADO',$('#alert_academico'),250);
-                        show_SW();
-                        dt_SW(no_control);
-                        setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-                            }
-                    else if(datos.respuesta=='3'){//eres muy listo?
-                        $("#img_enviar_sw").hide();
-                        show_SW();
-                        alert_("MÁXIMO 7 ",$('#alert_academico'),250);	
-                        setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);	
-                    }else{ //error desde el servidor
-                        $("#img_enviar_sw").hide();
-                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                        alert_("Error",$("#alert_personales"),250);
-                        show_SW();
-                        setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-
-                    }
-                    }).fail(function(jqXHR, textStatus, errorThrown){
-                  $('#img_enviar_sw').hide();
-                  show_SW();
-                  setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);
-                  ajax_error_alert(jqXHR,textStatus);
-                });//fin de done
-        }catch(e){
-            $("#img_enviar_sw").hide();
-            $("#alert_personales").append('<p>Informe:'+e+'</p>');
-            alert_("Error",$("#alert_personales"),250);
-            show_SW();
-            setTimeout('$("#frm_sw").show();$("#img_cancelar_sw").show();',2000);    
-        }
-	}//fin de function principal;	
-function borrar_sw(no_control,registro){//borrar sw
-	try{
-            alert_Bloq('BORRANDO...',$('#alert_personales'));
-            $.post('ajax/eliminar_sw.php',{registro:registro,no_control:no_control})
-            .done(function(data){
-                datos=$.parseJSON(data);
-                    if(datos.respuesta=='1'){//exito
-                            alert_('BORRADO EXITOSO',$('#alert_personales'),250);//msn de borrado
-                            setTimeout('$("#alert_personales").dialog( "close" );',1000);//cerrar el dlg
-                            dt_SW(no_control);//cargar nuevos datos
-                            }
-                    else{ //error desde el servidor
-                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                            alert_("Error",$("#alert_personales"),250);
-                            setTimeout("$('#alert_personales').dialog('close');",2000);
-                    }
-                    }).
-            fail(function(jqXHR, textStatus, errorThrown){
-                ajax_error_alert(jqXHR,textStatus);
-            });
-        }catch(e){
-           $("#alert_personales").append('<p>Informe:'+e+'</p>');
-            alert_("Error",$("#alert_personales"),250);
-            setTimeout("$('#alert_personales').dialog('close');",2000); 
-        }
-}
 
 function confirmar_sw(no_control,registro){//preguntar borrado de sw 
    $("#dialogo_sw").dialog({
@@ -2060,4 +1856,10 @@ function evaluarEvento(evento,funcion,obj){
           return false;
       }
     funcion(obj);
+}
+function viewError(e,id_element,title=''){
+  var container=document.getElementById(id_element);
+  if (container != null) {
+    container.innerHTML=title+'<p>Error:' + e + '</p>';
+  }
 }

@@ -3,7 +3,6 @@ var EventosForm={
 	init:function(){
 		$("#frm_Datos_Personales").submit(EventosForm.sendDatosPersonales);
 		$("#frm_posgrado").submit(EventosForm.sendPosgrado);
-		$("#frm_sw").submit(EventosForm.sendSw);
 		$("#frm_empresa").submit(EventosForm.sendEmpresa);
 		$("#frm_idioma").submit(EventosForm.sendIdioma);
 		$("#frm_social").submit(EventosForm.sendSocial);
@@ -28,10 +27,6 @@ var EventosForm={
 		}
 		else
 			alert('Datos Incompletos');
-	},
-	sendSw:function(e){
-		e.preventDefault();
-		guardar_sw(EventosForm.no_control);
 	},
 	sendEmpresa:function(e){
 		e.preventDefault();

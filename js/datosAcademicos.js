@@ -1,10 +1,10 @@
 var DatosAcademicos={
 	no_control:null,
 	init:function(){
-		$("#datos_academicos").on('click',"img.eliminar",DatosAcademicos.Eliminar);
-		$("#datos_academicos").on('click keypress','img.editar_academico',DatosAcademicos.configurarDatosAcademicosEdicion);
+		$("#datos_academicos").on('click',"img.symbol-delete",DatosAcademicos.Eliminar);
+		$("#datos_academicos").on('click keypress','img.symbol-edit',DatosAcademicos.configurarDatosAcademicosEdicion);
 		$("#datos_academicos").on('click keypress','#agregar_carrera',DatosAcademicos.configurarDatosAcademicosNuevo);
-		$("#frm_dt_academico").submit(EventosForm.sendDatosAcademicos);
+		$("#frm_dt_academico").submit(DatosAcademicos.sendDatosAcademicos);
 	},
 	setNoControl:function(no_control){
 		DatosAcademicos.no_control=no_control;
@@ -21,14 +21,15 @@ var DatosAcademicos={
 	    $.post('ajax/eliminar_carrera.php',{registro:registro,no_control:no_control})
 	    .done(function(data){
 	        datos=$.parseJSON(data);
-	        	msn_bloqueado.modal('hide');
-	            if(datos.respuesta=='1'){//exito
-	                alert('BORRADO EXITOSO');
-	                DatosAcademicos.dt_academicos(no_control);
-	            }
-	            else{ //error desde el servidor
-	                alert("Error"+datos.mensaje);
-	            }
+	        var msn='';
+            if(datos.respuesta=='1'){//exito
+                msn='BORRADO EXITOSO';
+                DatosAcademicos.dt_academicos(no_control);
+            }
+            else
+                msn="Error"+datos.mensaje;
+            msn_bloqueado.changeMsn(msn);
+        	msn_bloqueado.modal('hide');
 	    }).
 	    fail(function(jqXHR, textStatus, errorThrown){
 	        ajax_error_alert(jqXHR,textStatus);
@@ -45,14 +46,7 @@ var DatosAcademicos={
         frag.appendChild(p[0]);
 	  	$.post('ajax/dt_academicos.php',{no_control:no_control}).
 	  	done(function(data){
-            datos=$.parseJSON(data);   
-            if(datos.respuesta==='1'){
-                frag=DatosAcademicos.vistaDatosAcademicos(frag,datos.carrera);
-             }else{
-                frag=DatosAcademicos.vistaSinDatos(frag,datos.mensaje);
-             }   
-         	$('#datos_academicos').append(frag);
-            DatosAcademicos.configurarVistaFinal();
+            DatosAcademicos.doneResponseDtAcademico(frag,data);
             }).
 	  	fail(function(jqXHR, textStatus, errorThrown){
       		ajax_error(jqXHR,textStatus,$('#datos_academicos'));
@@ -63,8 +57,17 @@ var DatosAcademicos={
             DatosAcademicos.configurarVistaFinal();
         }
 	},
+	doneResponseDtAcademico:function(frag,data){
+		datos=$.parseJSON(data);   
+        if(datos.respuesta==='1')
+            frag=DatosAcademicos.vistaDatosAcademicos(frag,datos.carrera);
+        else
+            frag=DatosAcademicos.vistaSinDatos(frag,datos.mensaje);
+     	$('#datos_academicos').append(frag);
+        DatosAcademicos.configurarVistaFinal();
+	},
 	vistaDatosAcademicos:function(frag,datos){
-		p=$('<img id="agregar_carrera" tabindex="0" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ');          
+		p=$('<img id="agregar_carrera" tabindex="0" src="Imagenes/mask.png" class="symbol-add"  title="Agregar carrera" /> ');          
         frag.appendChild(p[0]);
         $.each(datos,function(){
             var div=$('<div class="div_carrera" data-registro="'+this.no_registro+'"/>');
@@ -74,7 +77,7 @@ var DatosAcademicos={
         return frag;
 	},
 	vistaSinDatos:function(frag,msn){
-		p=$('<img tabindex="0" id="agregar_carrera" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> '); 
+		p=$('<img tabindex="0" id="agregar_carrera" src="Imagenes/mask.png" class="symbol-add"  title="Agregar carrera" /> '); 
         frag.appendChild(p[0]);
         p=$('<p>Informe:'+msn+'</p>'); 
         frag.appendChild(p[0]);
@@ -88,7 +91,7 @@ var DatosAcademicos={
         return frag;
 	},
 	plantillaDatoAcademico:function(json){
-		return template='<img data-titulado="'+json.titulado+'" data-inicio="'+json.fecha_inicio+'" data-fin="'+json.fecha_fin+'" data-codigo_especilidad="'+json.codigo_especialidad+'" data-codigo_carrera="'+json.codigo_carrera+'" data-carrera="'+json.carrera+'" data-registro="'+json.no_registro+'" src="Imagenes/editar.png"  title="EDITAR" class="editar_academico" tabindex="0"/><img tabindex="0" data-registro="'+json.no_registro+'" data-carrera="'+json.carrera+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar" /><p>Carrera:<b>'+json.carrera+'</b></p><p>Especialidad:<b>'+json.especialidad+'</b></p><p>Fecha de inicio:<b>'+json.fecha_inicio+'</b></p><p>Fecha de finalización:<b>'+json.fecha_fin+'</b></p><p>Titulado:<b>'+json.titulado+'</b></p>'; 
+		return template='<div class="display-flex-justify-end" ><img data-titulado="'+json.titulado+'" data-inicio="'+json.fecha_inicio+'" data-fin="'+json.fecha_fin+'" data-codigo_especilidad="'+json.codigo_especialidad+'" data-codigo_carrera="'+json.codigo_carrera+'" data-carrera="'+json.carrera+'" data-registro="'+json.no_registro+'" src="Imagenes/mask.png"  title="EDITAR" class="symbol-edit margin-both-sides-10" tabindex="0"/><img tabindex="0" data-registro="'+json.no_registro+'" data-carrera="'+json.carrera+'" src="Imagenes/mask.png"  title="ELIMINAR" class="symbol-delete margin-both-sides-10" /></div><p>Carrera:<b>'+json.carrera+'</b></p><p>Especialidad:<b>'+json.especialidad+'</b></p><p>Fecha de inicio:<b>'+json.fecha_inicio+'</b></p><p>Fecha de finalización:<b>'+json.fecha_fin+'</b></p><p>Titulado:<b>'+json.titulado+'</b></p>'; 
 	},
 	configurarVista:function(){
 	    $("#datos_academicos").hide();
@@ -119,14 +122,81 @@ var DatosAcademicos={
 			var fin=$('#dp_academico_fin').val();
 		 	if (validar_fechas(inicio,fin)){
 		 		var registro=this.dataset.registro;
-				if(this.dataset.registro != 'null'){
-					actualizar_carrera(EventosForm.no_control,registro);	
-				}else
-					guardar_dt_academicos(EventosForm.no_control);	
-				}
-			else
+				if(this.dataset.registro != 'null')
+					DatosAcademicos.actualizar_carrera(DatosAcademicos.no_control,registro);	
+				else
+					DatosAcademicos.guardar_dt_academicos(DatosAcademicos.no_control);	
+			}else
 				alert('Datos Incompletos');
 	 	}else
 		 	alert('Datos Incompletos');
 	},
+	guardar_dt_academicos:function(no_control){//guarda nueva carrera
+        try{
+            $("#img_enviar_academico").show();
+			$("#frm_dt_academico").hide();
+			$.post('ajax/guardar_academico.php',{form:$('#frm_dt_academico').serialize(),no_control:no_control})
+			.done(function(data){
+		        DatosAcademicos.handleResponse(data,no_control,'Guardado');
+			})
+	        .fail(function(jqXHR, textStatus, errorThrown){
+	            ajax_error_alert(jqXHR, textStatus);
+	        })
+	        .always(function(){
+	        	DatosAcademicos.responseFinalView();
+	        });
+	    }
+	    catch(e){
+	        DatosAcademicos.errorThrown(e);   
+			DatosAcademicos.responseFinalView(); 
+	    }
+	},	
+	actualizar_carrera:function(no_control,registro){
+		try{
+		    $("#img_enviar_academico").show();
+			$("#frm_dt_academico").hide();
+			$.post('ajax/actualizar_academico.php',{form:$('#frm_dt_academico').serialize(),no_control:no_control,registro:registro})
+				.done(function(data){//evaluando respuesta del servidor
+				    DatosAcademicos.handleResponse(data,no_control,'Actualización Exitosa');
+				})
+				.fail(function(jqXHR, textStatus, errorThrown){
+			    	ajax_error_alert(jqXHR,textStatus);
+				})
+				.always(function(){
+		        	DatosAcademicos.responseFinalView();
+		        });
+		}catch(e){
+			DatosAcademicos.errorThrown(e);   
+			DatosAcademicos.responseFinalView(); 
+		}
+	},
+	handleResponse:function(data,no_control,msn,msn_ofrecord=''){
+		var datos=$.parseJSON(data);
+		if(datos.respuesta=='1')
+	        DatosAcademicos.savedSuccessful(no_control,msn);
+	    else if(datos.respuesta=='3')
+	    	DatosAcademicos.limitOfRecords(msn_ofrecord)
+	    else
+	        DatosAcademicos.errorSaving(datos.mensaje);
+	},
+	savedSuccessful:function(no_control,msn){
+		limpiaForm($("#frm_dt_academico"));	//exito!!!
+		DatosAcademicos.dt_academicos(no_control);
+		alert(msn);
+	},
+	errorSaving:function(msn){
+		alert(msn);
+	},
+	errorCatch:function(msn){
+		alert(msn);
+	},
+	limitOfRecords:function(msn){
+		alert(msn);	
+	},
+	responseFinalView:function(){
+		limpiaForm($("#frm_dt_academico"));	
+		$("#img_enviar_academico").hide();
+		$("#frm_dt_academico").show();
+		show_dt_academicos();
+	}
 }

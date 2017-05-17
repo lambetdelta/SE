@@ -79,45 +79,7 @@ $("document").ready(function() {
               alert_('Datos Incompletos',$('#alert_academico'),250);    
           igualdad='0';
         });
-	$("#div_dt_software").on('click',".eliminar_sw",function(){//imagen eliminar  de datos sw
-            // var id=$(this).attr('id').slice(16);
-            confirmar_sw(no_control,id);
-	});
-        $("#div_dt_software").on('keypress',".eliminar_sw",function(e){//imagen eliminar  de datos sw
-            if(e.which===13){
-                var id=$(this).attr('id').slice(16);
-                confirmar_sw(no_control,id);
-            }
-	});
 	/*clases generales*/
-	$(".limpiar").mouseenter(function() {
-      $(this).attr('src','Imagenes/limpiar_verde.png');  
-    });
-	$(".limpiar").mouseleave(function() {
-      $(this).attr('src','Imagenes/limpiar.png');  
-    });
-        $(".limpiar").focusin(function() {
-      $(this).attr('src','Imagenes/limpiar_verde.png');  
-    });
-	$(".limpiar").focusout(function() {
-      $(this).attr('src','Imagenes/limpiar.png');  
-    });
-	
-	$(".limpiar").click(function() {
-        limpiaForm($(this).parent());
-    });
-	$(".agregar_carrera").mouseenter(function(e) {
-    	$(this).attr('src','Imagenes/agregar_amarillo.png');    
-    });
-	$(".agregar_carrera").mouseenter(function(e) {
-    	$(this).attr('src','Imagenes/agregar.png');    
-    });
-        $(".agregar_carrera").focusin(function(e) {
-    	$(this).attr('src','Imagenes/agregar_amarillo.png');    
-    });
-	$(".agregar_carrera").focusout(function(e) {
-    	$(this).attr('src','Imagenes/agregar.png');    
-    });
 	$("#div_idioma").on('click',".eliminar_idioma",function(){//imagen eliminar  de idiomas
 		var id=$(this).attr('id').slice(20);
                confirmar_idioma(no_control,id);
@@ -162,13 +124,6 @@ $("document").ready(function() {
 	});
 	//funciones click	
 	/*-----------personales--------*/
-	$("#img_limpiar_frm_dt_personales").click(function() {
-            limpiaForm($("#frm_Datos_Personales"));
-        });
-        $("#img_limpiar_frm_dt_personales").keypress(function(e) {
-            if(e.which===13)
-                limpiaForm($("#frm_Datos_Personales"));
-        });
 	/*--------empresa-----*/
 	$("#div_dt_empresa").on('click',".agregar_carrera",function(){// click agregar empresa
             $('#div_dt_empresa_editar').hide();
@@ -283,13 +238,6 @@ $("document").ready(function() {
                 setTimeout('mostrar();',500); 
             }
         });
-	$("#img_limpiar_frm_historial").click(function(e) {
-            limpiaForm($("#frm_historial"));    
-        });
-        $("#img_limpiar_frm_historial").keypress(function(e) {
-            if(e.which===13)
-                limpiaForm($("#frm_historial")); 
-        });
 	/*--------social-----*/
 	$("#img_cerrar_frm_social").click(function(e) {
             limpiaForm($("#frm_social")); 
@@ -325,373 +273,10 @@ $("document").ready(function() {
                 confirmar_social(no_control,id_social);
             }
         });
-	$("#img_limpiar_frm_social").click(function(e) {
-            limpiaForm($("#frm_social"));   
-        });
-        $("#img_limpiar_frm_social").keypress(function(e) {
-            if(e.which===13)
-                limpiaForm($("#frm_social"));   
-        });
 }/*fin de load*/);
 </script>
 <script type="text/javascript">
 		$("document").ready(function() {
-			/*animaciones y colores*/
-			
-			$("#img_ayuda").hover(function(){
-				$(this).attr('src','Imagenes/ayuda_grande_white.png');
-			},function(){
-				$(this).attr('src','Imagenes/ayuda_grande.png');	
-			});
-			$(".cancelar").hover(function(){
-				$(this).attr('src','Imagenes/cancelar_rojo.png');
-			},function(){
-				$(this).attr('src','Imagenes/cancelar.png');	
-					});
-                        $('.cancelar').focusin(function(){
-                           $(this).attr('src','Imagenes/cancelar_rojo.png'); 
-                        });
-                        $('.cancelar').focusout(function(){
-                           $(this).attr('src','Imagenes/cancelar.png'); 
-                        });
-			/*-------------empresa-----------*/
-			$("#div_dt_social").on('mouseenter',".elimnar_empresa",function(){//cambiar imagen de eliminar de empresa 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
-			$("#div_dt_social").on('mouseleave',".elimnar_empresa",function(){//devolver imagen de eliminar empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-                        });
-                        $("#div_dt_social").on('focusin',".elimnar_empresa",function(){//cambiar imagen de eliminar de empresa 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
-			$("#div_dt_social").on('focusout',".elimnar_empresa",function(){//devolver imagen de eliminar empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-                        });
-			
-			$("#img_agregar_requisitos").mouseenter(function(){//efecto a imagen agregar requisito
-                            $(this).attr('src','Imagenes/más_verde.png');
-			});	
-			$("#img_agregar_requisitos").mouseleave(function(){
-                            $(this).attr('src','Imagenes/más.png');
-			});	
-			$("#img_agregar_requisitos").focusin(function(){//efecto a imagen agregar requisito
-                            $(this).attr('src','Imagenes/más_verde.png');
-			});	
-			$("#img_agregar_requisitos").focusout(function(){
-                            $(this).attr('src','Imagenes/más.png');
-			});
-			$("#img_cancelar_empresa").mouseenter(function(){//efecto a imagen cancelar frm empresa
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#img_cancelar_empresa").mouseleave(function(){//cerrar frm empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#img_cancelar_empresa").focusin(function(){//efecto a imagen cancelar frm empresa
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#img_cancelar_empresa").focusout(function(){//cerrar frm empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#frm_empresa").on('mouseenter',".eliminar_requisito",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/eliminar.gif');
-			});
-			$("#frm_empresa").on('mouseleave',".eliminar_requisito",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/eliminar_verde.gif');
-			});
-                        $("#frm_empresa").on('focusin',".eliminar_requisito",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/eliminar.gif');
-			});
-			$("#frm_empresa").on('focusout',".eliminar_requisito",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/eliminar_verde.gif');
-			});
-			$("#div_dt_empresa").on('mouseenter',".editar_empresa",function(){//cambiar imagen de agregar de empresa 
-                            $(this).attr('src','Imagenes/edita_amarillo.png');
-			});
-			$("#div_dt_empresa").on('mouseleave',".editar_empresa",function(){//devolver imagen de agregar empresa
-                            $(this).attr('src','Imagenes/editar.png');
-			});
-                        $("#div_dt_empresa").on('focusin',".editar_empresa",function(){//cambiar imagen de agregar de empresa 
-                            $(this).attr('src','Imagenes/edita_amarillo.png');
-			});
-			$("#div_dt_empresa").on('focusout',".editar_empresa",function(){//devolver imagen de agregar empresa
-                            $(this).attr('src','Imagenes/editar.png');
-			});
-			$("#div_dt_empresa").on('mouseenter',".elimnar_empresa",function(){//cambiar imagen de eliminar de empresa 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});
-			$("#div_dt_empresa").on('mouseleave',".elimnar_empresa",function(){//devolver imagen de eliminar empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#div_dt_empresa").on('focusin',".elimnar_empresa",function(){//cambiar imagen de eliminar de empresa 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});
-			$("#div_dt_empresa").on('focusout',".elimnar_empresa",function(){//devolver imagen de eliminar empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#div_dt_empresa").on('mouseenter',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_empresa").on('mouseleave',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-                        $("#div_dt_empresa").on('focusin',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_empresa").on('focusout',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-			/*--------social----------*/	
-			$("#div_dt_social").on('mouseenter',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_social").on('mouseleave',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-                        $("#div_dt_social").on('focusin',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_social").on('focusout',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-			/*--------personales--------*/
-			$("#img_limpiar_frm_dt_personales").mouseenter(function() {//cambiar imagen limpiar frm dt oersonales
-                            $(this).attr('src','Imagenes/limpiar_verde.png');    
-                        });
-			$("#img_limpiar_frm_dt_personales").mouseleave(function() {//cambiar imagen limpiar frm dt oersonales
-                            $(this).attr('src','Imagenes/limpiar.png');    
-			});
-                        $("#img_limpiar_frm_dt_personales").focusin(function() {//cambiar imagen limpiar frm dt oersonales
-				$(this).attr('src','Imagenes/limpiar_verde.png');    
-                        });
-			$("#img_limpiar_frm_dt_personales").focusout(function() {//cambiar imagen limpiar frm dt oersonales
-				$(this).attr('src','Imagenes/limpiar.png');    
-			});
-			$("#contenedor_form_datos_personales").on('mouseenter',".cancelar",function(){//cambiar imagen cerrar frm datos personales
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#contenedor_form_datos_personales").on('mouseleave',".cancelar",function(){//devolver imagen cerrar frm datos personales
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#contendedor_d1").on('mouseenter',"#img_editar",function(){//cambiar imagen de editar de datos personales 
-				$(this).attr('src','Imagenes/edita_amarillo.png');
-			});
-			$("#contendedor_d1").on('mouseleave',"#img_editar",function(){//devolver imagen de editar de datos personales
-				$(this).attr('src','Imagenes/editar.png');
-			});
-                        $("#contendedor_d1").on('focusin',"#img_editar",function(){//cambiar imagen de editar de datos personales 
-				$(this).attr('src','Imagenes/edita_amarillo.png');
-			});
-			$("#contendedor_d1").on('focusout',"#img_editar",function(){//devolver imagen de editar de datos personales
-				$(this).attr('src','Imagenes/editar.png');
-			});
-                        /*-----------posgrado-----------*/
-                        $("#div_dt_posgrado").on('mouseenter',".eliminar",function(){//cambiar imagen de eliminar de datos academicos 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#div_dt_posgrado").on('mouseleave',".eliminar",function(){//devolver imagen original de eliminar de datos academicos
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#div_dt_posgrado").on('focusin',".eliminar",function(){//cambiar imagen de eliminar de datos academicos 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#div_dt_posgrado").on('focusout',".eliminar",function(){//devolver imagen original de eliminar de datos academicos
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#div_dt_posgrado").on('mouseenter',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_posgrado").on('mouseleave',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-                        $("#div_dt_posgrado").on('focusin',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_posgrado").on('focusout',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-			/*-----------academico-----------*/
-			$("#datos_academicos").on('mouseenter',".eliminar",function(){//cambiar imagen de eliminar de datos academicos 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#datos_academicos").on('mouseleave',".eliminar",function(){//devolver imagen original de eliminar de datos academicos
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#datos_academicos").on('focusin',".eliminar",function(){//cambiar imagen de eliminar de datos academicos 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#datos_academicos").on('focusout',".eliminar",function(){//devolver imagen original de eliminar de datos academicos
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#datos_academicos").on('mouseleave',".editar_academico",function(){//devolver imagen de editar de datos academicos
-                            $(this).attr('src','Imagenes/editar.png');
-			});
-			$("#datos_academicos").on('mouseenter',".editar_academico",function(){//cambiar imagen de editar de datos academicos 
-                            $(this).attr('src','Imagenes/edita_amarillo.png');
-			});
-                        $("#datos_academicos").on('focusin',".editar_academico",function(){//devolver imagen de editar de datos academicos
-                            $(this).attr('src','Imagenes/edita_amarillo.png');
-			});
-			$("#datos_academicos").on('focusout',".editar_academico",function(){//cambiar imagen de editar de datos academicos 
-                            $(this).attr('src','Imagenes/editar.png');
-			});
-			$("#datos_academicos").on('mouseenter',".agregar_carrera",function(){//cambiar imagen de agregar de datos academicos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#datos_academicos").on('mouseleave',".agregar_carrera",function(){//devolver imagen de agregar de datos academicos
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-                        $("#datos_academicos").on('focusin',".agregar_carrera",function(){//cambiar imagen de agregar de datos academicos 
-				$(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#datos_academicos").on('focusout',".agregar_carrera",function(){//devolver imagen de agregar de datos academicos
-				$(this).attr('src','Imagenes/agregar.png');
-			});
-			$("#imgfrm_cancelar_academicos").mouseenter(function(){//efecto a imagen cancelar frm dt academicos
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});
-			$("#imgfrm_cancelar_academicos").mouseleave(function(){
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#imgfrm_cancelar_academicos").focusin(function(){//efecto a imagen cancelar frm dt academicos
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});
-			$("#imgfrm_cancelar_academicos").focusout(function(){
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			/*---------idioma------------*/
-			$("#div_idioma").on('mouseenter',".eliminar_idioma",function(){//cambiar imagen de eliminar de idioma 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#div_idioma").on('mouseleave',".eliminar_idioma",function(){//devolver imagen original de eliminar idioma
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#div_idioma").on('focusin',".eliminar_idioma",function(){//cambiar imagen de eliminar de idioma 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#div_idioma").on('focusout',".eliminar_idioma",function(){//devolver imagen original de eliminar idioma
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#div_idioma").on('mouseenter',"#agregar_idioma",function(){//cambiar imagen de agregar idioma
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_idioma").on('mouseleave',"#agregar_idioma",function(){//devolver imagen de agregar idioma
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-                        $("#div_idioma").on('focusin',"#agregar_idioma",function(){//cambiar imagen de agregar idioma
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_idioma").on('focusout',"#agregar_idioma",function(){//devolver imagen de agregar idioma
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-			$("#img_cancelar_idiomas").mouseenter(function(){//efecto a imagen cancelar frm dt idiomas
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#img_cancelar_idiomas").mouseleave(function(){
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#img_cancelar_idiomas").focusin(function(){//efecto a imagen cancelar frm dt idiomas
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#img_cancelar_idiomas").focusout(function(){
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			/*--------sw-------*/
-			$("#div_dt_software").on('mouseenter',".eliminar_sw",function(){//imagen eliminar  de datos sw
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});
-			$("#div_dt_software").on('mouseleave',".eliminar_sw",function(){//imagen eliminar  de datos sw
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#div_dt_software").on('focusin',".eliminar_sw",function(){//imagen eliminar  de datos sw
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});
-			$("#div_dt_software").on('focusout',".eliminar_sw",function(){//imagen eliminar  de datos sw
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#div_frm_software").on('mouseenter',".cancelar",function(){//cambiar imagen cerrar original de frm sw 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#div_frm_software").on('mouseleave',".cancelar",function(){//devolver imagen cerrar original de frm sw 
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-                        $("#div_frm_software").on('focusin',".cancelar",function(){//cambiar imagen cerrar original de frm sw 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			});	
-			$("#div_frm_software").on('focusout',".cancelar",function(){//devolver imagen cerrar original de frm sw 
-                            $(this).attr('src','Imagenes/cancelar.png');
-			});
-			$("#div_dt_software").on('mouseenter',".agregar_carrera",function(){//cambiar imagen de agregar de datos sw 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_software").on('mouseleave',".agregar_carrera",function(){//devolver imagen de agregar de datos sw
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-                        $("#div_dt_software").on('focusin',".agregar_carrera",function(){//cambiar imagen de agregar de datos sw 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-			});
-			$("#div_dt_software").on('focusout',".agregar_carrera",function(){//devolver imagen de agregar de datos sw
-                            $(this).attr('src','Imagenes/agregar.png');
-			});
-			/*--------historial-----*/	
-			$("#div_dt_historial_empresa").on('mouseenter',".editar_empresa",function(){//cambiar imagen de agregar de historia empresa 
-                            $(this).attr('src','Imagenes/edita_amarillo.png');
-                        });
-			$("#div_dt_historial_empresa").on('mouseenter',".elimnar_empresa",function(){//cambiar imagen de eliminar dehistorial  empresa 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
-                        $("#div_dt_historial_empresa").on('focusin',".elimnar_empresa",function(){//cambiar imagen de eliminar dehistorial  empresa 
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
-                        $("#div_dt_historial_empresa").on('focusin',".editar_empresa",function(){//cambiar imagen de agregar de historia empresa 
-                            $(this).attr('src','Imagenes/edita_amarillo.png');
-                        });
-			$("#div_dt_historial_empresa").on('focusout',".elimnar_empresa",function(){//cambiar imagen de eliminar dehistorial  empresa 
-                            $(this).attr('src','Imagenes/cancelar.png');
-                        });
-			$("#div_dt_historial_empresa").on('mouseleave',".elimnar_empresa",function(){//devolver imagen de eliminar historial empresa
-                            $(this).attr('src','Imagenes/cancelar.png');
-                        });		
-			$("#div_dt_historial_empresa").on('mouseleave',".editar_empresa",function(){//devolver imagen de agregar historia empresa
-                            $(this).attr('src','Imagenes/editar.png');
-                        });		
-			$("#div_dt_historial_empresa").on('focusout',".editar_empresa",function(){//devolver imagen de agregar historia empresa
-                            $(this).attr('src','Imagenes/editar.png');
-                        });
-			$("#div_dt_historial_empresa").on('mouseenter',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-                        });
-			$("#div_dt_historial_empresa").on('mouseleave',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-                        });
-                        $("#div_dt_historial_empresa").on('focusin',".agregar_carrera",function(){//cambiar imagen de agregar de requisitos 
-                            $(this).attr('src','Imagenes/agregar_amarillo.png');
-                        });
-			$("#div_dt_historial_empresa").on('focusout',".agregar_carrera",function(){//devolver imagen de agregar requisitos
-                            $(this).attr('src','Imagenes/agregar.png');
-                        });
-			/*----------------social---------*/
-			$("#img_cerrar_frm_historial").hover(function(){
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-			},function(){
-                            $(this).attr('src','Imagenes/cancelar.png');	
-			});
-                        $("#img_cerrar_frm_historial").focusin(function(){
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
-                        $("#img_cerrar_frm_historial").focusout(function(){
-                            $(this).attr('src','Imagenes/cancelar.png');
-                        });
-			$("#img_cerrar_frm_social").hover(function(){
-				$(this).attr('src','Imagenes/cancelar_rojo.png');
-			},function(){
-				$(this).attr('src','Imagenes/cancelar.png');	
-			});
-                        $("#img_cerrar_frm_social").focusin(function(){
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
-                        $("#img_cerrar_frm_social").focusout(function(){
-                            $(this).attr('src','Imagenes/cancelar_rojo.png');
-                        });
 		
 		//////////////////eventos del div empres
 		$("#img_agregar_requisitos").click(function(){
@@ -731,20 +316,6 @@ $("document").ready(function() {
                         show_empresa();
                     }    
 		});
-		$("#img_limpiar_frm_dt_empresa").click(function(e) {
-			limpiaForm($("#frm_empresa"));    
-		});
-                $("#img_limpiar_frm_dt_empresa").keypress(function(e) {
-		    if(e.which===13)
-                        limpiaForm($("#frm_empresa"));
-		});
-		$("#img_limpiar_frm_dt_academicos").click(function(e) {//limpiar frm dt personles
-		   limpiaForm($("#frm_datos_academicos")); 
-		});
-		$("#img_limpiar_frm_dt_academicos").keypress(function(e) {//limpiar frm dt personles
-		   if(e.which===13)
-                       limpiaForm($("#frm_datos_academicos"));
-		});			
 		$("#estado_empresa").change(function(){//cargar municipios
 			if($("#estado_empresa").val()!=='1')
                             cargar_municipios_empresa();
@@ -1063,7 +634,7 @@ $("document").ready(function() {//evaluar passs
             <div class="col-lg-6 col-lg-push-1 col-md-8  col-sm-12 col-xs-12">
                 <div id="contenedor_form_datos_personales">
                     <img src="Imagenes/loading45.gif" class="enviando loading" id="enviar"  style="display:none" />
-                    <img id="cancelar" src="Imagenes/cancelar.png"  title="CERRAR FORMULARIO" class="cancelar" tabindex="0"/>
+                    <img id="cancelar" src="Imagenes/mask.png"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
                     <form id="frm_Datos_Personales" style="text-align:left; padding-left:10px" method="post">
                     <h2>Datos Personales</h2>
                     <div class="row">
@@ -1114,7 +685,7 @@ $("document").ready(function() {//evaluar passs
                        <img id="img_cargando_estado" src="Imagenes/loading_min.gif" style="width:30px; height:30px; display:none; position:absolute; right:0px" />
                        		<select id="Municipios" class="domicilio" name="municipio" title="MUNICIPIO" style="width:80%;"><option value="1">MUNICIPIO</option></select></div>
                        <div class="col-lg-4 col-md-4 col-xs-12 col-xs-12">
-                           <img id="img_limpiar_frm_dt_personales"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" tabindex="0"/>
+                           <img id="img_limpiar_frm_dt_personales"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" tabindex="0" class="limpiar_form" data-target="frm_Datos_Personales"/>
                            <input   type="submit"  value="GUARDAR" id="btn_guardar" class="guardar" title="GUARDAR"  style="position:absolute; bottom:5px; right:1%;"/>
                        </div>
                    </div>
@@ -1152,7 +723,7 @@ $("document").ready(function() {//evaluar passs
                             <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_posgrado" style="display:none; top:70px" />	
                                 <form id="frm_posgrado">
                                     <label style="font-size:22px">Formulario de posgrado</label><br />
-                                    <img src="Imagenes/cancelar.png" id="img_cancelar_posgrado" title="CERRAR FORMULARIO" class="cancelar" tabindex="0"/>
+                                    <img src="Imagenes/mask.png" id="img_cancelar_posgrado" title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <select id="select_posgrado" name="posgrado" class="basicos" style="width:90%">
@@ -1171,7 +742,7 @@ $("document").ready(function() {//evaluar passs
                                     </div>
                                     <input type="text" name="nombre" required  style="width:80%" maxlength="110" class="frm_empresa" placeholder="NOMBRE DE POSGRADO"/><br /><br />
                                     <input type="text" name="escuela" required style="width:80%" maxlength="80" class="frm_empresa" placeholder="ESCUELA"/><br /><br />
-                                    <input type="submit" value="GUARDAR" class="guardar" /><img id="img_limpiar_frm_posgrado"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar"  style="width:40px; height:40px" tabindex="0"/>
+                                    <input type="submit" value="GUARDAR" class="guardar" /><img id="img_limpiar_frm_posgrado"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_posgrado" style="width:40px; height:40px" tabindex="0"/>
                                 </form>
                             </div>
                             <div id="div_dt_posgrado"></div>
@@ -1183,7 +754,7 @@ $("document").ready(function() {//evaluar passs
                             <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_academico" style="top:10%;display:none" />
                                 <form id="frm_dt_academico">
                                     <h2 style="font-size:22px">FORMULARIO DE DATOS ACADEMICOS</h2>
-                                    <img src="Imagenes/cancelar.png" id="imgfrm_cancelar_academicos"  title="CANCELAR Y CERRAR FORMULARIO" tabindex="0"/>
+                                    <img src="Imagenes/mask.png" id="imgfrm_cancelar_academicos"  title="CANCELAR Y CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
                                     <div class="row">
                                     	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <select id="carrera"  title="CARRERA"class=" basicos" style="width:90%;height:35px;padding:2px;margin:10px" name="carrera" ><option value="1">Cargando</option></select>
@@ -1208,11 +779,13 @@ $("document").ready(function() {//evaluar passs
                                         </div>
                                     </div>
                                     <input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
-                                    <img id="img_limpiar_frm_dt_academicos"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar" style="width:40px; height:40px;" tabindex="0" />
+                                    <img id="img_limpiar_frm_dt_academicos"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_dt_academico" style="width:40px; height:40px;" tabindex="0" />
+                                    <div>
+                                        <p  id="titlo_carrera" style="font-size:20px; color:#090">CARRRERA Y ESPECIALIDAD A EDITAR</p>
+                                        <div id="div_carrera_actualizar"></div>
+                                    </div>
                                 </form>
                                 <br />
-                                <p  id="titlo_carrera" style="font-size:20px; color:#090">CARRRERA Y ESPECIALIDAD A EDITAR</p>
-                                <div id="div_carrera_actualizar"></div>
                                 <br />
                             </div>
                              <div id="datos_academicos"></div>
@@ -1235,7 +808,7 @@ $("document").ready(function() {//evaluar passs
                                 <img src="Imagenes/loading45.gif" class=" enviando" id="img_enviar_idioma" /> 
                                 <form id="frm_idioma" style="text-align:center; ">
                                     <label style="text-align:center; font-size:22px; font-weight:bold">Formulario de Idiomas</label><br />
-                                     <img src="Imagenes/cancelar.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" tabindex="0" /><br />	
+                                     <img src="Imagenes/mask.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0" /><br />	
                                     <select name="idiomas" id="idiomas"  title="IDIOMAS" class="basicos" style="width:60%; height:30px; text-align:center; margin-bottom:10px">
                                         <option value="1">CARGANDO</option>
                                     </select>
@@ -1248,22 +821,19 @@ $("document").ready(function() {//evaluar passs
                                     </p>
                                     <p style="text-align:center">
                                         <input type="submit" value="GUARDAR" id="guardar_idoma" title="GUARDAR" class="guardar" style=" width:40%" />
-                                        <img id="img_limpiar_frm_Idioma"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar limpiar_form" data-target="frm_idioma"  style="width:40px; height:40px" tabindex="0" />
+                                        <img id="img_limpiar_frm_Idioma"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_idioma"  style="width:40px; height:40px" tabindex="0" />
                                     </p>
                                 </form>
                             </div>
                         </div>
                    <div class="row">     
-                    <div id="div_software" class="col-xs-12">
-                     <div id="dialogo_sw" class="ventana" title="¿Estas Seguro?">  
-                        <p>EL SOFTWARE SE BORRARA DEL SISTEMA DE MANERA PERMANENTE,¿ESTAS SEGURO?</p>
-                    </div>
+                    <div id="div_software" class="col-lg-12">
                      <img src="Imagenes/loading.gif" id="img_cargando_sw" class="cargando" />
                         <div id="div_frm_software">
                             <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_sw" /> 
                             <form id="frm_sw" style="text-align:center">
                                 <label style="text-align:center; font-size:22px; font-weight:bold">FORMULARIO DE SOFTWARE</label><br />
-                                <img src="Imagenes/cancelar.png" id="img_cancelar_sw" title="CERRAR FORMULARIO"  class="cancelar" tabindex="0" />
+                                <img src="Imagenes/mask.png" id="img_cancelar_sw" title="CERRAR FORMULARIO"  class="symbol-cancel" tabindex="0" />
                                 <p style="text-align:center">
                                     <select id="select-sw" name="sw" class="basicos" style="width:50%;height:35px;padding:2px;margin:10px" title="SOFTWARES">
                                         <option value="Microsoft office" title="Word, Excel, PowerPoint, Access, ect.">Microsoft office</option>
@@ -1304,7 +874,7 @@ $("document").ready(function() {//evaluar passs
                 <div class="row">
                     <form  id="frm_empresa" style="text-align:center">
                     	<h1 style="font-size:22px;text-align:center">FORMULARIO DE DATOS DE LA EMPRESA</h1>
-                     	<img src="Imagenes/cancelar.png" id="img_cancelar_empresa" title="CERRAR FORMULARIO"  class="cancelar" style="width:35px; height:35px" tabindex="0" /><br>
+                     	<img src="Imagenes/mask.png" id="img_cancelar_empresa" title="CERRAR FORMULARIO"  class="symbol-cancel" style="width:35px; height:35px" tabindex="0" /><br>
                     	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <input id="input-nombre-empresa" class="frm_empresa" name="nombre" placeholder="NOMBRE DE LA EMPRESA" maxlength="30" title="NOMBRE DE LA EMPRESA"  required="required"/><br />
                         <input  class="frm_empresa" name="giro"  placeholder="GIRO O ACTIVIDAD PRINCIPAL" maxlength="40"  required="required" style="height:40px" title="GIRO Ó ACTIVIDAD PRINCIPAL"/><br />
@@ -1364,7 +934,7 @@ $("document").ready(function() {//evaluar passs
                             <option value="NINGUNO">NINGUNO</option>
                         </select>
                     </div>
-               			<input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_empresa" class="guardar" style="right:10%"  /><img id="img_limpiar_frm_dt_empresa"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar" style="width:40px; height:40px;right:5%" tabindex="0" />
+               			<input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_empresa" class="guardar" style="right:10%"  /><img id="img_limpiar_frm_dt_empresa"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" data-target="frm_empresa" class="limpiar_form" style="width:40px; height:40px;right:5%" tabindex="0" />
                         </div>
                     </form><br /><br />
                     </div>
@@ -1392,14 +962,14 @@ $("document").ready(function() {//evaluar passs
 	            	<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 		            	<form id="frm_social" style="text-align:center;">
 		                    <h2 style="font-size:22px;">FORMULARIO PARA ASOCIACIONES SOCIALES</h2>
-		                    <img id="img_cerrar_frm_social" class="cancelar" src="Imagenes/cancelar.png" title="CERRAR FORMULARIO" tabindex="0" /><br>
+		                    <img id="img_cerrar_frm_social" class="symbol-cancel" src="Imagenes/mask.png" title="CERRAR FORMULARIO" tabindex="0" /><br>
                                         <input id="input-nombre-asociacion" type="text" name="nombre"   required="required" maxlength="30" class="frm_empresa"  placeholder="NOMBRE DE LA ASOCIACIÓN"/><br/>
 		                    <select name="tipo" id="select_social" class="basicos" style="width:70%" >
 		                        <option value="1">TIPO</option>
 		                        <option value="GRUPO ESTUDIANTIL">GRUPO ESTUDIANTIL</option>
 		                        <option value="ASOCIACIÓN CIVIL">ASOCIACIÓN CIVIL</option>
 		                    </select><br />
-		                    <input type="submit" value="GUARDAR" name="GUARDAR" class="guardar"/><img id="img_limpiar_frm_social"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar" style="width:40px; height:40px;" tabindex="0" />
+		                    <input type="submit" value="GUARDAR" name="GUARDAR" class="guardar"/><img id="img_limpiar_frm_social"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_social" style="width:40px; height:40px;" tabindex="0" />
 		            	</form>
 		            </div>		
 	            </div>
@@ -1419,12 +989,12 @@ $("document").ready(function() {//evaluar passs
             		<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 		                <form id="frm_historial" style="text-align:center">
                                     <label style="font-size:22px;">FORMULARIO DE HISTORIAL EMPRESARIAL</label><br />
-                                    <img id="img_cerrar_frm_historial" class="cancelar" src="Imagenes/cancelar.png" title="CERRAR FORMULARIO" tabindex="0" /><br>
+                                    <img id="img_cerrar_frm_historial" class="symbol-cancel" src="Imagenes/mask.png" title="CERRAR FORMULARIO" tabindex="0" /><br>
                                         <input id="input-nombre-historial"type="text" name="nombre" title="NOMBRE DE LA EMPRESA" placeholder="NOMBRE DE LA EMPRESA" maxlength="30"  class="frm_empresa" required /><br />
 		                    <input type="text" name="tel"  title="TELÉFONO DE LA EMPRESA" placeholder="TELEFONO DE LA EMPRESA" maxlength="18"  class="frm_empresa"  required/><br />
 		                    <input type="text" name="web"  title="WEB DE LA EMPRESA" placeholder="WEB DE LA EMPRESA" maxlength="40"  class="frm_empresa" /><br />
 		                    <input type="text" name="email"  title="EMAIL DE LA EMPRESA" placeholder="EMAIL DE LA EMPRESA" maxlength="30"  class="frm_empresa"required/><br />
-		                    <input type="submit" name="GUARDAR" value="GUARDAR" class="guardar" placeholder="GUARDAR" title="GUARDAR"/><img id="img_limpiar_frm_historial"  src="Imagenes/limpiar.png" title="LIMPIAR FORMULARIO" class="limpiar" style="width:40px; height:40px;" tabindex="0" />
+		                    <input type="submit" name="GUARDAR" value="GUARDAR" class="guardar" placeholder="GUARDAR" title="GUARDAR"/><img id="img_limpiar_frm_historial"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_historial" style="width:40px; height:40px;" tabindex="0" />
 		                </form>
 	                </div>
                 </div>
@@ -1544,7 +1114,7 @@ $("document").ready(function() {//evaluar passs
                         </div>
                         <div class="media fondo">
                             <a class="pull-left">
-                                <img id="img-ayuda-cancelar" src="Imagenes/cancelar.png" class="media-object img-giro" alt="imagen">
+                                <img id="img-ayuda-cancelar" src="Imagenes/mask.png" class="media-object symbol-cancel" alt="imagen">
                             </a>
                             <div class="media-body">
                                 <h2 class="media-heading">Eliminar o cerrar</h2>
@@ -1577,7 +1147,8 @@ $("document").ready(function() {//evaluar passs
 <script type="text/javascript" src="js/EventosForm.js"></script>
 <script type="text/javascript" src="js/Animaciones.js"></script>
 <script type="text/javascript" src="js/LimpiarForm.js"></script>
-<script type="text/javascript" src="js/DatosAcademicos.js"></script>
+<script type="text/javascript" src="js/datosAcademicos.js"></script>
+<script type="text/javascript" src="js/DatosSoftware.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
@@ -1588,6 +1159,9 @@ $("document").ready(function() {//evaluar passs
         DatosAcademicos.init();
         DatosAcademicos.setNoControl(no_control);
         DatosAcademicos.dt_academicos(no_control);
+        DatosSoftware.init();
+        DatosSoftware.setNoControl(no_control);
+        DatosSoftware.dt_SW(no_control);
     });
 </script>  
 </html>    

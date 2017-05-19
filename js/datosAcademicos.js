@@ -42,7 +42,7 @@ var DatosAcademicos={
 	try{
 	    DatosAcademicos.configurarVista();
 	  	var frag = document.createDocumentFragment();
-        var p=$('<h2>Datos Academicos</h2>');            
+        var p=$('<h2>Datos Academicos<img tabindex="0" id="agregar_carrera" src="Imagenes/mask.png" class="symbol-add margin-both-sides-10"  title="Agregar carrera" /></h2>');            
         frag.appendChild(p[0]);
 	  	$.post('ajax/dt_academicos.php',{no_control:no_control}).
 	  	done(function(data){
@@ -67,8 +67,6 @@ var DatosAcademicos={
         DatosAcademicos.configurarVistaFinal();
 	},
 	vistaDatosAcademicos:function(frag,datos){
-		p=$('<img id="agregar_carrera" tabindex="0" src="Imagenes/mask.png" class="symbol-add"  title="Agregar carrera" /> ');          
-        frag.appendChild(p[0]);
         $.each(datos,function(){
             var div=$('<div class="div_carrera" data-registro="'+this.no_registro+'"/>');
             div.append(DatosAcademicos.plantillaDatoAcademico(this));
@@ -77,15 +75,11 @@ var DatosAcademicos={
         return frag;
 	},
 	vistaSinDatos:function(frag,msn){
-		p=$('<img tabindex="0" id="agregar_carrera" src="Imagenes/mask.png" class="symbol-add"  title="Agregar carrera" /> '); 
-        frag.appendChild(p[0]);
         p=$('<p>Informe:'+msn+'</p>'); 
         frag.appendChild(p[0]);
         return frag;
 	},
 	vistaError:function(frag,e){
-		var p=$('<img tabindex="0" id="agregar_carrera" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" />');          
-        frag.appendChild(p[0]);
         p=$('<p>Informe:'+e+'</p>'); 
         frag.appendChild(p[0]);
         return frag;
@@ -127,9 +121,9 @@ var DatosAcademicos={
 				else
 					DatosAcademicos.guardar_dt_academicos(DatosAcademicos.no_control);	
 			}else
-				alert('Datos Incompletos');
+				alertWarnig('Datos Incompletos');
 	 	}else
-		 	alert('Datos Incompletos');
+		 	alertWarnig('Datos Incompletos');
 	},
 	guardar_dt_academicos:function(no_control){//guarda nueva carrera
         try{

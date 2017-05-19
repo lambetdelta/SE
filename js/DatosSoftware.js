@@ -71,7 +71,7 @@ var DatosSoftware={
         DatosSoftware.configureViewFinal();
 	}, 
 	templateTitle:function(title){
-		return '<h2>Software<img tabindex="0" id="agregar_sw" src="Imagenes/mask.png" class="symbol-add"  title="Agregar Software" /></h2>';
+		return '<h2>Software<img tabindex="0" id="agregar_sw" src="Imagenes/mask.png" class="symbol-add margin-both-sides-10"  title="Agregar Software" /></h2>';
 	},
 	templateItem:function(item){
 		return '<Div class="display-flex justify-between margin-sides-10"><Div><b>'+item.nombre_sw+'</b></Div><Div><img tabindex="0" data-registro="'+item.id_consecutivo+'" data-description="'+item.nombre_sw+'" src="Imagenes/mask.png"  title="ELIMINAR" class="symbol-delete"/></Div></Div>';

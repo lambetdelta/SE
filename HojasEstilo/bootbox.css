@@ -1,0 +1,22 @@
+.warning{
+	background:orange url(../Imagenes/cancel.png)  center  no-repeat;
+    color: white;
+    width: 100%;
+	height: 36px;
+}
+.info{
+	background: #0d8ed4 url(../Imagenes/information.png) center no-repeat;
+	color: white;
+	width: 100%;
+	height: 36px;
+}
+.danger{
+	background:#ce4b47 url(../Imagenes/cancel.png)  center  no-repeat;
+    color: white;
+    width: 100%;
+	height: 36px;
+}
+.close{
+	margin-top: 7.5px;
+	margin-right: 7.5px;
+}

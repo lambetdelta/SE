@@ -5,6 +5,22 @@
       backdrop: true
     });
   }
+  function alertDanger(msn){
+    msn=String(msn);
+    bootbox.alert({
+      message: msn,
+      backdrop: true,
+      type:'danger'
+    });
+  }
+  function alertWarnig(msn){
+    msn=String(msn);
+    bootbox.alert({
+      message: msn,
+      backdrop: true,
+      type:'warning'
+    });
+  }
   function alertBloqueado(msn){
     msn='<span id="span-bootbox-locked">'+msn+'</span>';
     var box= bootbox.dialog({

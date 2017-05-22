@@ -1,10 +1,9 @@
 var EventosForm={
 	no_control:null,
 	init:function(){
-		$("#frm_Datos_Personales").submit(EventosForm.sendDatosPersonales);
+		
 		$("#frm_posgrado").submit(EventosForm.sendPosgrado);
 		$("#frm_empresa").submit(EventosForm.sendEmpresa);
-		$("#frm_idioma").submit(EventosForm.sendIdioma);
 		$("#frm_social").submit(EventosForm.sendSocial);
 		$("#frm_residencia").submit(EventosForm.sendResidencia);
 		$("#frm_historial").submit(EventosForm.sendHistorial);
@@ -14,11 +13,6 @@ var EventosForm={
 	},
 	setNoControl:function(no_control){
 		EventosForm.no_control=no_control;
-	},
-	sendDatosPersonales:function(e){
-		e.preventDefault();
-		if(validar_Est_Mun())
-		 	guardar_datos(EventosForm.no_control);
 	},
 	sendPosgrado:function(e){
 		e.preventDefault();
@@ -39,13 +33,6 @@ var EventosForm={
 				$("#div_dt_historial_editar").show();
 			}
 		}
-	},
-	sendIdioma:function(){
-		e.preventDefault();
-		if($("#idiomas").val()!='1'){
-			guardar_idioma(EventosForm.no_control);
-		}else
-			alert('Datos Incompletos');
 	},
 	sendSocial:function(e){
 		e.preventDefault();

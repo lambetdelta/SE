@@ -35,6 +35,7 @@
   function confirmarEliminacion(msn,funcion,no_control,registro){
     bootbox.confirm({
       message: msn,
+      type:'warning',
       buttons: {
           confirm: {
               label: 'Aceptar',
@@ -97,8 +98,7 @@ function inicio(no_control){//animaciones de los contenedores de los datos basic
 	cargar_carrera();
 	cargar_estados();
 	//dt_academicos(no_control);//solicitar datos academicos
-	datos_egresado(no_control);//solicitar datos egresado funcion mediate ajax
-	dt_idioma(no_control);
+	//dt_idioma(no_control);
 	dt_empresa(no_control);
 	dt_historial(no_control);
 	dt_social(no_control);
@@ -137,71 +137,7 @@ if (device.match(/Iphone/i)|| device.match(/Ipod/i)|| device.match(/Android/i)||
 	
 }
 
-}
-	
-function datos_egresado(no_control){//recuperar datos básicos egresado	
-	
-    try{
-        $('#alert_academico').html('');
-        $("#cargando_frm").show();
-        $('#contendedor_d1').html('');
-	$("#contendedor_d1").hide();
-	$.post("contenidos/dt_egresado.php",{no_control:no_control})
-	.done(function(data){
-                 var p='';
-                datos=$.parseJSON(data);
-                if(datos.resultado==='1'){
-                    
-                    p='<h2>DATOS PERSONALES</h2>';
-                    $('#contendedor_d1').append(p);
-                    p='<img src="Imagenes/edit-green-64-pri.png" class="img-responsive editar filter-contrast" id="img_editar" title="EDITAR PERFIL" tabindex="0">';
-                    $('#contendedor_d1').append(p); 
-                    p='<p id="p-nombre" class="p-dt-egresado">Nombre:<b>'+datos.egresado.nombre+' '+datos.egresado.apellido_p+' '+datos.egresado.apellido_m +'</b></p>';
-                     $('#contendedor_d1').append(p);
-                     p='<p id="p-curp" class="p-dt-egresado">CURP:<b>'+datos.egresado.curp+'</b></p>';
-                     $('#contendedor_d1').append(p);
-                     p='<p id="p-curp" class="p-dt-egresado">Género:<b>'+datos.egresado.genero+'</b></p>';
-                     $('#contendedor_d1').append(p);
-                     p='<p id="p-telefono" class="p-dt-egresado">Telefono:<b>'+datos.egresado.telefono+'<b></p>';
-                      $('#contendedor_d1').append(p);
-                     p='<p id="p-email" class="p-dt-egresado">Email:<b>'+datos.egresado.email+'</b></p>';
-                      $('#contendedor_d1').append(p);
-                     p='<p id="p-fecha_nac" class="p-dt-egresado">Fecha de nacimiento:<b>'+datos.egresado.fecha_nacimiento+'</b></p>';
-                      $('#contendedor_d1').append(p);
-                      p='<p id="p-cuidad" class="p-dt-egresado">Ciudad o localidad:<b>'+datos.egresado.ciudad+'</b></p>';
-                     $('#contendedor_d1').append(p);
-                      p='<p id="p-colonia" class="p-dt-egresado">Colonia:<b>'+datos.egresado.colonia+'</b></p>';
-                     $('#contendedor_d1').append(p);
-                     p='<p id="p-calle" class="p-dt-egresado">Calle:<b>'+datos.egresado.calle+'</b></p>';
-                     $('#div-datos-personales').append(p);
-                     p='<p id="p-no-casa" class="p-dt-egresado">No. Casa:<b>'+datos.egresado.numero_casa+'</b></p>';
-                      $('#contendedor_d1').append(p);
-                     p='<p id="p-no-casa" class="p-dt-egresado">C.P:<b>'+datos.egresado.cp+'</b></p>';
-                      $('#contendedor_d1').append(p);
-                     p='<p id="p-estado" class="p-dt-egresado">Estado:<b>'+datos.egresado.estado+'</b></p>';
-                      $('#contendedor_d1').append(p);
-                     p='<p id="p-municipio" class="p-dt-egresado">Municipio:<b>'+datos.egresado.municipio+'</b></p>';
-                      $('#contendedor_d1').append(p);  
-                      $("#cargando_frm").hide();
-                      $('#contendedor_d1').show();
-                }else{
-                    var p='<p id="p-estado" class="p-dt-egresado">ERROR:'+datos.mensaje+'</p>';
-                     $('#contendedor_d1').append(p);
-                     $("#cargando_frm").hide();
-                     $('#contendedor_d1').show();
-                }
-                }).fail(function(jqXHR, textStatus, errorThrown){
-                     $('#contendedor_d1').show();
-                     $("#cargando_frm").hide();
-                    ajax_error(jqXHR,textStatus,$('#contendedor_d1'));
-                  }); 
-    }catch (e){
-        var p='<p id="p-estado" class="p-dt-egresado">ERROR:'+e+'</p>';
-        $('#contendedor_d1').append(p);
-        $("#cargando_frm").hide();
-        $('#contendedor_d1').show();
-    }
-	}		
+}		
 function cargar_municipios(){	//cargar municpios con ajax 
     try{
     $("#estados option:selected").each(function () {
@@ -489,41 +425,6 @@ $(function () {
 	$("#fecha").datepicker();
 });
 	};
-        
-function guardar_datos(no_control){//guardar datos básicos egresado
-    try{
-    $('#alert_academico').html('');
-        $("#enviar").show();//ocultar y mostrar frm, gif de envio
-	$("#cancelar").hide();
-	$("#frm_Datos_Personales").hide();	
-	$.post("ajax/guardar_datos.php",{form:$('#frm_Datos_Personales').serialize(),no_control:no_control})
-	.done(function(data){//evaluando respuesta del servidor
-		$("#enviar").hide();
-                datos=$.parseJSON(data);
-		if(datos.respuesta=='1'){
-			limpiaForm($("#frm_Datos_Personales"));	//exito!!!
-			alert_("DATOS GUARDADOS",$("#alert_personales"),250);
-			show_1();
-			datos_egresado(no_control);
-			setTimeout( "jQuery('#frm_Datos_Personales').show();$('#cancelar').show();",2000 );
-                }else{//error!!
-                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                        alert_("Error",$("#alert_personales"),250);
-                        limpiaForm($("#frm_Datos_Personales"));	
-                        $("#frm_Datos_Personales").show();
-                }
-	}).fail(function(jqXHR, textStatus, errorThrown){
-           limpiaForm($("#frm_Datos_Personales"));	
-           $("#frm_Datos_Personales").show();
-           ajax_error_alert(jqXHR,textStatus);
-        });    
-    }catch(e){
-        $("#alert_personales").append('<p>Informe:'+e+'</p>');
-        alert_("Error",$("#alert_personales"),250);
-        limpiaForm($("#frm_Datos_Personales"));	
-        $("#frm_Datos_Personales").show();    
-    }
-    }	
 	
 function validar_Est_Mun(){//verificar estados y municipios 
 	if($("#Estados").selectedIndex==1){
@@ -656,51 +557,6 @@ var alert_=dialog;
 		position: { my: "center", at: "center", of: '#center_diag' }
 		});
 	  }			
-function dt_idioma(no_control){//cargar datos academicos
-	try{
-            $("#img_cargando_idiomas").show();
-            $("#div_idioma").html('');
-            $("#div_idioma").hide();
-            $.post('ajax/dt_idiomas.php',{no_control:no_control})
-                .done(function(data){
-                 datos=$.parseJSON(data);   
-                 if(datos.respuesta==='1'){
-                    var p='<h2>Idiomas<img tabindex="0" id="agregar_idioma" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /> </h2>';
-                    $('#div_idioma').append(p);
-                    var table = $('<table/>');
-                    table.addClass('tabla');
-                    table.addClass('table');
-                    table.addClass('table-hover');
-                    table.addClass('table table-condensed');
-                    table.append('<tr><th>Idioma</th><th>Habla</th><th>Lectura y escritura</th></tr>');
-                    $.each(datos.idioma,function(){
-                        table.append( '<tr><td><b>' +this.idioma+'</b></td><td><b>' +this.porcentaje_habla+'</b></td><td><b>' +this.porcentaje_lec_escr+'</b></td><td><img tabindex="0" id="img-eliminar-idioma-'+this.id_consecutivo+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar_idioma"/></td></tr>' );
-                    });
-                    $('#div_idioma').append(table);
-                    $('#img_cargando_idiomas').hide();
-                    $('#div_idioma').show();
-                 }else{
-                     var p='<h2>Idiomas<img tabindex="0" id="agregar_idioma" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
-                     $('#div_idioma').append(p);
-                     p='<p>Informe:'+datos.mensaje+'</p>'; 
-                     $('#div_idioma').append(p);
-                     $('#img_cargando_idiomas').hide();
-                     $('#div_idioma').show();
-                 }   
-                }).fail(function(jqXHR, textStatus, errorThrown){
-                  $('#img_cargando_idiomas').hide();
-                  $('#div_idioma').show(); 
-                  ajax_error(jqXHR,textStatus,$('#div_idioma'));
-                });
-        }catch(e){
-            var p='<h2>Idiomas<img tabindex="0" id="agregar_idioma" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar Idioma" /></h2>';
-            $('#div_idioma').append(p);
-            p='<p>Informe:'+e+'</p>'; 
-            $('#div_idioma').append(p);
-            $('#img_cargando_idiomas').hide();
-            $('#div_idioma').show();   
-        }
-	}	
 function borrar_idioma(no_control,registro){//borrar carrera
 	try{
             alert_Bloq('BORRANDO...',$('#alert_personales'));
@@ -751,55 +607,6 @@ function confirmar_idioma(no_control,registro){//preguntar borrado de idioma
 		}
 		});
 	  }		
-	  
-function guardar_idioma(no_control){//guardar nuevo idioma
-	try{
-            $("#img_enviar_idioma").show();//img guardado
-            $("#frm_idioma").hide();//ocular formulario
-            $("#img_cancelar_idiomas").hide();
-            $.post('ajax/agregar_idioma.php',{form:$('#frm_idioma').serialize(),no_control:no_control})
-            .done(function(data){
-                datos=$.parseJSON(data);
-                if(datos.respuesta=='1'){//exito
-                        $("#img_enviar_idioma").hide();
-                        limpiaForm($("#frm_idioma"));
-                        alert_('IDIOMA AGREGADO',$('#alert_academico'),250);
-                        show_idiomas();
-                        dt_idioma(no_control);
-                        setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-                        }
-                else if(datos.respuesta=='3'){//
-                        $("#img_enviar_idioma").hide();
-                        limpiaForm($("#frm_idioma"));
-                        show_idiomas();
-                        alert_("MAXIMO 5 IDIOMAS",$('#alert_academico'),250);	
-                        setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-                        }
-                else {//
-                        $("#img_enviar_idioma").hide();
-                        limpiaForm($("#frm_idioma"));
-                        show_idiomas();
-                        $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                        alert_("Error",$("#alert_personales"),250);	
-                        setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);	
-                }
-                    }).
-            fail(function(jqXHR, textStatus, errorThrown){
-                $("#img_enviar_idioma").hide();
-                limpiaForm($("#frm_idioma"));
-                show_idiomas();
-                setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-                ajax_error_alert(jqXHR,textStatus);
-            });//
-        }catch(e){
-            $("#img_enviar_idioma").hide();
-            limpiaForm($("#frm_idioma"));
-            show_idiomas();
-            $("#alert_personales").append('<p>Informe:'+e+'</p>');
-            alert_("Error",$("#alert_personales"),250);	
-            setTimeout('$("#frm_idioma").show();$("#img_cancelar_idiomas").show();',2000);
-        }
-    }//fin de function principal; 
 
 function confirmar_sw(no_control,registro){//preguntar borrado de sw 
    $("#dialogo_sw").dialog({

@@ -25,7 +25,7 @@ body{
 .loading{
     cursor:progress;
 }
-#contenedor_form_datos_personales,#cargando_frm,#frm_datos_academicos,#img_cargando,#img_cargando_dt_academicos,#img_enviar_academico{
+#div_frm_idioma,#img_cargando_estado,#contenedor_form_datos_personales,#cargando_frm,#frm_datos_academicos,#img_cargando,#img_cargando_dt_academicos,#img_enviar_academico{
     display: none;
 }
 .cursor{
@@ -160,13 +160,7 @@ select.basicos:focus{
     margin:0px;
     color:#000;
     min-height:1400px;
-	background: -moz-linear-gradient(top, rgba(104,104,104,1) 0%, rgba(188,188,188,0.52) 48%, rgba(255,255,255,0) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(104,104,104,1)), color-stop(48%,rgba(188,188,188,0.52)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(104,104,104,1) 0%,rgba(188,188,188,0.52) 48%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(104,104,104,1) 0%,rgba(188,188,188,0.52) 48%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(104,104,104,1) 0%,rgba(188,188,188,0.52) 48%,rgba(255,255,255,0) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(104,104,104,1) 0%,rgba(188,188,188,0.52) 48%,rgba(255,255,255,0) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#686868', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 fallback on horizontal gradient */
+    background-color: #5DA85D
 }
 #ayuda_diag{
 	width:90%;
@@ -409,22 +403,14 @@ img.social:focus{
 	display:none;
 	top:45%
 }
-#contenedor_Datos_Personales{/*estilo del  div principal de datos personales */
+#contenedor_Datos_Personales,#contenedor_form_datos_personales{/*estilo del  div principal de datos personales */
 	width:auto;
 	min-height: 600px;
 	position: relative;
 	text-align:left;
 	color:#000;
 	padding:0px;
-    background-color: #FFF
-}	
-#contenedor_form_datos_personales{/*div de formulario de daos personales*/	
-	width:auto;
-	min-height:600px;
-	position:relative;
-	padding:0px;
     background-color: #FFF;
-    margin-left: 10px;
 }	
 #contenedor_datos_academicos{/*div principal de datos academicos*/
 	min-height:55%;
@@ -446,7 +432,6 @@ b{/*estilo de datos del servidor*/
 	width:100%;
 }
 input{/*estilo de input del frm datos personales*/
-	display: block;
     width: 100%;
     height: 34px;
     padding: 6px 12px;
@@ -493,7 +478,6 @@ select.domicilio{
 	font-size:1.2rem;
 	border: 1px solid #999;
 	color: #999;
-	margin-top:5px
 }
 select.domicilio:hover{
     background-color: #e7e1e1
@@ -506,7 +490,7 @@ select.domicilio:focus{
     background-color: #006600;
     color: white;
     border: none;
-    width: 100%
+    width: 200px;
 }	
 .guardar:hover {/*estilo de input del frm datos personales*/
     background-color: #5DA85D;
@@ -526,17 +510,13 @@ select.domicilio:focus{
     cursor: progress;
 }
 #cancelar{/*img cancelar de frm datos de personales*/
-    position:relative;
-    margin-left:50%;
-    margin-bottom:5px
+    float: right;
 }
 .cargando{/*img cargando datos del servidor*/
     position:absolute;
     top:20%;
     left:50%;
     margin-left:-50px;
-    height:100px;
-    width:100px;
     cursor: progress;
 }			
 #datos_academicos{/*datos academicos */
@@ -631,26 +611,18 @@ img.agregar_carrera{/*img agregar carrera */
     transition:1s ease;
     cursor: pointer;
 }	
-#div-principal-idioma{
-    min-height: 300px;
+#div-principal-idioma,#div_frm_idioma,#div_idioma{
+    min-height: 430px;
+    background-color: #FFF;
 }	
-#div_idioma{/*div de idiomas cargados con ajax*/
-	width:100%;
-	min-height:300px;
-	background-color:#FFF;
-	top:0px;}
 #div_idioma_img{/*div de idiomas cargados con ajax*/
 	width:100%;
 	height:50%;
-	top:0px;}	
-#div_frm_idioma{/*frm de idomas*/
-	width:100%;
-	height:50%;
-	background-color: #FFF;
-	display:none;
-position: relative}	
+	top:0px;
+}	
 #img_cancelar_idiomas{/*img cancelar frm idomas*/
-	transition:1s ease;}
+	transition:1s ease;
+}
 #div_software{/*div de software*/
     width:100%;
     min-height:200px;
@@ -1051,6 +1023,11 @@ img.elimnar_empresa:focus{/*animar img*/
 .display-flex{
     display: flex;
 }
+.symbol-percentage{
+    background: transparent url(../Imagenes/symbol-percent.png) right no-repeat;
+    display: inline-block;
+    padding-right: 22px;
+}
 .symbol-edit{
     background:transparent url(../Imagenes/editar-verder-pri.png)  center  no-repeat;
     display: inline-block;
@@ -1084,7 +1061,7 @@ img.elimnar_empresa:focus{/*animar img*/
 .symbol-add:hover{
     background:transparent url(../Imagenes/add-verde-sec.png)  center  no-repeat;
 }
-.symbol-edit,.symbol-delete,.symbol-add,.symbol-cancel,.limpiar_form,.img_editar{
+.symbol-edit,.symbol-delete,.symbol-add,.symbol-cancel,.limpiar_form,.img_editar,#img_editar{
     cursor: pointer;
 }
 .limpiar_form{
@@ -1122,6 +1099,10 @@ img.elimnar_empresa:focus{/*animar img*/
     margin:10px 1.666%;
     min-width: 200px;
 }
+.data-personal > label{
+    width: 50%;
+    min-width: 200px;
+}
 .data-personal{
     flex-wrap:wrap
 }
@@ -1135,4 +1116,23 @@ img.elimnar_empresa:focus{/*animar img*/
     position: absolute;
     right:-32px;
     top: 4px;
+}
+.align-right{
+    text-align: right;
+}
+.title-form > img{
+    float: right;
+    margin-right: 10px;
+}
+.title-form{
+    text-align: left;
+}
+.width-100{
+    width:100%!important; 
+}
+.idiomas-div > div{
+    width: 25%;
+}
+.software-div > div{
+    width: 40%;
 }

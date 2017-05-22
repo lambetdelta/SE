@@ -90,16 +90,6 @@ $("document").ready(function() {
                confirmar_idioma(no_control,id);
             }
 	});
-	$("#div_idioma").on('click',"#agregar_idioma",function(){//imagen agregar idioma a
-		show_idiomas_();
-                $('#idiomas').focus();
-	});
-        $("#div_idioma").on('keypress',"#agregar_idioma",function(e){//imagen agregar idioma a
-	    if(e.which===13){
-                show_idiomas_();
-                $('#idiomas').focus();
-            }
-	});
 	$("#div_dt_posgrado").on('click',".eliminar",function(){//imagen eliminar  de idiomas
 		var id=$(this).attr('id').toString();
 		id=id.slice(19);
@@ -612,90 +602,81 @@ $("document").ready(function() {//evaluar passs
 </div>    
 <div class="row">
     <div class="contenedor">
-        <div id="alert_academico" class="ventana">
-            <p id="p-alert-academico"></p>   
-        </div>
-        <div id="alert_personales" class="ventana">
-                        <span id="span-alert-personales"></span>
-                    </div>
         <div id="primero">
             <div class="row">
-                <div class="row">
-                    <div  id="contenedor_foto_e" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                        <img id="foto_egresado" src="Imagenes/businessman_green.png" style=" max-width:100%; border:5px #999 solid" title="IMAGEN DE PERFIL" class="img-responsive"/>
-                        <img id="cargando_foto" src="Imagenes/loading_min.gif"/>
-                        <br />
-                        
-                        <button  id="addImage" class="guardar" style="width:40%; margin:auto">Cambiar</button>               
-                    </div>
+                <div  id="contenedor_foto_e" class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12" style="text-align:center">
+                    <h2>Perfil</h2>
+                    <img id="foto_egresado" src="Imagenes/businessman_green.png" style=" max-width:100%; border:5px #999 solid" title="IMAGEN DE PERFIL" class="img-responsive"/>
+                    <img id="cargando_foto" src="Imagenes/loading_min.gif"/>
+                    <br />
+                    
+                    <button  id="addImage" class="guardar" style="width:40%; margin:auto">Cambiar</button>               
                 </div>
-                <div class="row">
-                    <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">
-                        <div id="contenedor_form_datos_personales">
-                            <img src="Imagenes/loading45.gif" class="enviando loading" id="enviar"  style="display:none" />
+            </div>
+            <div class="row margin-sides-10">
+                <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">
+                    <div id="contenedor_form_datos_personales">
+                        <img src="Imagenes/loading45.svg" class="enviando loading" id="enviar"  style="display:none" />
+                        <form id="frm_Datos_Personales" style="text-align:left; padding-left:10px" method="post">
+                        <h2>
+                            Datos Personales
                             <img id="cancelar" src="Imagenes/mask.png"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
-                            <form id="frm_Datos_Personales" style="text-align:left; padding-left:10px" method="post">
-                            <h2>Datos Personales</h2>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-                                    <div class="display-flex data-personal">
-                                        <input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="40"  title="NOMBRE"  required />
+                        </h2>
+                        <div class="display-flex data-personal">
+                            <input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="40"  title="NOMBRE"  required />
 
-                                        <input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="40"  title="APELLIDO PATERNO"  required />
+                            <input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="40"  title="APELLIDO PATERNO"  required />
 
-                                        <input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="40"  title="APELLIDO MATERNO"  required />
+                            <input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="40"  title="APELLIDO MATERNO"  required />
 
-                                        <select name="genero" class="domicilio" title="Género">
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Femenino</option>
-                                        </select>
+                            <select name="genero" class="domicilio" title="Género">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
 
-                                        <input type="text" id="datepicker" name="fecha_nac"  readonly="readonly" placeholder="FECHA DE NACIMIENTO"  title="FECHA DE NACIMIENTO" required />
+                            <input type="text" id="datepicker" name="fecha_nac"  readonly="readonly" placeholder="FECHA DE NACIMIENTO"  title="FECHA DE NACIMIENTO" required />
 
-                                        <input name="curp" type="text"  placeholder="CURP" maxlength="18" title="CURP" required />
+                            <input name="curp" type="text"  placeholder="CURP" maxlength="18" title="CURP" required />
 
-                                        <a href="http://consultas.curp.gob.mx/CurpSP/" target="_blank" title="CONSULTAR CURP">
-                                            <img src="Imagenes/ayuda.png" />
-                                        </a>
+                            <a href="http://consultas.curp.gob.mx/CurpSP/" target="_blank" title="CONSULTAR CURP">
+                                <img src="Imagenes/ayuda.png" />
+                            </a>
 
-                                        <input name="tel" type="tel"  placeholder="TELÉFONO" maxlength="15" title="TELÉFONO" required/>
-                                       
-                                        <input name="email" type="email" placeholder="EMAIL" maxlength="30"  title="EMAIL"  required />
+                            <input name="tel" type="tel"  placeholder="TELÉFONO" maxlength="15" title="TELÉFONO" required/>
+                           
+                            <input name="email" type="email" placeholder="EMAIL" maxlength="30"  title="EMAIL"  required />
 
-                                       <h2>DOMICILIO</h2><br>
-                                       <input  id="ciudad" name="ciudad" type="text" placeholder="CIUDAD O LOCALIDAD" maxlength="40"  title="CIUDAD O LOCALIDAD" required />
+                           <h2>DOMICILIO</h2><br>
+                           <input  id="ciudad" name="ciudad" type="text" placeholder="CIUDAD O LOCALIDAD" maxlength="40"  title="CIUDAD O LOCALIDAD" required />
 
-                                       <input  id="colonia" name="colonia" type="text" placeholder="COLONIA" maxlength="40"  title="COLONIA" required />
+                           <input  id="colonia" name="colonia" type="text" placeholder="COLONIA" maxlength="40"  title="COLONIA" required />
 
-                                       <input  id="calle" name="calle" type="text" placeholder="CALLE" maxlength="30"  title="CALLE" required />
+                           <input  id="calle" name="calle" type="text" placeholder="CALLE" maxlength="30"  title="CALLE" required />
 
-                                       <input name="no_casa" placeholder="No:CASA" maxlength="10" title="No:CASA"  id="no_casa" required />
+                           <input name="no_casa" placeholder="No:CASA" maxlength="10" title="No:CASA"  id="no_casa" required />
 
-                                       <input name="cp" placeholder="Código Postal" maxlength="5" title="Código Postal"  id="cp" required />
+                           <input name="cp" placeholder="Código Postal" maxlength="5" title="Código Postal"  id="cp" required />
 
-                                   </div>
-                                   <div class="display-flex data-personal">
-                                        <select id="estados" class="domicilio" name="estado" title="ESTADOS">
-                                            <option value="1">Cargando</option>
-                                        </select>
-                                        <div class="position-relative">
-                                            <select id="Municipios" class="domicilio" name="municipio" title="MUNICIPIO">
-                                                <option value="1">MUNICIPIO</option>
-                                            </select>
-                                            <img id="img_cargando_estado" src="Imagenes/hourglass.svg" class="element-inside-input" />
-                                       </div>
-                                   </div>
-                                   <div>
-                                       <input   type="submit"  value="GUARDAR" id="btn_guardar" class="guardar" title="GUARDAR"/>
-                                   </div>
-                               </div>
-                            </div>
-                            </form>
-                        </div>
-                        <div id="contenedor_Datos_Personales">
-                             <img src="Imagenes/loading.svg"  class="cargando" id="cargando_frm"/>
-                            <div id="contendedor_d1">
-                            </div>
+                       </div>
+                       <div class="display-flex data-personal">
+                            <select id="estados" class="domicilio" name="estado" title="ESTADOS">
+                                <option value="1">Cargando</option>
+                            </select>
+                            <div class="position-relative">
+                                <select id="Municipios" class="domicilio" name="municipio" title="MUNICIPIO">
+                                    <option value="1">MUNICIPIO</option>
+                                </select>
+                                <img id="img_cargando_estado" src="Imagenes/hourglass.svg" class="element-inside-input" />
+                           </div>
+                       </div>
+                       <div class="align-right">
+                           <input type="submit"  value="GUARDAR" id="btn_guardar" class="guardar" title="GUARDAR"/>
+                       </div>
+                        </form>
+                    </div>
+                    <div id="contenedor_Datos_Personales">
+                         <img src="Imagenes/loading.svg"  class="cargando" id="cargando_frm"/>
+                        <div id="contendedor_d1">
                         </div>
                     </div>
                 </div>
@@ -716,12 +697,9 @@ $("document").ready(function() {//evaluar passs
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" >
                     <div id="div_academia">
                         <div id="div_posgrado">
-                            <div id="div_borrar_posgrado" style="display:none">
-                                <p>Su posgrado se borrará de manera permanente, dicha acción una vez terminada es irreversible </p>
-                            </div>
                             <img src="Imagenes/loading.svg" class="cargando" style="display:none" id="img_cargando_posgrado" />
                             <div id="div_frm_posgrado" style="text-align:center">
-                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_posgrado" style="display:none; top:70px" />	
+                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_posgrado" style="display:none; top:70px" />	
                                 <form id="frm_posgrado">
                                     <label style="font-size:22px">Formulario de posgrado</label><br />
                                     <img src="Imagenes/mask.png" id="img_cancelar_posgrado" title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
@@ -752,7 +730,7 @@ $("document").ready(function() {//evaluar passs
                         <img src="Imagenes/loading.svg" id="img_cargando_dt_academicos" class="cargando" />
                             <div id="frm_datos_academicos" style="width:100%">
                                 <br />    
-                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_academico" style="top:10%;display:none" />
+                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_academico" style="top:10%;display:none" />
                                 <form id="frm_dt_academico">
                                     <h2 style="font-size:22px">FORMULARIO DE DATOS ACADEMICOS</h2>
                                     <img src="Imagenes/mask.png" id="imgfrm_cancelar_academicos"  title="CANCELAR Y CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
@@ -796,9 +774,6 @@ $("document").ready(function() {//evaluar passs
                     
                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">   
                     <div id="dt_academicos_idiomas_sw">
-                    <div id="dialogo_idioma" class="ventana" title="¿Estas Seguro?">  
-                        <p>EL IDIOMA SE BORRARA DEL SISTEMA DE MANERA PERMANENTE,¿ESTAS SEGURO?</p>
-                    </div>
                         <div class="row">
                             <div class="col-lg-12" id="div-principal-idioma">
                                 <img src="Imagenes/loading.svg"  class="cargando" id="img_cargando_idiomas"/>    
@@ -806,10 +781,12 @@ $("document").ready(function() {//evaluar passs
                                 </div>
                             </div>
                             <div id="div_frm_idioma">         
-                                <img src="Imagenes/loading45.gif" class=" enviando" id="img_enviar_idioma" /> 
+                                <img src="Imagenes/loading45.svg" class=" enviando" id="img_enviar_idioma" /> 
                                 <form id="frm_idioma" style="text-align:center; ">
-                                    <label style="text-align:center; font-size:22px; font-weight:bold">Formulario de Idiomas</label><br />
-                                     <img src="Imagenes/mask.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0" /><br />	
+                                    <h2 class="title-form">    
+                                        Formulario de Idiomas
+                                        <img src="Imagenes/mask.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0" />
+                                    </h2>	
                                     <select name="idiomas" id="idiomas"  title="IDIOMAS" class="basicos" style="width:60%; height:30px; text-align:center; margin-bottom:10px">
                                         <option value="1">CARGANDO</option>
                                     </select>
@@ -821,7 +798,7 @@ $("document").ready(function() {//evaluar passs
                                         <input type="number" id="porcentaje_lec"  class="frm_idiomas_" name="porcentaje_lec" title="ESCRITURA Y LECTURA" required max="100" min="1" style="width:20%"/>
                                     </p>
                                     <p style="text-align:center">
-                                        <input type="submit" value="GUARDAR" id="guardar_idoma" title="GUARDAR" class="guardar" style=" width:40%" />
+                                        <input type="button" value="GUARDAR" id="guardar_idioma" title="GUARDAR" class="guardar" style=" width:40%" />
                                         <img id="img_limpiar_frm_Idioma"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_idioma"  style="width:40px; height:40px" tabindex="0" />
                                     </p>
                                 </form>
@@ -831,7 +808,7 @@ $("document").ready(function() {//evaluar passs
                     <div id="div_software" class="col-lg-12">
                      <img src="Imagenes/loading.svg" id="img_cargando_sw" class="cargando" />
                         <div id="div_frm_software">
-                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_sw" /> 
+                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_sw" /> 
                             <form id="frm_sw" style="text-align:center">
                                 <label style="text-align:center; font-size:22px; font-weight:bold">FORMULARIO DE SOFTWARE</label><br />
                                 <img src="Imagenes/mask.png" id="img_cancelar_sw" title="CERRAR FORMULARIO"  class="symbol-cancel" tabindex="0" />
@@ -871,7 +848,7 @@ $("document").ready(function() {//evaluar passs
        	 	<div id="div_empresa">
             <img src="Imagenes/loading.svg"  class="cargando" style="display:none" id="img_cargando_empresa"/>
                 <div  id="div_frm_empresa">
-                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_empresa" style="top:22%; display:none" />
+                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_empresa" style="top:22%; display:none" />
                 <div class="row">
                     <form  id="frm_empresa" style="text-align:center">
                     	<h1 style="font-size:22px;text-align:center">FORMULARIO DE DATOS DE LA EMPRESA</h1>
@@ -958,7 +935,7 @@ $("document").ready(function() {//evaluar passs
         	<div id="div_dt_social">
             </div>
             <div id="div_frm_social">
-                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_social" style="top:10%;" />
+                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_social" style="top:10%;" />
 	            <div class="row">
 	            	<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 		            	<form id="frm_social" style="text-align:center;">
@@ -985,7 +962,7 @@ $("document").ready(function() {//evaluar passs
             </div>
             <img src="Imagenes/loading.svg" class="cargando" style="display:none" id="img_cargando_historial" />
             <div id="div_frm_historial">
-                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_historial" style="top:15%; display:none" />
+                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_historial" style="top:15%; display:none" />
             	<div class="row">
             		<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 		                <form id="frm_historial" style="text-align:center">
@@ -1009,7 +986,7 @@ $("document").ready(function() {//evaluar passs
         			<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
 	                <button class="guardar" id="a_residencia" >RESIDENCIA</button>
 	                <div  id="div_frm_residencia" style="text-align:center;height:200px;position: relative">
-                            <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_residencia" style="top:70px"/>
+                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_residencia" style="top:70px"/>
 	                    <form id="frm_residencia" style="width:100%">
 	                    <label style=" font-size:24px">EXPERIENCIA EN RESIDENCIA</label><br />
 	                    <select id="residencia" class="basicos" name="residencia" style="width:70%" >
@@ -1061,7 +1038,7 @@ $("document").ready(function() {//evaluar passs
                             <li>Por último no olvides <b>caracteres especiales</b> como $, ! # darán más seguridad a tu password.</li>
                         </ul>
                     </div>
-                <img src="Imagenes/loading45.gif" class="enviando" id="img_enviar_pass" style="top:60%;display: none" />    
+                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_pass" style="top:60%;display: none" />    
                     <form id="frm_pass" style="margin-top:20px;">
                         <h2>Contraseña</h2>
                         <input id="viejo_pass" type="password" name="viejo_pass" maxlength="15" title="Contaseña actual" placeholder="CONTRASEÑA ACTUAL" class="input-pass" style="width:100%" required="ANTIGUA CONTRASEÑA NECESARIA"><br>                             
@@ -1146,10 +1123,13 @@ $("document").ready(function() {//evaluar passs
 </div>
 </body> 
 <script type="text/javascript" src="js/EventosForm.js"></script>
-<script type="text/javascript" src="js/Animaciones.js"></script>
-<script type="text/javascript" src="js/LimpiarForm.js"></script>
-<script type="text/javascript" src="js/datosAcademicos.js"></script>
-<script type="text/javascript" src="js/DatosSoftware.js"></script>
+<script type="text/javascript" src="js/App/Class/Animaciones.js"></script>
+<script type="text/javascript" src="js/App/Class/LimpiarForm.js"></script>
+<script type="text/javascript" src="js/App/Class/datosAcademicos.js"></script>
+<script type="text/javascript" src="js/App/Class/DatosSoftware.js"></script>
+<script type="text/javascript" src="js/App/Class/DatosPersonales.js"></script>
+<script type="text/javascript" src="js/App/Class/DatosIdioma.js"></script>
+<script type="text/javascript" src="js/App/Structure/StructureDatosEgresado.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
@@ -1163,6 +1143,12 @@ $("document").ready(function() {//evaluar passs
         DatosSoftware.init();
         DatosSoftware.setNoControl(no_control);
         DatosSoftware.dt_SW(no_control);
+        DatosPersonales.init();
+        DatosPersonales.setNoControl(no_control);
+        DatosPersonales.requestDatosEgresado(no_control);
+        DatosIdioma.init();
+        DatosIdioma.setNoControl(no_control);
+        DatosIdioma.requestDatosIdioma(no_control);
     });
 </script>  
 </html>    

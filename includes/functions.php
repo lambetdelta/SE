@@ -409,19 +409,15 @@ function actualizar_egresado($mysqli,$nombre,$apellido_p,$apellido_m,$curp,$gene
         if ($stmt = $mysqli->prepare("UPDATE datos_egresado SET nombre=?,apellido_m=?,apellido_p=?,fecha_nacimiento=?,curp=?,genero=?,telefono=?,email=?,ciudad_localidad=?,colonia=?,calle=?,numero_casa=?,cp=?,codigo_municipiofk=?,codigo_estadofk=? where no_control=?")) {
             $stmt->bind_param('ssssssssssssissi', $nombre,$apellido_p,$apellido_m,$fecha_nac,$curp,$genero,$tel,$email,$ciudad,$colonia,$calle,$no_casa,$cp,$municipio,$estado,$no_control); 
             if($stmt->execute()){    // Ejecuta la consulta preparada.
-                if($stmt->affected_rows >0){
-                    $stmt->close();
-                    return TRUE;}
-                else{
-                    $stmt->close();
-                    return FALSE;}
+                return TRUE;
             }else
                 return FALSE;
         }else
             return FALSE;
 
     }catch(Exception $e){
-            return FALSE;}
+        return FALSE;
+    }
 }
 
 function dt_academicos($no_control,$mysqli){
@@ -518,7 +514,7 @@ function borrar_dt_academicos($mysqli,$no_control,$registro){//actualizar carrer
 }
 function dt_idioma($no_control,$mysqli){
     try{
-        $query='SELECT idiomas_egresado.porcentaje_habla,idiomas_egresado.id_consecutivo, idiomas_egresado.porcentaje_lec_escr, idioma.nombre as idioma FROM idiomas_egresado,idioma WHERE (no_controlfk='.$no_control.' and  idiomas_egresado.codigo_idiomafk=idioma.codigo_idioma) limit 5';
+        $query='SELECT idiomas_egresado.porcentaje_habla,idiomas_egresado.id_consecutivo, idiomas_egresado.porcentaje_lec_escr, idioma.nombre as idioma FROM idiomas_egresado,idioma WHERE (no_controlfk='.$no_control.' and  idiomas_egresado.codigo_idiomafk=idioma.codigo_idioma) limit 8';
         if($resultado=$mysqli->query($query)){
             return $resultado;
         }  else {
@@ -571,7 +567,7 @@ function contar_idioma($mysqli,$No_control){//verificar el max de idiomas permit
     try{    
         $query="SELECT codigo_idiomafk FROM idiomas_egresado  WHERE no_controlfk=$No_control";
         if ($stmt = $mysqli->query($query)) {   // Ejecuta la consulta preparada.
-            if ($stmt->num_rows >5)
+            if ($stmt->num_rows >9)
                     return 1;
                 else
                     return 0;

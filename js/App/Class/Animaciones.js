@@ -4,6 +4,7 @@ var Animaciones={
 		$("#img_ingenieria").on('click keypress',Animaciones.showContenedorIngenieria);
 		$("#img_cancelar_posgrado").on('click keypress',Animaciones.showFormPosgrado);
 		$("#img_cancelar_idiomas").on('click keypress',Animaciones.showFormIdiomas);
+		$("#div_idioma").on('click keypress','#agregar_idioma',Animaciones.showFormIdiomas);
 		$("#contendedor_d1").on('click keypress',".editar",Animaciones.showFormDatosEgresado);
 		$("#cancelar").on('click keypress',Animaciones.showFormDatosEgresado);
 		$("#img_cancelar_sw,#agregar_sw").on('click keypress',Animaciones.showFormSW);

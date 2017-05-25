@@ -17,7 +17,7 @@ var DatosAcademicos={
 	},
   	borrar_carrera:function(no_control,registro){//borrar carrera
     try{
-	    var msn_bloqueado=alertBloqueado('BORRANDO...');
+	    var msn_bloqueado=alertBloqueado('BORRANDO...','danger');
 	    $.post('ajax/eliminar_carrera.php',{registro:registro,no_control:no_control})
 	    .done(function(data){
 	        datos=$.parseJSON(data);
@@ -42,7 +42,7 @@ var DatosAcademicos={
 	try{
 	    DatosAcademicos.configurarVista();
 	  	var frag = document.createDocumentFragment();
-        var p=$('<h2>Datos Academicos<img tabindex="0" id="agregar_carrera" src="Imagenes/mask.png" class="symbol-add margin-both-sides-10"  title="Agregar carrera" /></h2>');            
+        var p=$('<h2>Ingenieria<img tabindex="0" id="agregar_carrera" src="Imagenes/mask.png" class="symbol-add margin-both-sides-10"  title="Agregar carrera" /></h2>');            
         frag.appendChild(p[0]);
 	  	$.post('ajax/dt_academicos.php',{no_control:no_control}).
 	  	done(function(data){

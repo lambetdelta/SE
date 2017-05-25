@@ -21,10 +21,11 @@
       type:'warning'
     });
   }
-  function alertBloqueado(msn){
+  function alertBloqueado(msn,type='info'){
     msn='<span id="span-bootbox-locked">'+msn+'</span>';
     var box= bootbox.dialog({
         message: msn ,
+        type:type,
         closeButton: false
     });
     box.changeMsn=function(msn){
@@ -73,14 +74,17 @@
     showForm('contenedor_Datos_Personales','contenedor_form_datos_personales')
 	}
   function showForm(id_container,id_form){
-    var display_container=document.getElementById(id_container);
-    var display_form=document.getElementById(id_form);
-    if (display_container.clientHeight > 0 && display_container.clientWidth > 0) {
-        display_container.style.display='none';
-        display_form.style.display='block';
+    toggleElements(id_container,id_form);
+  }
+  function toggleElements(element_1,element_2){
+    var element_1=document.getElementById(element_1);
+    var element_2=document.getElementById(element_2);
+    if (element_1.clientHeight > 0 && element_1.clientWidth > 0) {
+        element_1.style.display='none';
+        element_2.style.display='block';
     }else{
-        display_container.style.display='block';
-        display_form.style.display='none';
+        element_1.style.display='block';
+        element_2.style.display='none';
     }
   }
   function show_1(){//animaciones de los contenedores de los datos basicos de los egresados
@@ -557,33 +561,6 @@ var alert_=dialog;
 		position: { my: "center", at: "center", of: '#center_diag' }
 		});
 	  }			
-function borrar_idioma(no_control,registro){//borrar carrera
-	try{
-            alert_Bloq('BORRANDO...',$('#alert_personales'));
-            $.post('ajax/eliminar_idioma.php',{registro:registro,no_control:no_control})
-            .done(function(data){
-                datos=$.parseJSON(data);
-                    if(datos.respuesta=='1'){//exito
-                            alert_('BORRADO EXITOSO',$('#alert_personales'),250);
-                            setTimeout('$("#alert_personales").dialog( "close" );',1000);
-                            dt_idioma(no_control);
-                            }
-                    else {//problemas con formulario
-                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                            alert_("Error",$("#alert_personales"),250);
-                            setTimeout("$('#alert_personales').dialog('close');",2000);
-                            }
-                    }).
-            fail(function(jqXHR, textStatus, errorThrown){
-                ajax_error_alert(jqXHR,textStatus);
-            });
-        }catch(e){
-            $("#alert_personales").append('<p>Informe:'+e+'</p>');
-            alert_("Error",$("#alert_personales"),250);
-            setTimeout("$('#alert_personales').dialog('close');",2000);
-        }
-	}	
-	
 function confirmar_idioma(no_control,registro){//preguntar borrado de idioma 
    $("#dialogo_idioma").dialog({ 
 		width: 250,  

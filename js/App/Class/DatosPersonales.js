@@ -110,7 +110,7 @@ var DatosPersonales={
 	templateDatosPersonales:function(egresado){
 		return '<div class="display-flex data-personal"><div class="width-100">'+ 
 		'<label>Nombre:<b>'+egresado.nombre+' '+egresado.apellido_p+' '
-		+egresado.apellido_m +'</b></label></div><div class="display-flex data-personal width-100">'+
+		+egresado.apellido_m +'</b></label></div><div class="display-flex data-personal width-100 justify-between">'+
 		'<label>CURP:<b>'+egresado.curp+'</b></label>'+
 		'<label>Género:<b>'+egresado.genero+'</b></label>'+
 		'<label>Teléfono:<b>'+egresado.telefono+'</b></label>'+

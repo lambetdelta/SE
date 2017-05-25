@@ -1,9 +1,6 @@
 @charset "utf-8";
-html { 
-    font-size:100%; 
-}
-*{
-	word-wrap: break-word; 
+h2{
+    margin-bottom: 20px;
 }
 @font-face{
     font-family:"OpenSans";
@@ -18,6 +15,7 @@ body{
     font-family:'OpenSans';
     margin:0px;
     padding:0px;
+    word-wrap: break-word; 
 }
 .navbar-default .navbar-nav > li > a {
     color: #000;
@@ -28,7 +26,7 @@ body{
 #div_frm_idioma,#img_cargando_estado,#contenedor_form_datos_personales,#cargando_frm,#frm_datos_academicos,#img_cargando,#img_cargando_dt_academicos,#img_enviar_academico{
     display: none;
 }
-.cursor{
+.cursor,.img-title{
     cursor: pointer;
 }
 .navbar-default .navbar-nav > li > a:hover{
@@ -103,56 +101,21 @@ body.modal-open{/*corregir error modal de bootboxmin*/
 	background:#FFF url(../Imagenes/gradient.png) repeat-x;
 	position: relative;
 }
-.limpiar{	
-transition:1s ease;
-}
-.limpiar:hover{
-	transform:rotate(360deg);
-}
-.limpiar:focus{
-	transform:rotate(360deg);
-    outline: none ;
-}
-	
 select.basicos{/*select imporatantes*/
-	width:100%;
+	width:200px;
 	height:30px;
 	border-radius: 5px;
 	padding:2px;
-	font-size:.8rem;
+	font-size:20px;
 	border: none;
-	color:#060;
+	color:black;
 	margin:10px;
-	background: #d2ff52; /* Old browsers */
-    background: -moz-linear-gradient(top, #d2ff52 0%, #91e842 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d2ff52), color-stop(100%,#91e842)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #d2ff52 0%,#91e842 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #d2ff52 0%,#91e842 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #d2ff52 0%,#91e842 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #d2ff52 0%,#91e842 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#91e842',GradientType=0 );
+    background-color: white;
+    border: 1px solid #ccc;
 }	
 
-select.basicos:hover{
-    background: rgba(210,255,82,1);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(210,255,82,1)), color-stop(100%, rgba(90,166,18,1)));
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: -o-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: -ms-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#5aa612', GradientType=1 );  
-}
-select.basicos:focus{
-    background: rgba(210,255,82,1);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(210,255,82,1)), color-stop(100%, rgba(90,166,18,1)));
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: -o-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: -ms-radial-gradient(center, ellipse cover, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(210,255,82,1) 0%, rgba(90,166,18,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#5aa612', GradientType=1 );  
-    outline: none ;
+select.basicos:hover,select.basicos:focus{
+    background-color: #e7e1e1
 }
 .contenedor{/*Contenedor principal*/
     position: relative;
@@ -193,6 +156,9 @@ a.active{ /*estilo del tab cuando esta activo*/
 		z-index: 1;
 		top:35%;
 	}
+    #div_redsocial > ul{
+        padding: 0px;
+    }
     img.social{
         width:40px;
         height:40px;
@@ -423,53 +389,29 @@ b{/*estilo de datos del servidor*/
     color: #5DA85D;
     font-weight:100;
 }	
-#contendedor_d1{/*div donde se cargan los datos academicos con ajax*/
-    width:100%;
-    margin-left: 20px;
-}	
-		
 #foto{
 	width:100%;
 }
+input.input-numeric{
+    padding: 0px
+}
 input{/*estilo de input del frm datos personales*/
-    width: 100%;
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
     background-color: #fff;
-    background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
-input.text:hover{/*estilo de input del frm datos personales*/
+input:hover{/*estilo de input del frm datos personales*/
     background-color:#e7e1e1
 } 
-input.text:focus{/*estilo de input del frm datos personales*/
+input:focus{/*estilo de input del frm datos personales*/
     background-color:#e7e1e1;
     outline: none ;
 } 
-input.text_2{/*estilo de input del frm datos personales*/
-	width:100%;
-	height:30px;
-	border-radius: 5px;
-	padding:2px;
-	margin-top:10px;
-	font-size:.9rem;
-	border: 1px solid #999;}
-input.text_2:hover{
-    background-color: #e7e1e1;
-}
-input.text_2:focus{
-    background-color: #e7e1e1;
-    outline: none ;
-}
 select.domicilio{
 	width:100%;
 	height:30px;
@@ -593,11 +535,6 @@ input.frm_acedemico_:focus{
 }	
 #imgfrm_cancelar_academicos{/*img cancelar frm datos academicos*/
     transition:1s ease;
-}
-#dt_academicos_idiomas_sw{/*div de idiomas y software*/
-    width:100%;
-    min-height:400px;
-    position: relative
 }
 #frm_datos_academicos{/*div contenedor de frm datos academicos*/
     background-color:#FFF;
@@ -1022,6 +959,7 @@ img.elimnar_empresa:focus{/*animar img*/
 }
 .display-flex{
     display: flex;
+    flex-wrap:wrap;
 }
 .symbol-percentage{
     background: transparent url(../Imagenes/symbol-percent.png) right no-repeat;
@@ -1085,6 +1023,9 @@ img.elimnar_empresa:focus{/*animar img*/
 .justify-between{
     justify-content: space-between;
 }
+.justify-around{
+    justify-content: space-around;
+}
 .btn-success{
     background-color: #5DA85D;
 }
@@ -1132,7 +1073,49 @@ img.elimnar_empresa:focus{/*animar img*/
 }
 .idiomas-div > div{
     width: 25%;
+    text-align: center;
 }
 .software-div > div{
-    width: 40%;
+    width: 25%;
+    text-align: center;
+}
+.idioma-form-div > label,.idioma-form-div > input{
+    width: 60%;
+    min-width: 200px;
+}
+.idioma-form-div > input{
+    width: 20%;
+    min-width: 100px;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.img-title > img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: 1s;
+    transform: translate(-50%, -50%);
+    transform-origin: 50% 0%;
+    background-color: white;
+}
+.img-title:hover img{
+     transform: translate(-50%, -50%) rotateY(.25turn);
+}
+.img-title-active{
+    opacity: .2;
+}
+.img-title{
+    position: relative;
+    width: 128px;
+    height: 128px;
+    display: flex;
+    margin:0px 20px;
+}
+.img-title > span{
+    margin: auto;
+}
+.title-academic{
+    display: flex;
+    justify-content: center;
 }

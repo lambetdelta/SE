@@ -80,16 +80,6 @@ $("document").ready(function() {
           igualdad='0';
         });
 	/*clases generales*/
-	$("#div_idioma").on('click',".eliminar_idioma",function(){//imagen eliminar  de idiomas
-		var id=$(this).attr('id').slice(20);
-               confirmar_idioma(no_control,id);
-	});
-        $("#div_idioma").on('keypress',".eliminar_idioma",function(e){//imagen eliminar  de idiomas
-	    if(e.which===13){
-                var id=$(this).attr('id').slice(20);
-               confirmar_idioma(no_control,id);
-            }
-	});
 	$("#div_dt_posgrado").on('click',".eliminar",function(){//imagen eliminar  de idiomas
 		var id=$(this).attr('id').toString();
 		id=id.slice(19);
@@ -409,23 +399,6 @@ datepicker_esp();
 	width: '100%',
 	distance: '10px' 
     });
-	$('#img_posgrado').jrumble({
-		x: 10,
-		y: 10,
-		rotation: 4
-	}); 
-	$('#img_ingenieria').jrumble({
-		x: 10,
-		y: 10,
-		rotation: 4
-	});
-	
-        
-	$("#img_posgrado,#img_ingenieria").hover(function(){
-			$(this).trigger('startRumble');
-		}, function(){
-			$(this).trigger('stopRumble');
-		});
         $("#img-ayuda-editar").hover(function(){
                 $(this).attr('src','Imagenes/edita_amarillo.png');
         }, function(){
@@ -440,12 +413,6 @@ datepicker_esp();
                 $(this).attr('src','Imagenes/agregar_amarillo.png');
         }, function(){
                 $(this).attr('src','Imagenes/agregar.png');
-        });
-	$("#img_posgrado,#img_ingenieria").focusin(function(){
-           $(this).trigger('startRumble'); 
-        });
-        $("#img_posgrado,#img_ingenieria").focusout(function(){
-           $(this).trigger('stopRumble'); 
         });
   });
 </script>
@@ -619,15 +586,15 @@ $("document").ready(function() {//evaluar passs
                         <img src="Imagenes/loading45.svg" class="enviando loading" id="enviar"  style="display:none" />
                         <form id="frm_Datos_Personales" style="text-align:left; padding-left:10px" method="post">
                         <h2>
-                            Datos Personales
-                            <img id="cancelar" src="Imagenes/mask.png"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
+                            Formulario Datos Personales
+                            <img id="cancelar" src="Imagenes/mask.png"  title="Cerrar" class="symbol-cancel" tabindex="0"/>
                         </h2>
-                        <div class="display-flex data-personal">
+                        <div class="display-flex data-personal ">
                             <input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="40"  title="NOMBRE"  required />
 
-                            <input name="apellido_p" type="text"  placeholder="APELLIDO PATERNO" class="text" maxlength="40"  title="APELLIDO PATERNO"  required />
+                            <input name="apellido_p" type="text"  placeholder="Apellido paterno" class="text" maxlength="40"  title="Apellido paterno"  required />
 
-                            <input name="apellido_m" type="text"  placeholder="APELLIDO MATERNO" class="text" maxlength="40"  title="APELLIDO MATERNO"  required />
+                            <input name="apellido_m" type="text"  placeholder="Apellido materno" class="text" maxlength="40"  title="Apellido materno"  required />
 
                             <select name="genero" class="domicilio" title="Género">
                                 <option value="M">Masculino</option>
@@ -642,29 +609,29 @@ $("document").ready(function() {//evaluar passs
                                 <img src="Imagenes/ayuda.png" />
                             </a>
 
-                            <input name="tel" type="tel"  placeholder="TELÉFONO" maxlength="15" title="TELÉFONO" required/>
+                            <input name="tel" type="tel"  placeholder="Teléfono" maxlength="15" title="Teléfono" required/>
                            
-                            <input name="email" type="email" placeholder="EMAIL" maxlength="30"  title="EMAIL"  required />
+                            <input name="email" type="email" placeholder="Email" maxlength="30"  title="Email"  required />
 
                            <h2>DOMICILIO</h2><br>
-                           <input  id="ciudad" name="ciudad" type="text" placeholder="CIUDAD O LOCALIDAD" maxlength="40"  title="CIUDAD O LOCALIDAD" required />
+                           <input  id="ciudad" name="ciudad" type="text" placeholder="Ciudad o localidad" maxlength="40"  title="Ciudad o localidad" required />
 
-                           <input  id="colonia" name="colonia" type="text" placeholder="COLONIA" maxlength="40"  title="COLONIA" required />
+                           <input  id="colonia" name="colonia" type="text" placeholder="Colonia" maxlength="40"  title="Colonia" required />
 
-                           <input  id="calle" name="calle" type="text" placeholder="CALLE" maxlength="30"  title="CALLE" required />
+                           <input  id="calle" name="calle" type="text" placeholder="Calle" maxlength="30"  title="Calle" required />
 
-                           <input name="no_casa" placeholder="No:CASA" maxlength="10" title="No:CASA"  id="no_casa" required />
+                           <input name="no_casa" placeholder="No:casa" maxlength="10" title="No:casa"  id="no_casa" required />
 
                            <input name="cp" placeholder="Código Postal" maxlength="5" title="Código Postal"  id="cp" required />
 
                        </div>
                        <div class="display-flex data-personal">
-                            <select id="estados" class="domicilio" name="estado" title="ESTADOS">
+                            <select id="estados" class="domicilio" name="estado" title="Estado">
                                 <option value="1">Cargando</option>
                             </select>
                             <div class="position-relative">
-                                <select id="Municipios" class="domicilio" name="municipio" title="MUNICIPIO">
-                                    <option value="1">MUNICIPIO</option>
+                                <select id="Municipios" class="domicilio" name="municipio" title="Municipio">
+                                    <option value="1">Municipio</option>
                                 </select>
                                 <img id="img_cargando_estado" src="Imagenes/hourglass.svg" class="element-inside-input" />
                            </div>
@@ -680,164 +647,166 @@ $("document").ready(function() {//evaluar passs
                         </div>
                     </div>
                 </div>
-            </div>
-        <div class="row">
-        <div class="col-lg-6 col-md-10 col-sm-12 col-xs-12"  style="padding:0px">
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding:0px">
-                    <img  id="img_ingenieria" src="Imagenes/ingenieria_activo.png" style="width:auto; height:120px;border:1px solid #999" class="img-responsive cursor"  tabindex="0"/>
-                </div> 
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding:0px">   
-                    <img id="img_posgrado"  src="Imagenes/posgrado.png"  style="width:auto; height:120px;" class="img-responsive cursor" tabindex="0"/>
-                </div>
-        </div>    
-        </div>
+            </div><!-- fin de datos personales -->
+            <h2 class="text-center"> Datos Academicos</h2>
+            <div class="row">
+                <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">
+                	<div class="title-academic">
+                        <div id="tab-ingenieria" class="img-title toggle" data-show="div_ingenieria" data-hide="div_posgrado">
+                            <img  src="Imagenes/ingenieria.png" class="img-title-active"  tabindex="0"/>
+                            <span>Ingenieria</span>
+                        </div>
+                        <div id="tab-posgrado" class="img-title toggle" data-hide="div_ingenieria" data-show="div_posgrado">
+                            <img src="Imagenes/posgrado.png"  tabindex="0"/>
+                            <span>Posgrado</span>
+                        </div>
+                    </div>
+                </div>    
+            </div><!-- fin de encabezado de datos academicos -->
         	<div class="row">    
-            
                 <div id="contenedor_datos_academicos">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" >
-                    <div id="div_academia">
-                        <div id="div_posgrado">
-                            <img src="Imagenes/loading.svg" class="cargando" style="display:none" id="img_cargando_posgrado" />
-                            <div id="div_frm_posgrado" style="text-align:center">
-                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_posgrado" style="display:none; top:70px" />	
-                                <form id="frm_posgrado">
-                                    <label style="font-size:22px">Formulario de posgrado</label><br />
-                                    <img src="Imagenes/mask.png" id="img_cancelar_posgrado" title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <select id="select_posgrado" name="posgrado" class="basicos" style="width:90%">
-                                                <option value="0">Posgrado</option>
-                                                <option value="Maestría">Maestría</option>
-                                                <option value="Doctorado">Doctorado</option>
-                                            </select>
+                    <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12" >
+                        <div id="div_academia">
+                            <div id="div_posgrado">
+                                <img src="Imagenes/loading.svg" class="cargando" style="display:none" id="img_cargando_posgrado" />
+                                <div id="div_frm_posgrado" style="text-align:center">
+                                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_posgrado" style="top:70px" />	
+                                    <form id="frm_posgrado">
+                                        <h2>Formulario  Posgrado</h2><br />
+                                        <img src="Imagenes/mask.png" id="img_cancelar_posgrado" title="Cerrar" class="symbol-cancel" tabindex="0"/>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <select id="select_posgrado" name="posgrado" class="basicos" style="width:90%">
+                                                    <option value="0">Posgrado</option>
+                                                    <option value="Maestría">Maestría</option>
+                                                    <option value="Doctorado">Doctorado</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
+                                                <select id="select_titulado_posgrado" name="titulado" class="basicos" style="width:90%">
+                                                    <option value="0">Titulado</option>
+                                                    <option value="SI">Si</option>
+                                                    <option value="NO">No</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
-                                            <select id="select_titulado_posgrado" name="titulado" class="basicos" style="width:90%">
-                                                <option value="0">TITULADO</option>
-                                                <option value="SI">SI</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <input type="text" name="nombre" required  style="width:80%" maxlength="110" class="frm_empresa" placeholder="NOMBRE DE POSGRADO"/><br /><br />
-                                    <input type="text" name="escuela" required style="width:80%" maxlength="80" class="frm_empresa" placeholder="ESCUELA"/><br /><br />
-                                    <input type="submit" value="GUARDAR" class="guardar" /><img id="img_limpiar_frm_posgrado"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_posgrado" style="width:40px; height:40px" tabindex="0"/>
-                                </form>
-                            </div>
-                            <div id="div_dt_posgrado"></div>
-                        </div>
-                        <div id="div_ingenieria">
-                        <img src="Imagenes/loading.svg" id="img_cargando_dt_academicos" class="cargando" />
-                            <div id="frm_datos_academicos" style="width:100%">
-                                <br />    
-                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_academico" style="top:10%;display:none" />
-                                <form id="frm_dt_academico">
-                                    <h2 style="font-size:22px">FORMULARIO DE DATOS ACADEMICOS</h2>
-                                    <img src="Imagenes/mask.png" id="imgfrm_cancelar_academicos"  title="CANCELAR Y CERRAR FORMULARIO" class="symbol-cancel" tabindex="0"/>
-                                    <div class="row">
-                                    	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <select id="carrera"  title="CARRERA"class=" basicos" style="width:90%;height:35px;padding:2px;margin:10px" name="carrera" ><option value="1">Cargando</option></select>
-                                         </div>
-                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">   
-                                            <select id="especialidad"  title="ESPECIALIDAD"class=" basicos" style="width:80%;height:35px;padding:2px;margin:10px" name="especialidad"><option value="1">ESPECIALIDAD</option></select><img id="img_cargando" src="Imagenes/loading_.gif" style="width:30px; height:30px" />
-                                         </div>  
-                                    </div>
-                                    <div class="row">
-                                    	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <select id="select_titulado" name="titulado" class="basicos" style="width:80%; margin:10px">
-                                                <option value="0">TITULADO</option>
-                                                <option value="SI">SI</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        	<input type="text" id="dp_academico_inicio" title="INICIO" readonly name="fecha_inicio" placeholder="INICIO" style="width:80%"  class="frm_acedemico_"required/>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        	<input type="text" id="dp_academico_fin"   title="FINALIZACIÓN" readonly name="fecha_fin" placeholder="FINALIZACIÓN"  style="width:80%"class="frm_acedemico_" required />
-                                        </div>
-                                    </div>
-                                    <input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
-                                    <img id="img_limpiar_frm_dt_academicos"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_dt_academico" style="width:40px; height:40px;" tabindex="0" />
-                                    <div>
-                                        <p  id="titlo_carrera" style="font-size:20px; color:#090">CARRRERA Y ESPECIALIDAD A EDITAR</p>
-                                        <div id="div_carrera_actualizar"></div>
-                                    </div>
-                                </form>
-                                <br />
-                                <br />
-                            </div>
-                             <div id="datos_academicos"></div>
-                        </div>
-                    </div>
-                    </div>
-                    
-                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">   
-                    <div id="dt_academicos_idiomas_sw">
-                        <div class="row">
-                            <div class="col-lg-12" id="div-principal-idioma">
-                                <img src="Imagenes/loading.svg"  class="cargando" id="img_cargando_idiomas"/>    
-                                <div id="div_idioma">
+                                        <input type="text" name="nombre" required  style="width:80%" maxlength="110" class="frm_empresa" placeholder="Nombre del posgrado"/><br /><br />
+                                        <input type="text" name="escuela" required style="width:80%" maxlength="80" class="frm_empresa" placeholder="Escuela"/><br /><br />
+                                        <input type="submit" value="Guardar" class="guardar" /><img id="img_limpiar_frm_posgrado"  src="Imagenes/mask.png" title="Limpiar formulario" class="limpiar_form" data-target="frm_posgrado" style="width:40px; height:40px" tabindex="0"/>
+                                    </form>
                                 </div>
+                                <div id="div_dt_posgrado"></div>
                             </div>
-                            <div id="div_frm_idioma">         
-                                <img src="Imagenes/loading45.svg" class=" enviando" id="img_enviar_idioma" /> 
-                                <form id="frm_idioma" style="text-align:center; ">
-                                    <h2 class="title-form">    
-                                        Formulario de Idiomas
-                                        <img src="Imagenes/mask.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0" />
-                                    </h2>	
-                                    <select name="idiomas" id="idiomas"  title="IDIOMAS" class="basicos" style="width:60%; height:30px; text-align:center; margin-bottom:10px">
-                                        <option value="1">CARGANDO</option>
-                                    </select>
-                                    <br />
-                                    <p class="frm_idiomas">Porcentaje habla
-                                        <input type="number" id="porcentaje_habla" class="frm_idiomas_" title="HABLA"  name="porcentaje_habla" required max="100" min="1" style="width:20%"/>
-                                    </p>
-                                    <p class="frm_idiomas" >Lectura y escritura
-                                        <input type="number" id="porcentaje_lec"  class="frm_idiomas_" name="porcentaje_lec" title="ESCRITURA Y LECTURA" required max="100" min="1" style="width:20%"/>
-                                    </p>
-                                    <p style="text-align:center">
-                                        <input type="button" value="GUARDAR" id="guardar_idioma" title="GUARDAR" class="guardar" style=" width:40%" />
-                                        <img id="img_limpiar_frm_Idioma"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_idioma"  style="width:40px; height:40px" tabindex="0" />
-                                    </p>
-                                </form>
+                            <div id="div_ingenieria">
+                            <img src="Imagenes/loading.svg" id="img_cargando_dt_academicos" class="cargando" />
+                                <div id="frm_datos_academicos" style="width:100%">
+                                    <br />    
+                                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_academico" style="top:10%;display:none" />
+                                    <form id="frm_dt_academico">
+                                        <h2 style="font-size:22px">Formulario Ingenieria</h2>
+                                        <img src="Imagenes/mask.png" id="imgfrm_cancelar_academicos"  title="Cerrar" class="symbol-cancel" tabindex="0"/>
+                                        <div class="row">
+                                        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <select id="carrera"  title="Carrera"class=" basicos" style="width:90%;height:35px;padding:2px;margin:10px" name="carrera" ><option value="1">Cargando</option></select>
+                                             </div>
+                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">   
+                                                <select id="especialidad"  title="Especialidad"class=" basicos" style="width:80%;height:35px;padding:2px;margin:10px" name="especialidad"><option value="1">Especialidad</option></select><img id="img_cargando" src="Imagenes/loading_.gif" style="width:30px; height:30px" />
+                                             </div>  
+                                        </div>
+                                        <div class="row">
+                                        	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <select id="select_titulado" name="titulado" class="basicos" style="width:80%; margin:10px">
+                                                    <option value="0">Titulado</option>
+                                                    <option value="SI">Si</option>
+                                                    <option value="NO">No</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                            	<input type="text" id="dp_academico_inicio" title="Inicio" readonly name="fecha_inicio" placeholder="Inicio" style="width:80%"  class="frm_acedemico_"required/>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                            	<input type="text" id="dp_academico_fin"   title="Termino" readonly name="fecha_fin" placeholder="Termino"  required />
+                                            </div>
+                                        </div>
+                                        <input   type="submit"   title="Guardar" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
+                                        <img id="img_limpiar_frm_dt_academicos"  src="Imagenes/mask.png" title="Limpiar formulario" class="limpiar_form" data-target="frm_dt_academico" style="width:40px; height:40px;" tabindex="0" />
+                                        <div>
+                                            <h3  id="titlo_carrera"><b>Carrera y Especialidad Actual</b></h3>
+                                            <div id="div_carrera_actualizar"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                 <div id="datos_academicos"></div>
                             </div>
                         </div>
-                   <div class="row">     
-                    <div id="div_software" class="col-lg-12">
-                     <img src="Imagenes/loading.svg" id="img_cargando_sw" class="cargando" />
-                        <div id="div_frm_software">
-                            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_sw" /> 
-                            <form id="frm_sw" style="text-align:center">
-                                <label style="text-align:center; font-size:22px; font-weight:bold">FORMULARIO DE SOFTWARE</label><br />
-                                <img src="Imagenes/mask.png" id="img_cancelar_sw" title="CERRAR FORMULARIO"  class="symbol-cancel" tabindex="0" />
-                                <p style="text-align:center">
-                                    <select id="select-sw" name="sw" class="basicos" style="width:50%;height:35px;padding:2px;margin:10px" title="SOFTWARES">
-                                        <option value="Microsoft office" title="Word, Excel, PowerPoint, Access, ect.">Microsoft office</option>
-                                        <option value="SAP Business Suite" title="Software empresarial">SAP Business</option>
-                                        <option value="Netbeans" title="IDE desarrollo libre para JAVA">Netbeans</option>
-                                        <option value="Eclipse" title="IDE desarrollo libre para JAVA">Eclipse</option>
-                                        <option value="Visual Studio" title="IDE desarrollado por Microsoft">Visual Studio</option>
-                                        <option value="Diseño Gráfico" title="Illustrator, Photoshop o Indisign">Diseño Gráfico</option>
-                                        <option value="RAD" title="IDE´s de desarrollo de sw rapido">RAD</option>
-                                    </select>
-                                </p>
-                                <p style="text-align:center">
-                                    <input   type="submit"  value="GUARDAR" id="btn_guardar_sw" class="guardar" title="GUARDAR" />
-                                </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">   
+                    <div style="min-height: 465px;">
+                        <div  id="div-principal-idioma">
+                            <img src="Imagenes/loading.svg"  class="cargando" id="img_cargando_idiomas"/>    
+                            <div id="div_idioma">
+                            </div>
+                        </div>
+                        <div id="div_frm_idioma">         
+                            <img src="Imagenes/loading45.svg" class=" enviando" id="img_enviar_idioma" /> 
+                            <form id="frm_idioma" class="text-center">
+                                <h2 class="title-form">    
+                                    Formulario de Idiomas
+                                    <img src="Imagenes/mask.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0" />
+                                </h2>   
+                                <select name="idiomas" id="idiomas"  title="IDIOMAS" class="basicos">
+                                    <option value="1">Cargando</option>
+                                </select>
+                                <br />
+                                <div class="display-flex justify-around margin-sides-10 idioma-form-div">
+                                    <label>Porcentaje habla</label>
+                                    <input type="number" id="porcentaje_habla" class="input-numeric" title="HABLA"  name="porcentaje_habla" required max="100" min="1"/>
+                                </div>
+                                <div class="display-flex justify-around margin-sides-10 idioma-form-div">
+                                    <label>Lectura y escritura</label>
+                                    <input type="number" id="porcentaje_lec"  class="input-numeric" name="porcentaje_lec" title="ESCRITURA Y LECTURA" required max="100" min="1"/>
+                                </div>
+                                <div class="display-flex justify-around margin-sides-10 idioma-form-div">
+                                    <input type="button" value="GUARDAR" id="guardar_idioma" title="GUARDAR" class="guardar" style=" width:40%" />
+                                    <img id="img_limpiar_frm_Idioma"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_idioma"  tabindex="0" />
+                                </div>
                             </form>
                         </div>
-                        <div id="div_dt_software">
+                    </div>
+                    <div>     
+                        <div id="div_software">
+                            <img src="Imagenes/loading.svg" id="img_cargando_sw" class="cargando" />
+                            <div id="div_frm_software">
+                                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_sw" /> 
+                                <form id="frm_sw" style="text-align:center">
+                                    <label style="text-align:center; font-size:22px; font-weight:bold">FORMULARIO DE SOFTWARE</label><br />
+                                    <img src="Imagenes/mask.png" id="img_cancelar_sw" title="CERRAR FORMULARIO"  class="symbol-cancel" tabindex="0" />
+                                    <p style="text-align:center">
+                                        <select id="select-sw" name="sw" class="basicos" style="width:50%;height:35px;padding:2px;margin:10px" title="SOFTWARES">
+                                            <option value="Microsoft office" title="Word, Excel, PowerPoint, Access, ect.">Microsoft office</option>
+                                            <option value="SAP Business Suite" title="Software empresarial">SAP Business</option>
+                                            <option value="Netbeans" title="IDE desarrollo libre para JAVA">Netbeans</option>
+                                            <option value="Eclipse" title="IDE desarrollo libre para JAVA">Eclipse</option>
+                                            <option value="Visual Studio" title="IDE desarrollado por Microsoft">Visual Studio</option>
+                                            <option value="Diseño Gráfico" title="Illustrator, Photoshop o Indisign">Diseño Gráfico</option>
+                                            <option value="RAD" title="IDE´s de desarrollo de sw rapido">RAD</option>
+                                        </select>
+                                    </p>
+                                    <p style="text-align:center">
+                                        <input   type="submit"  value="GUARDAR" id="btn_guardar_sw" class="guardar" title="GUARDAR" />
+                                    </p>
+                                </form>
+                            </div>
+                            <div id="div_dt_software">
+                            </div>
                         </div>
                     </div>
-                    </div>
-                    </div>
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
+                </div><!-- col idioma y software -->
+            </div><!-- row idioma y software -->
+        </div><!-- fin de primero -->
 	    <div id="segundo">
         	<div id="dialogo_empresa" class="ventana" title="¿Estas Seguro?">  
 			</div>
@@ -1130,12 +1099,14 @@ $("document").ready(function() {//evaluar passs
 <script type="text/javascript" src="js/App/Class/DatosPersonales.js"></script>
 <script type="text/javascript" src="js/App/Class/DatosIdioma.js"></script>
 <script type="text/javascript" src="js/App/Structure/StructureDatosEgresado.js"></script>
+<script type="text/javascript" src="js/App/Class/Toggle.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        Animaciones.init();
+        Toggle.init();
         var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
         EventosForm.init();
         EventosForm.setNoControl(no_control);
-        Animaciones.init();
         LimpiarForm.init();
         DatosAcademicos.init();
         DatosAcademicos.setNoControl(no_control);

@@ -15,7 +15,7 @@ var DatosSoftware={
 		var registro=this.dataset.registro;
 		var description=this.dataset.description;
 		// DatosAcademicos.confirmar(DatosAcademicos.no_control,registro);
-		confirmarEliminacion('Deseas borrar este elemento ?'+description,DatosSoftware.deleteSoftware,DatosSoftware.no_control,registro)
+		confirmarEliminacion('Deseas borrar este elemento ' + description + ' ?',DatosSoftware.deleteSoftware,DatosSoftware.no_control,registro)
 	},
 	deleteSoftware:function(no_control,registro){//borrar sw
 		try{

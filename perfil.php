@@ -79,29 +79,6 @@ $("document").ready(function() {
               alert_('Datos Incompletos',$('#alert_academico'),250);    
           igualdad='0';
         });
-	/*clases generales*/
-	$("#div_dt_posgrado").on('click',".eliminar",function(){//imagen eliminar  de idiomas
-		var id=$(this).attr('id').toString();
-		id=id.slice(19);
-		confirmar_posgrado(no_control,id);
-	});
-	$("#div_dt_posgrado").on('keypress',".eliminar",function(e){//imagen eliminar  de idiomas
-	    if(e.which===13){
-                var id=$(this).attr('id').toString();
-		id=id.slice(19);
-		confirmar_posgrado(no_control,id);
-            }
-	});
-	$("#div_dt_posgrado").on('click',"#agregar_posgrado",function(){//imagen eliminar  de idiomas
-		show_posgrado();
-                $('#select_posgrado').focus();
-	});
-        $("#div_dt_posgrado").on('keypress',"#agregar_posgrado",function(e){//imagen eliminar  de idiomas
-	    if(e.which===13){
-                show_posgrado();
-                $('#select_posgrado').focus();
-            }
-	});
 	//funciones click	
 	/*-----------personales--------*/
 	/*--------empresa-----*/
@@ -571,7 +548,7 @@ $("document").ready(function() {//evaluar passs
     <div class="contenedor">
         <div id="primero">
             <div class="row">
-                <div  id="contenedor_foto_e" class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12" style="text-align:center">
+                <div  id="contenedor_foto_e" class="col-lg-8 col-lg-push-2 col-md-12  col-sm-12 col-xs-12" style="text-align:center">
                     <h2>Perfil</h2>
                     <img id="foto_egresado" src="Imagenes/businessman_green.png" style=" max-width:100%; border:5px #999 solid" title="IMAGEN DE PERFIL" class="img-responsive"/>
                     <img id="cargando_foto" src="Imagenes/loading_min.gif"/>
@@ -581,64 +558,95 @@ $("document").ready(function() {//evaluar passs
                 </div>
             </div>
             <div class="row margin-sides-10">
-                <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-lg-push-2 col-md-12  col-sm-12 col-xs-12">
                     <div id="contenedor_form_datos_personales">
                         <img src="Imagenes/loading45.svg" class="enviando loading" id="enviar"  style="display:none" />
-                        <form id="frm_Datos_Personales" style="text-align:left; padding-left:10px" method="post">
-                        <h2>
-                            Formulario Datos Personales
-                            <img id="cancelar" src="Imagenes/mask.png"  title="Cerrar" class="symbol-cancel" tabindex="0"/>
-                        </h2>
-                        <div class="display-flex data-personal ">
-                            <input id="nombre" name="nombre" type="text"  placeholder="NOMBRE" class="text" maxlength="40"  title="NOMBRE"  required />
-
-                            <input name="apellido_p" type="text"  placeholder="Apellido paterno" class="text" maxlength="40"  title="Apellido paterno"  required />
-
-                            <input name="apellido_m" type="text"  placeholder="Apellido materno" class="text" maxlength="40"  title="Apellido materno"  required />
-
-                            <select name="genero" class="domicilio" title="Género">
-                                <option value="M">Masculino</option>
-                                <option value="F">Femenino</option>
-                            </select>
-
-                            <input type="text" id="datepicker" name="fecha_nac"  readonly="readonly" placeholder="FECHA DE NACIMIENTO"  title="FECHA DE NACIMIENTO" required />
-
-                            <input name="curp" type="text"  placeholder="CURP" maxlength="18" title="CURP" required />
-
-                            <a href="http://consultas.curp.gob.mx/CurpSP/" target="_blank" title="CONSULTAR CURP">
-                                <img src="Imagenes/ayuda.png" />
-                            </a>
-
-                            <input name="tel" type="tel"  placeholder="Teléfono" maxlength="15" title="Teléfono" required/>
-                           
-                            <input name="email" type="email" placeholder="Email" maxlength="30"  title="Email"  required />
-
-                           <h2>DOMICILIO</h2><br>
-                           <input  id="ciudad" name="ciudad" type="text" placeholder="Ciudad o localidad" maxlength="40"  title="Ciudad o localidad" required />
-
-                           <input  id="colonia" name="colonia" type="text" placeholder="Colonia" maxlength="40"  title="Colonia" required />
-
-                           <input  id="calle" name="calle" type="text" placeholder="Calle" maxlength="30"  title="Calle" required />
-
-                           <input name="no_casa" placeholder="No:casa" maxlength="10" title="No:casa"  id="no_casa" required />
-
-                           <input name="cp" placeholder="Código Postal" maxlength="5" title="Código Postal"  id="cp" required />
-
-                       </div>
-                       <div class="display-flex data-personal">
-                            <select id="estados" class="domicilio" name="estado" title="Estado">
-                                <option value="1">Cargando</option>
-                            </select>
-                            <div class="position-relative">
-                                <select id="Municipios" class="domicilio" name="municipio" title="Municipio">
-                                    <option value="1">Municipio</option>
+                        <form id="frm_Datos_Personales" style="text-align:left;" method="post">
+                          <h2>
+                              Formulario Datos Personales
+                              <img id="cancelar" src="Imagenes/mask.png"  title="Cerrar" class="symbol-cancel" tabindex="0"/>
+                          </h2>
+                          <div class="display-flex form-format ">
+                              <div>
+                                <label>Nombre</label><br>
+                                <input id="nombre" name="nombre" type="text"   class="text" maxlength="40"  title="NOMBRE"  required />
+                              </div>
+                              <div>
+                                <label>Apellido paterno</label><br>
+                                <input name="apellido_p" type="text"  class="text" maxlength="40"  title="Apellido paterno"  required />
+                              </div>
+                              <div>
+                                <label>Apellido materno</label><br>
+                                <input name="apellido_m" type="text"   class="text" maxlength="40"  title="Apellido materno"  required />
+                              </div>
+                              <div>
+                                <label>Género</label><br>
+                                <select name="genero" class="domicilio" title="Género">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
                                 </select>
-                                <img id="img_cargando_estado" src="Imagenes/hourglass.svg" class="element-inside-input" />
-                           </div>
-                       </div>
-                       <div class="align-right">
-                           <input type="submit"  value="GUARDAR" id="btn_guardar" class="guardar" title="GUARDAR"/>
-                       </div>
+                              </div>
+                              <div>
+                                <label>Fecha de nacimiento</label><br>
+                                <input type="text" id="datepicker" name="fecha_nac"  readonly="readonly"   title="FECHA DE NACIMIENTO" required />
+                              </div>
+                              <div>
+                                <label>Curp</label><br>
+                                <input name="curp" type="text"   maxlength="18" title="CURP" required />
+                                <a href="http://consultas.curp.gob.mx/CurpSP/" target="_blank" title="CONSULTAR CURP" class="input-icon">
+                                  <img src="Imagenes/mask-16.png" class="symbol-help"/>
+                                </a>
+                              </div>
+                              <div>
+                                <label>Teléfono</label><br>
+                                  <input name="tel" type="tel"   maxlength="15" title="Teléfono" required/>
+                              </div>
+                              <div>
+                                <label>Email</label><br>
+                                  <input name="email" type="email"  maxlength="30"  title="Email" required />
+                              </div>
+                              <h2>DOMICILIO</h2><br>
+                              <div>
+                                <label>Ciudad</label><br>
+                                <input  id="ciudad" name="ciudad" type="text"  maxlength="40"  title="Ciudad o localidad" required />
+                              </div>
+                              <div>
+                                <label>Colonia</label>
+                                <input  id="colonia" name="colonia" type="text"  maxlength="40"  title="Colonia" required />
+                              </div>
+                              <div>
+                                <label>Calle</label><br>
+                                <input  id="calle" name="calle" type="text"  maxlength="30"  title="Calle" required />
+                              </div>
+                              <div>
+                                <label>No: casa</label><br>
+                                <input name="no_casa"  maxlength="10" title="No:casa"  id="no_casa" required />
+                              </div>
+                          </div>
+                          <div>
+                            <div>
+                                <label>Cp</label><br>
+                                <input name="cp"  maxlength="5" title="Código Postal"  id="cp" required />
+                            </div>
+                          </div>
+                          <div class="display-flex form-format">
+                            <div>
+                              <label>Estado</label>
+                              <select id="estados"  name="estado" title="Estado">
+                                <option value="1">Cargando</option>
+                              </select>
+                            </div>
+                            <div class="position-relative margin-both-sides-10">
+                              <label>Municipio</label>
+                              <select id="Municipios"  name="municipio" title="Municipio">
+                                  <option value="1">Municipio</option>
+                              </select>
+                              <img id="img_cargando_estado" src="Imagenes/hourglass.svg" class="element-inside-input" />
+                            </div>
+                          </div>
+                          <div class="align-right container-save">
+                             <input type="submit"  value="GUARDAR" id="btn_guardar" class="guardar" title="GUARDAR"/>
+                          </div>
                         </form>
                     </div>
                     <div id="contenedor_Datos_Personales">
@@ -648,9 +656,13 @@ $("document").ready(function() {//evaluar passs
                     </div>
                 </div>
             </div><!-- fin de datos personales -->
-            <h2 class="text-center"> Datos Academicos</h2>
             <div class="row">
-                <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-lg-push-2 col-md-12  col-sm-12 col-xs-12">
+                  <div class="separator">
+                    <div class="line"></div>
+                    <div class="rombo"></div>
+                  </div> 
+                  <h2 class="text-center"> Datos Academicos</h2>
                 	<div class="title-academic">
                         <div id="tab-ingenieria" class="img-title toggle" data-show="div_ingenieria" data-hide="div_posgrado">
                             <img  src="Imagenes/ingenieria.png" class="img-title-active"  tabindex="0"/>
@@ -665,34 +677,47 @@ $("document").ready(function() {//evaluar passs
             </div><!-- fin de encabezado de datos academicos -->
         	<div class="row">    
                 <div id="contenedor_datos_academicos">
-                    <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12" >
+                    <div class="col-lg-8 col-lg-push-2 col-md-12  col-sm-12 col-xs-12" >
                         <div id="div_academia">
                             <div id="div_posgrado">
-                                <img src="Imagenes/loading.svg" class="cargando" style="display:none" id="img_cargando_posgrado" />
-                                <div id="div_frm_posgrado" style="text-align:center">
+                                <img src="Imagenes/loading.svg" class="cargando" id="img_cargando_posgrado" />
+                                <div id="div_frm_posgrado">
                                 <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_posgrado" style="top:70px" />	
                                     <form id="frm_posgrado">
-                                        <h2>Formulario  Posgrado</h2><br />
-                                        <img src="Imagenes/mask.png" id="img_cancelar_posgrado" title="Cerrar" class="symbol-cancel" tabindex="0"/>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <select id="select_posgrado" name="posgrado" class="basicos" style="width:90%">
-                                                    <option value="0">Posgrado</option>
+                                        <h2 class="title-form">
+                                            Formulario  Posgrado
+                                            <img src="Imagenes/mask.png" id="img_cancelar_posgrado" title="Cerrar" class="symbol-cancel" tabindex="0"/>
+                                        </h2>
+                                        <div class="display-flex form-format-2">
+                                            <div>
+                                              <label>Posgrado</label>
+                                                <select id="select_posgrado" name="posgrado" >
                                                     <option value="Maestría">Maestría</option>
                                                     <option value="Doctorado">Doctorado</option>
                                                 </select>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">    
-                                                <select id="select_titulado_posgrado" name="titulado" class="basicos" style="width:90%">
-                                                    <option value="0">Titulado</option>
-                                                    <option value="SI">Si</option>
-                                                    <option value="NO">No</option>
-                                                </select>
+                                            <div>    
+                                              <label>Titulado</label>
+                                              <select id="select_titulado_posgrado" name="titulado">
+                                                  <option value="SI">Si</option>
+                                                  <option value="NO">No</option>
+                                              </select>
                                             </div>
                                         </div>
-                                        <input type="text" name="nombre" required  style="width:80%" maxlength="110" class="frm_empresa" placeholder="Nombre del posgrado"/><br /><br />
-                                        <input type="text" name="escuela" required style="width:80%" maxlength="80" class="frm_empresa" placeholder="Escuela"/><br /><br />
-                                        <input type="submit" value="Guardar" class="guardar" /><img id="img_limpiar_frm_posgrado"  src="Imagenes/mask.png" title="Limpiar formulario" class="limpiar_form" data-target="frm_posgrado" style="width:40px; height:40px" tabindex="0"/>
+                                        <div class="display-flex form-format-2">
+                                          <div>
+                                            <label>Nombre del posgrado</label><br>
+                                            <input type="text" name="nombre" required  maxlength="110"  />
+                                          </div>
+                                          <div>
+                                            <label>Institución</label>
+                                            <input type="text" name="escuela" required maxlength="80"  />
+                                          </div>
+                                        </div>
+                                        <div class="align-right container-save">
+                                          <input id="save-posgrado" type="submit" value="Guardar" class="guardar" />
+                                          <img id="img_limpiar_frm_posgrado"  src="Imagenes/mask.png" title="Limpiar formulario" class="limpiar_form" data-target="frm_posgrado"  tabindex="0"/>
+                                        </div>
                                     </form>
                                 </div>
                                 <div id="div_dt_posgrado"></div>
@@ -703,33 +728,46 @@ $("document").ready(function() {//evaluar passs
                                     <br />    
                                 <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_academico" style="top:10%;display:none" />
                                     <form id="frm_dt_academico">
-                                        <h2 style="font-size:22px">Formulario Ingenieria</h2>
-                                        <img src="Imagenes/mask.png" id="imgfrm_cancelar_academicos"  title="Cerrar" class="symbol-cancel" tabindex="0"/>
-                                        <div class="row">
-                                        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <select id="carrera"  title="Carrera"class=" basicos" style="width:90%;height:35px;padding:2px;margin:10px" name="carrera" ><option value="1">Cargando</option></select>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">   
-                                                <select id="especialidad"  title="Especialidad"class=" basicos" style="width:80%;height:35px;padding:2px;margin:10px" name="especialidad"><option value="1">Especialidad</option></select><img id="img_cargando" src="Imagenes/loading_.gif" style="width:30px; height:30px" />
-                                             </div>  
+                                        <h2 class="title-form">
+                                            Formulario Ingenieria
+                                            <img src="Imagenes/mask.png" id="imgfrm_cancelar_academicos"  title="Cerrar" class="symbol-cancel" tabindex="0"/>
+                                        </h2>
+                                        <div class="display-flex form-format-2">
+                                        	<div>
+                                            <label>Carrerar</label>
+                                            <select id="carrera"  title="Carrera" name="carrera" >
+                                              <option value="1">Cargando</option>
+                                            </select>
+                                          </div>
+                                          <div>   
+                                            <label>Especialidad</label>
+                                            <select id="especialidad"  title="Especialidad" name="especialidad">
+                                              <option value="1">Especialidad</option>
+                                            </select>
+                                            <img id="img_cargando" src="Imagenes/hourglass.svg" />
+                                          </div>  
                                         </div>
-                                        <div class="row">
-                                        	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                                <select id="select_titulado" name="titulado" class="basicos" style="width:80%; margin:10px">
-                                                    <option value="0">Titulado</option>
-                                                    <option value="SI">Si</option>
-                                                    <option value="NO">No</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            	<input type="text" id="dp_academico_inicio" title="Inicio" readonly name="fecha_inicio" placeholder="Inicio" style="width:80%"  class="frm_acedemico_"required/>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            	<input type="text" id="dp_academico_fin"   title="Termino" readonly name="fecha_fin" placeholder="Termino"  required />
-                                            </div>
+                                        <div class="display-flex form-format">
+                                        	<div>
+                                            <label>Titulado</label>
+                                            <select id="select_titulado" name="titulado">
+                                                <option value="SI">Si</option>
+                                                <option value="NO">No</option>
+                                            </select>
+                                          </div>
+                                          <div>
+                                            <label>Fecha de inicio</label><br>
+                                          	<input type="text" id="dp_academico_inicio" title="Inicio" readonly name="fecha_inicio"  required/>
+                                          </div>
+                                          <div>
+                                            <label>Fecha de finalizacion</label><br>
+                                          	<input type="text" id="dp_academico_fin"   title="Termino" readonly name="fecha_fin"   required />
+                                          </div>
                                         </div>
-                                        <input   type="submit"   title="Guardar" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
-                                        <img id="img_limpiar_frm_dt_academicos"  src="Imagenes/mask.png" title="Limpiar formulario" class="limpiar_form" data-target="frm_dt_academico" style="width:40px; height:40px;" tabindex="0" />
+                                        <div class="align-right container-save">
+                                          <input   type="submit"   title="Guardar" value="GUARDAR" id="btn_guardar_academico" class="guardar"  />
+                                          <img id="img_limpiar_frm_dt_academicos"  src="Imagenes/mask.png" title="Limpiar formulario" class="limpiar_form" data-target="frm_dt_academico" tabindex="0" />
+                                        </div>
                                         <div>
                                             <h3  id="titlo_carrera"><b>Carrera y Especialidad Actual</b></h3>
                                             <div id="div_carrera_actualizar"></div>
@@ -743,7 +781,11 @@ $("document").ready(function() {//evaluar passs
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-10 col-lg-push-1 col-md-12  col-sm-12 col-xs-12">   
+                <div class="col-lg-8 col-lg-push-2 col-md-12  col-sm-12 col-xs-12">
+                    <div class="separator">
+                      <div class="line"></div>
+                      <div class="rombo"></div>
+                    </div>   
                     <div style="min-height: 465px;">
                         <div  id="div-principal-idioma">
                             <img src="Imagenes/loading.svg"  class="cargando" id="img_cargando_idiomas"/>    
@@ -752,149 +794,208 @@ $("document").ready(function() {//evaluar passs
                         </div>
                         <div id="div_frm_idioma">         
                             <img src="Imagenes/loading45.svg" class=" enviando" id="img_enviar_idioma" /> 
-                            <form id="frm_idioma" class="text-center">
+                            <form id="frm_idioma">
                                 <h2 class="title-form">    
                                     Formulario de Idiomas
                                     <img src="Imagenes/mask.png" id="img_cancelar_idiomas"  title="CERRAR FORMULARIO" class="symbol-cancel" tabindex="0" />
-                                </h2>   
-                                <select name="idiomas" id="idiomas"  title="IDIOMAS" class="basicos">
-                                    <option value="1">Cargando</option>
-                                </select>
-                                <br />
-                                <div class="display-flex justify-around margin-sides-10 idioma-form-div">
-                                    <label>Porcentaje habla</label>
-                                    <input type="number" id="porcentaje_habla" class="input-numeric" title="HABLA"  name="porcentaje_habla" required max="100" min="1"/>
-                                </div>
-                                <div class="display-flex justify-around margin-sides-10 idioma-form-div">
-                                    <label>Lectura y escritura</label>
-                                    <input type="number" id="porcentaje_lec"  class="input-numeric" name="porcentaje_lec" title="ESCRITURA Y LECTURA" required max="100" min="1"/>
-                                </div>
-                                <div class="display-flex justify-around margin-sides-10 idioma-form-div">
-                                    <input type="button" value="GUARDAR" id="guardar_idioma" title="GUARDAR" class="guardar" style=" width:40%" />
+                                </h2>  
+                                <div class="form-format">
+                                  <div>
+                                    <label>Idioma</label><br>
+                                    <select name="idiomas" id="idiomas"  title="Idiomas">
+                                      <option value="1">Cargando</option>
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <label>Porcentaje habla</label><br>
+                                    <input type="text" id="porcentaje_habla" class="input-numeric" title="HABLA"  name="porcentaje_habla" required max="100" min="1"/>
+                                  </div>
+                                  <div>
+                                      <label>Lectura y escritura</label><br>
+                                      <input type="text" id="porcentaje_lec"  class="input-numeric" name="porcentaje_lec" title="ESCRITURA Y LECTURA" required max="100" min="1"/>
+                                  </div>
+                                </div> 
+                                <div class="align-right container-save">
+                                    <input type="button" value="GUARDAR" id="guardar_idioma" title="GUARDAR" class="guardar" />
                                     <img id="img_limpiar_frm_Idioma"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_idioma"  tabindex="0" />
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div>     
-                        <div id="div_software">
-                            <img src="Imagenes/loading.svg" id="img_cargando_sw" class="cargando" />
-                            <div id="div_frm_software">
-                                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_sw" /> 
-                                <form id="frm_sw" style="text-align:center">
-                                    <label style="text-align:center; font-size:22px; font-weight:bold">FORMULARIO DE SOFTWARE</label><br />
-                                    <img src="Imagenes/mask.png" id="img_cancelar_sw" title="CERRAR FORMULARIO"  class="symbol-cancel" tabindex="0" />
-                                    <p style="text-align:center">
-                                        <select id="select-sw" name="sw" class="basicos" style="width:50%;height:35px;padding:2px;margin:10px" title="SOFTWARES">
-                                            <option value="Microsoft office" title="Word, Excel, PowerPoint, Access, ect.">Microsoft office</option>
-                                            <option value="SAP Business Suite" title="Software empresarial">SAP Business</option>
-                                            <option value="Netbeans" title="IDE desarrollo libre para JAVA">Netbeans</option>
-                                            <option value="Eclipse" title="IDE desarrollo libre para JAVA">Eclipse</option>
-                                            <option value="Visual Studio" title="IDE desarrollado por Microsoft">Visual Studio</option>
-                                            <option value="Diseño Gráfico" title="Illustrator, Photoshop o Indisign">Diseño Gráfico</option>
-                                            <option value="RAD" title="IDE´s de desarrollo de sw rapido">RAD</option>
-                                        </select>
-                                    </p>
-                                    <p style="text-align:center">
-                                        <input   type="submit"  value="GUARDAR" id="btn_guardar_sw" class="guardar" title="GUARDAR" />
-                                    </p>
-                                </form>
-                            </div>
-                            <div id="div_dt_software">
-                            </div>
-                        </div>
+                    <div>
+                      <div class="separator">
+                        <div class="line"></div>
+                        <div class="rombo"></div>
+                      </div>      
+                      <div id="div_software">
+                          <img src="Imagenes/loading.svg" id="img_cargando_sw" class="cargando" />
+                          <div id="div_frm_software">
+                              <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_sw" />
+                              <form id="frm_sw" style="text-align:center">
+                                <h2 class="title-form">
+                                    FORMULARIO DE SOFTWARE
+                                    <img src="Imagenes/mask.png" id="img_cancelar_sw" title="Cerrar"  class="symbol-cancel" tabindex="0" />
+                                </h2>
+                                <p style="text-align:center">
+                                    <select id="select-sw" name="sw" class="basicos" style="width:50%;height:35px;padding:2px;margin:10px" title="SOFTWARES">
+                                        <option value="Microsoft office" title="Word, Excel, PowerPoint, Access, ect.">Microsoft office</option>
+                                        <option value="SAP Business Suite" title="Software empresarial">SAP Business</option>
+                                        <option value="Netbeans" title="IDE desarrollo libre para JAVA">Netbeans</option>
+                                        <option value="Eclipse" title="IDE desarrollo libre para JAVA">Eclipse</option>
+                                        <option value="Visual Studio" title="IDE desarrollado por Microsoft">Visual Studio</option>
+                                        <option value="Diseño Gráfico" title="Illustrator, Photoshop o Indisign">Diseño Gráfico</option>
+                                        <option value="RAD" title="IDE´s de desarrollo de sw rapido">RAD</option>
+                                    </select>
+                                </p>
+                                <p style="text-align:center">
+                                    <input   type="submit"  value="GUARDAR" id="btn_guardar_sw" class="guardar" title="GUARDAR" />
+                                </p>
+                              </form>
+                          </div>
+                          <div id="div_dt_software">
+                          </div>
+                      </div>
                     </div>
                 </div><!-- col idioma y software -->
             </div><!-- row idioma y software -->
         </div><!-- fin de primero -->
 	    <div id="segundo">
-        	<div id="dialogo_empresa" class="ventana" title="¿Estas Seguro?">  
-			</div>
-            <div id="borrar_empresa" class="ventana" title="¿Estas Seguro?">
-            	<p>LA EMPRESA SE BORRARA DE MANERA PERMANETE Y PASARA A TU HISTORIAL LABORAL, DICHA ACCIÓN UNA VEZ TERMINADA ES IRREVERSIBLE</p>  
-			</div>
-            <div class="row">
-       	 	<div id="div_empresa">
-            <img src="Imagenes/loading.svg"  class="cargando" style="display:none" id="img_cargando_empresa"/>
-                <div  id="div_frm_empresa">
-                <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_empresa" style="top:22%; display:none" />
-                <div class="row">
-                    <form  id="frm_empresa" style="text-align:center">
-                    	<h1 style="font-size:22px;text-align:center">FORMULARIO DE DATOS DE LA EMPRESA</h1>
-                     	<img src="Imagenes/mask.png" id="img_cancelar_empresa" title="CERRAR FORMULARIO"  class="symbol-cancel" style="width:35px; height:35px" tabindex="0" /><br>
-                    	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <input id="input-nombre-empresa" class="frm_empresa" name="nombre" placeholder="NOMBRE DE LA EMPRESA" maxlength="30" title="NOMBRE DE LA EMPRESA"  required="required"/><br />
-                        <input  class="frm_empresa" name="giro"  placeholder="GIRO O ACTIVIDAD PRINCIPAL" maxlength="40"  required="required" style="height:40px" title="GIRO Ó ACTIVIDAD PRINCIPAL"/><br />
-                        <input type="text" placeholder="PUESTO QUE OCUPAS" name="puesto"  maxlength="30" class="frm_empresa"  title="PUESTO QUE OCUPAS"  required="required"/><br />
-                        <input type="text" placeholder="AÑO DE INGRESO"  readonly name="año_ingreso" class="frm_empresa"  title="AÑO DE INGRESO" id="año_ingreso"  required="required"/><br />
-                        <input type="text" placeholder="NOMBRE DE JEFE O SUPERIOR INMEDIATO" name="jefe" maxlength="40" class="frm_empresa"   title="NOMBRE DE JEFE O SUPERIOR INMEDIATO"  required/><br />
-                        <label style=" font-size:22px;margin-top:10px">DATOS BÁSICOS</label><br />
-                          <select  name="organismo"  id="organismo" class="frm_empresa_izd" style=" top:6%; color:#666" title="NATURALEZA DE LA EMPRESA">
-                        	<option value="1" >ORGANISMO</option>
-                        	<option value="PÚBLICO" >PÚBLICO</option>
-                            <option value="PRIVADO">PRIVADO</option>
-                            <option value="SOCIAL">SOCIAL</option>
-                        </select><br />
-                           <select  name="razon_social" id="razon_social" class="frm_empresa_izd" style="top:10%; color:#666" title="RAZÓN SOCIAL">
-                        	<option value="1" >RAZÓN SOCIAL</option>
-                        	<option value="PERSONA MORAL"  title="EMPRESA">PERSONA MORAL</option>
-                            <option value="PERSONA FÍSICA"  title="UNA SOLA PERSONA">PERSONA FÍSICA</option>
-                        </select><br />
-                        <input type="tel" placeholder="TELÉFONO DE LA EMPRESA"  name="tel" required maxlength="14" title="TELÉFONO" class="frm_empresa" /><br />
-                        <input type="email" placeholder="EMAIL DE LA EMPRESA" name="email"  maxlength="30"  class="frm_empresa" title="CORREO ELECTRÓNICO" required/><br />
-                        <input type="text" placeholder="WEB DE LA EMPRESA" name="web" maxlength="30" class="frm_empresa"  title="WEB DE LA EMPRESA"/><br />
-                        <label style=" font-size:22px;margin-top:10px">BÚSQUEDA</label><br />
-                        <select name="medio_busqueda"   id="medio_busqueda"class="frm_empresa_izd" title="¿COMO ENCONTRASTE TU TRABAJO?" style="color:#666">
-                        	<option value="1">MEDIO DE BÚSQUEDA</option>
-                            <option value="BOLSA DE TRABAJO DEL PLANTEL">BOLSA DE TRABAJO DEL PLANTEL</option>
-                            <option value="CONTACTOS PERSONALES">CONTACTOS PERSONALES</option>
-                            <option value="RESIDENCIA PROFESIONAL">RESIDENCIA PROFESIONAL</option>
-                            <option value="MEDIOS MASIVOS DE COMUNICACIÓN">MEDIOS MASIVOS DE COMUNICACIÓN</option>
-                        </select>
-                         <select name="tiempo_busqueda" id="tiempo_busqueda" class="frm_empresa_izd" title="¿CUANTO TIEMPO TARDASTES?" style="color:#666">
-                         	<option value="1">TIEMPO DE BÚSQUEDA</option>
-                         	<option value="SEIS MESES">SEIS MESES</option>
-                            <option value="UN AÑO">UN AÑO</option>
-                            <option value="DOS AÑOS">DOS AÑOS</option>
-                            <option value="TRES AÑOS">TRES AÑOS</option>
-                            <option value="MÁS 4 AÑOS">MÁS 4 AÑOS</option>
-                        </select><br />
-                     </div>
-                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <label  class="frm_empresa_" style="font-size:22px; top:18%; right:13%; color:#000;border:none">DOMICILIO</label>
-                        <select  id="estado_empresa" name="estado" class="frm_empresa_" style=" width:50%;color:#666;" title="ESTADO">
-                        	<option>ESTADO</option>
-                        </select><br />
-                        <select id="municipio_empresa" name="municipio" class="frm_empresa_" style="width:50%;color:#666;" title="MUNICIPIO">
-                        	<option>MUNICIPIO</option>
-                        </select><img id="img_muncipio_empresa" src="Imagenes/loading_.gif" style="width:30px; height:30px; right:2%; display:none; top:22%" class="frm_empresa_"/><br /><br />
-                        <input name="calle" class="frm_empresa_"  placeholder="CALLE" title="CALLE" style=" top:26%; right:30%"  required="required"/><br />
-                        <input name="no_domicilio" class="frm_empresa_"  placeholder="No:" title="No:" style=" top:26%; right:5%"  required="required"/><br />
-                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="requisito_div">
-                           <h2 style="font-size:22px">REQUISITOS DE CONTRATACIÓN</h2><img  id="img_agregar_requisitos"src="Imagenes/más.png" class="frm_empresa_"  title="AGREGAR MÁS REQUISITOS" style=" margin-left:10px; width:30px; height:30px; border:none" tabindex="0"/><br>
-                        <select  id="requisito" name="1requisito" class="frm_empresa_" style="color:#666;">
-                            <option value="TITULO PROFESIONAL">TITULO PROFESIONAL</option>
-                            <option value="EXAMEN DE SELECCIÓN">EXAMEN DE SELECCIÓN</option>
-                            <option value="IDIOMA EXTRANJERO">IDIOMA EXTRANJERO</option>
-                            <option value="HABILIDADES SOCIO-COMUNICATIVAS">HABILIDADES SOCIO-COMUNICATIVAS</option>
-                            <option value="EXPERIENCIA LABORAL">EXPERIENCIA LABORAL</option>
-                            <option value="NINGUNO">NINGUNO</option>
-                        </select>
+        <div class="row">
+       	 	<div id="div_empresa" class="col-lg-8 col-lg-push-2 col-md-12  col-sm-12 col-xs-12">
+            <img src="Imagenes/loading.svg"  class="cargando" id="img_cargando_empresa"/>
+            <div  id="div_frm_empresa">
+            <img src="Imagenes/loading45.svg" class="enviando" id="img_enviar_empresa"/>
+            <div>
+                <form  id="frm_empresa">
+                	<h2 class="title-form">
+                    FORMULARIO DE DATOS DE LA EMPRESA
+                    <img src="Imagenes/mask.png" id="img_cancelar_empresa" title="CERRAR FORMULARIO"  class="symbol-cancel" tabindex="0" />
+                  </h2>
+                  <div class="form-format-2">
+                    <div>
+                      <label>Empresa</label><br>
+                      <input id="input-nombre-empresa"  name="nombre" maxlength="30" title="Empresa"  class="width-95" required="required"/>
                     </div>
-               			<input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_empresa" class="guardar" style="right:10%"  /><img id="img_limpiar_frm_dt_empresa"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" data-target="frm_empresa" class="limpiar_form" style="width:40px; height:40px;right:5%" tabindex="0" />
-                        </div>
-                    </form><br /><br />
+                  </div>
+                  <div class="form-format-2">
+                    <div>
+                      <label>Puesto</label><br>
+                      <input type="text"  name="puesto"  maxlength="30"   title="Puesto"  required="required"/>
                     </div>
-                <div class="row">    		
-                    <div id="div_dt_empresa_editar" class="row">
+                    <div>
+                      <label>Giro</label><br>
+                      <input  name="giro"   maxlength="40"  required="required"  title="Giro"/>
                     </div>
-                </div>            
+                    <div>
+                      <label>Fecha de ingreso</label><br>
+                      <input type="text"   readonly name="año_ingreso"   title="Fecha de ingreso" id="año_ingreso"  required="required"/>
+                    </div>
+                    <div>
+                      <label>Superior inmediato</label><br>
+                      <input type="text"  name="jefe" maxlength="40"    title="Superior inmediato"  required/>
+                    </div>
+                    <h2>DATOS BÁSICOS</h2>
+                    <div>
+                      <label>Teléfono</label><br>
+                      <input type="tel"   name="tel" required maxlength="14" title="Teléfono"  />
+                    </div>
+                    <div>
+                      <label>Email</label><br>
+                      <input type="email"  name="email"  maxlength="30"   title="Email" required/>
+                    </div>
+                    <div>
+                      <label>Tipo de organismo</label><br>
+                      <select  name="organismo"  id="organismo" title="Naturaleza de la empresa">
+                      <option value="Público" >Público</option>
+                      <option value="Privado">Privado</option>
+                      <option value="Social">Social</option>
+                    </select>
+                    </div>
+                    <div>
+                      <label>Razón social</label><br>
+                      <select  name="razon_social" id="razon_social"  title="Razón social">
+                        <option value="Persona moral"  title="EMPRESA">Persona moral</option>
+                        <option value="Persona física"  title="UNA SOLA PERSONA">Persona física</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label>Medio de búsqueda</label>
+                      <select name="medio_busqueda"   id="medio_busqueda" title="Medio de búsqueda" >
+                          <option value="1">Bolsa del plantel</option>
+                          <option value="2">Contactos personales</option>
+                          <option value="3">Residencia profecional</option>
+                          <option value="4">Medios masivos de comunicación</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label>Tiempo de búsqueda</label><br>
+                      <select name="tiempo_busqueda" id="tiempo_busqueda" title="Tiempo de búsqueda">
+                        <option value="1">Seis meses</option>
+                          <option value="2">Un año</option>
+                          <option value="3">Dos año</option>
+                          <option value="4">Tres año</option>
+                          <option value="5">Más 4 año</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label>Web de la empresa</label><br>
+                      <input type="text"  name="web" maxlength="30"   title="Web de la empresa" class="width-95"/>
+                    </div>
+                    <h2>DOMICILIO</h2>
+                    <div>
+                      <label>Calle</label><br>
+                      <input name="calle"   title="Calle"  required="required"/>
+                    </div>
+                    <div>
+                      <label>No:</label><br>
+                      <input name="no_domicilio"    title="No:"   required="required"/>
+                    </div>
+                    <div>
+                      <label>Estado</label><br>
+                      <select  id="estado_empresa" name="estado" title="Estado">
+                        <option>ESTADO</option>
+                      </select>
+                    </div>
+                    <div class="position-relative">
+                      <label>Municipio</label><br>
+                      <select id="municipio_empresa" name="municipio" title="Municipio">
+                        <option>Municipio</option>
+                      </select>
+                      <img id="img_muncipio_empresa" src="Imagenes/hourglass.svg" class="element-inside-input"/>
+                    </div>
+                  </div>
+                  <div class="form-format-2">
+                    <div id="requisito_div">
+                       <h3>
+                        Requisitos de contratación
+                        <img  id="img_agregar_requisitos" src="Imagenes/mask.png"   title="Agregar requisito" class="symbol-add-extra cursor" tabindex="0"/>
+                       </h3>
+                      <select  id="requisito" name="1requisito" >
+                          <option value="6">Titulo profecional</option>
+                          <option value="2">Examen de selección</option>
+                          <option value="3">Idioma extranjero</option>
+                          <option value="4">Habilidades socio-comunicativas</option>
+                          <option value="5">Experiencia laboral</option>
+                          <option value="1">Ninguno</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="container-save align-right">
+                    <input   type="submit"   title="GUARDAR" value="GUARDAR" id="btn_guardar_empresa" class="guardar"   />
+                    <img id="img_limpiar_frm_dt_empresa"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" data-target="frm_empresa" class="limpiar_form"  tabindex="0" />
+                  </div>
+                </form>
                 </div>
+            <div class="row">    		
+                <div id="div_dt_empresa_editar" class="row">
+                </div>
+            </div>            
+            </div>
                 <div id="div_dt_empresa">
                 </div>
             </div>
         </div>
-        </div>
+      </div><!-- fin de tercero -->
 	    <div id="tercero">
         	<div id="dialogo_social"></div>
             <div id="div_borrar_social" style="display:none">
@@ -910,7 +1011,7 @@ $("document").ready(function() {//evaluar passs
 		            	<form id="frm_social" style="text-align:center;">
 		                    <h2 style="font-size:22px;">FORMULARIO PARA ASOCIACIONES SOCIALES</h2>
 		                    <img id="img_cerrar_frm_social" class="symbol-cancel" src="Imagenes/mask.png" title="CERRAR FORMULARIO" tabindex="0" /><br>
-                                        <input id="input-nombre-asociacion" type="text" name="nombre"   required="required" maxlength="30" class="frm_empresa"  placeholder="NOMBRE DE LA ASOCIACIÓN"/><br/>
+                                        <input id="input-nombre-asociacion" type="text" name="nombre"   required="required" maxlength="30"   placeholder="NOMBRE DE LA ASOCIACIÓN"/><br/>
 		                    <select name="tipo" id="select_social" class="basicos" style="width:70%" >
 		                        <option value="1">TIPO</option>
 		                        <option value="GRUPO ESTUDIANTIL">GRUPO ESTUDIANTIL</option>
@@ -937,10 +1038,10 @@ $("document").ready(function() {//evaluar passs
 		                <form id="frm_historial" style="text-align:center">
                                     <label style="font-size:22px;">FORMULARIO DE HISTORIAL EMPRESARIAL</label><br />
                                     <img id="img_cerrar_frm_historial" class="symbol-cancel" src="Imagenes/mask.png" title="CERRAR FORMULARIO" tabindex="0" /><br>
-                                        <input id="input-nombre-historial"type="text" name="nombre" title="NOMBRE DE LA EMPRESA" placeholder="NOMBRE DE LA EMPRESA" maxlength="30"  class="frm_empresa" required /><br />
-		                    <input type="text" name="tel"  title="TELÉFONO DE LA EMPRESA" placeholder="TELEFONO DE LA EMPRESA" maxlength="18"  class="frm_empresa"  required/><br />
-		                    <input type="text" name="web"  title="WEB DE LA EMPRESA" placeholder="WEB DE LA EMPRESA" maxlength="40"  class="frm_empresa" /><br />
-		                    <input type="text" name="email"  title="EMAIL DE LA EMPRESA" placeholder="EMAIL DE LA EMPRESA" maxlength="30"  class="frm_empresa"required/><br />
+                                        <input id="input-nombre-historial"type="text" name="nombre" title="NOMBRE DE LA EMPRESA" placeholder="NOMBRE DE LA EMPRESA" maxlength="30"   required /><br />
+		                    <input type="text" name="tel"  title="TELÉFONO DE LA EMPRESA" placeholder="TELEFONO DE LA EMPRESA" maxlength="18"    required/><br />
+		                    <input type="text" name="web"  title="WEB DE LA EMPRESA" placeholder="WEB DE LA EMPRESA" maxlength="40"   /><br />
+		                    <input type="text" name="email"  title="EMAIL DE LA EMPRESA" placeholder="EMAIL DE LA EMPRESA" maxlength="30"  required/><br />
 		                    <input type="submit" name="GUARDAR" value="GUARDAR" class="guardar" placeholder="GUARDAR" title="GUARDAR"/><img id="img_limpiar_frm_historial"  src="Imagenes/mask.png" title="LIMPIAR FORMULARIO" class="limpiar_form" data-target="frm_historial" style="width:40px; height:40px;" tabindex="0" />
 		                </form>
 	                </div>
@@ -1098,6 +1199,7 @@ $("document").ready(function() {//evaluar passs
 <script type="text/javascript" src="js/App/Class/DatosSoftware.js"></script>
 <script type="text/javascript" src="js/App/Class/DatosPersonales.js"></script>
 <script type="text/javascript" src="js/App/Class/DatosIdioma.js"></script>
+<script type="text/javascript" src="js/App/Class/DatosPosgrado.js"></script>
 <script type="text/javascript" src="js/App/Structure/StructureDatosEgresado.js"></script>
 <script type="text/javascript" src="js/App/Class/Toggle.js"></script>
 <script type="text/javascript">
@@ -1105,21 +1207,24 @@ $("document").ready(function() {//evaluar passs
         Animaciones.init();
         Toggle.init();
         var no_control=<?php echo $_SESSION['No_control'] ?>;//cargar variable
+        DatosAcademicos.setNoControl(no_control);
+        DatosSoftware.setNoControl(no_control);
+        DatosPersonales.setNoControl(no_control);
+        DatosIdioma.setNoControl(no_control);
+        DatosPosgrado.setNoControl(no_control);
+        DatosPersonales.requestDatosEgresado(no_control);
+        DatosAcademicos.dt_academicos(no_control);
+        DatosIdioma.requestDatosIdioma(no_control);
+        DatosPosgrado.requestDatosPosgrado(no_control);
+        DatosSoftware.dt_SW(no_control);
         EventosForm.init();
         EventosForm.setNoControl(no_control);
         LimpiarForm.init();
         DatosAcademicos.init();
-        DatosAcademicos.setNoControl(no_control);
-        DatosAcademicos.dt_academicos(no_control);
         DatosSoftware.init();
-        DatosSoftware.setNoControl(no_control);
-        DatosSoftware.dt_SW(no_control);
         DatosPersonales.init();
-        DatosPersonales.setNoControl(no_control);
-        DatosPersonales.requestDatosEgresado(no_control);
         DatosIdioma.init();
-        DatosIdioma.setNoControl(no_control);
-        DatosIdioma.requestDatosIdioma(no_control);
+        DatosPosgrado.init();
     });
 </script>  
 </html>    

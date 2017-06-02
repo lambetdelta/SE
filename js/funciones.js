@@ -106,7 +106,6 @@ function inicio(no_control){//animaciones de los contenedores de los datos basic
 	dt_empresa(no_control);
 	dt_historial(no_control);
 	dt_social(no_control);
-	dt_posgrado(no_control);
 		};		
 function validar_texto(e) 
 {
@@ -363,44 +362,24 @@ function ajax_error(jqXHR,textStatus){
        }
 }
 
-function ajax_error_alert(jqXHR,textStatus){
-        if (jqXHR.status === 0) {
-            $('#alert_personales').append('<p>ERROR:SIN RESPUESTA DEL SERVIDOR</p>');
-            alert_Bloq('Error',$('#alert_personales'));
-            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
-        } else if (jqXHR.status == 404) {
-            $('#alert_personales').append('<p>ERROR:PÁGINA NO ENCONTRADA [404]</p>');
-            alert_Bloq('Error',$('#alert_personales'));
-            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
-
-        } else if (jqXHR.status == 500) {
-            $('#alert_personales').append('<p>ERROR:FALLA DEL SERVIDOR[505]</p>');
-            alert_Bloq('Error',$('#alert_personales'));
-            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
-            //Internal Server Error [500]
-                
-        } else if (textStatus === 'parsererror') {
-            $('#alert_personales').append('<p>ERROR:DATOS RECIBIDOS CORRUPTOS</p>');
-            alert_Bloq('Error',$('#alert_personales'));
-            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
-//            Requested JSON parse failed
-
-        } else if (textStatus === 'timeout') {
-            $('#alert_personales').append('<p>ERROR:TIEMPO DE RESPUESTA EXPIRADO</p>');
-            alert_Bloq('Error',$('#alert_personales'));
-            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
-//           Time out error
-
-        } else if (textStatus === 'abort') {
-
-//            alert('Ajax request aborted.');
-
-        } else {
-            $('#alert_personales').append('<p>ERROR INESPERADO:'+ jqXHR.responseText+'</p>');
-            alert_Bloq('Error',$('#alert_personales'));
-            setTimeout('$("#alert_personales").dialog( "close" );$("#alert_personales").html("");',2000);
-       }
-} 
+  function ajax_error_alert(jqXHR,textStatus){
+    var msn='';
+    if (jqXHR.status === 0)
+      msn='ERROR:SIN RESPUESTA DEL SERVIDOR';
+    else if (jqXHR.status == 404)
+      msn='ERROR:PÁGINA NO ENCONTRADA [404]';
+    else if (jqXHR.status == 500)
+      msn='ERROR:FALLA DEL SERVIDOR[505]';
+    else if (textStatus === 'parsererror')
+      msn='ERROR:DATOS RECIBIDOS CORRUPTOS';
+    else if (textStatus === 'timeout')
+      msn='ERROR:TIEMPO DE RESPUESTA EXPIRADO';
+    else if (textStatus === 'abort')
+      msn='Abort';
+    else
+      msn='ERROR INESPERADO:'+ jqXHR.responseText;
+    alertDanger(msn);
+  } 
 function datepicker_esp(){//calendario español
 	 $.datepicker.regional['es'] = {
 	 changeYear: true,
@@ -443,70 +422,6 @@ function validar_Est_Mun(){//verificar estados y municipios
 		}else
 			return true;
 		}	
-	}
-		
-function dt_academicos(no_control){//cargar datos academicos
-	try{
-    $('#alert_academico').html('');
-    $("#datos_academicos").hide();
-    $("#datos_academicos").html('');
-  	$("#img_cargando_dt_academicos").show();
-  	$.post('ajax/dt_academicos.php',{no_control:no_control}).
-  	done(function(data){
-             datos=$.parseJSON(data);   
-             if(datos.respuesta==='1'){
-                var p='<h2>Datos Academicos</h2>';            
-                $('#datos_academicos').append(p);
-                p='<img id="agregar_carrera" tabindex="0" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ';          
-                $('#datos_academicos').append(p);
-                $.each(datos.carrera,function(){
-                    var div=$('<div/>');
-                    p='<img id="img-dt-academicos'+this.no_registro+'" src="Imagenes/editar.png"  title="EDITAR" class="editar_academico" tabindex="0"/>';
-                    div.append(p);
-                    p='<img tabindex="0" id="'+this.no_registro+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar"/>';
-                    div.append(p);
-                    p='<p>Carrera:<b>'+this.carrera+'</b></p>';
-                    div.append(p);
-                    p='<p>Especialidad:<b>'+this.especialidad+'</b></p>';
-                    div.append(p);
-                    p='<p>Fecha de inicio:<b>'+this.fecha_inicio+'</b></p>';
-                    div.append(p);
-                     p='<p>Fecha de finalización:<b>'+this.fecha_fin+'</b></p>'; 
-                    div.append(p);
-                    p='<p>Titulado:<b>'+this.titulado+'</b></p>'; 
-                    div.append(p);
-                    div.addClass('div_carrera');
-                    div.attr('id','div-dt-academicos'+this.no_registro);
-                    $('#datos_academicos').append(div);
-                    $('#datos_academicos').show();
-                });
-                $("#img_cargando_dt_academicos").hide();
-                $('#datos_academicos').show();
-             }else{
-                var p='<h2>Datos Academicos</h2>';
-                $('#datos_academicos').append(p);
-                p='<img tabindex="0" id="agregar_carrera" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ';          
-                $('#datos_academicos').append(p);
-                p='<p>Informe:'+datos.mensaje+'</p>'; 
-                $('#datos_academicos').append(p);
-                $('#img_cargando_dt_academicos').hide();
-                $('#datos_academicos').show();
-             }   
-            }).fail(function(jqXHR, textStatus, errorThrown){
-              $("#img_cargando_dt_academicos").hide();
-              $('#datos_academicos').show(); 
-              ajax_error(jqXHR,textStatus,$('#datos_academicos'));
-            });    
-        }catch(e){
-            var p='<h2>Datos Academicos</h2>';
-            $('#datos_academicos').append(p);
-            p='<img tabindex="0" id="agregar_carrera" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar carrera" /> ';          
-            $('#datos_academicos').append(p);
-            p='<p>Informe:'+e+'</p>'; 
-            $('#datos_academicos').append(p);
-            $('#img_cargando_dt_academicos').hide();
-            $('#datos_academicos').show();
-        }
 	}
 			
 function validar_fechas(inicio,fin){ //verificar fechas dobles si son validas
@@ -561,54 +476,6 @@ var alert_=dialog;
 		position: { my: "center", at: "center", of: '#center_diag' }
 		});
 	  }			
-function confirmar_idioma(no_control,registro){//preguntar borrado de idioma 
-   $("#dialogo_idioma").dialog({ 
-		width: 250,  
-		height: 250,
-		title:"BORRAR",
-		show: "scale", 
-		hide: "scale", 
-		resizable: "false", 
-		modal: "true", 
-		position: { my: "center", at: "center", of: '#center_diag' },
-		buttons: {
-			ACEPTAR: function() {
-				// ir al sitio oficial jquery.com
-				 borrar_idioma(no_control,registro);
-				 $(this).dialog("close");
-		},
-			CANCELAR: function() {
-				// Ir al sitio oficial jqueryui.com
-				$(this).dialog( "close" );
-		}
-		}
-		});
-	  }		
-
-function confirmar_sw(no_control,registro){//preguntar borrado de sw 
-   $("#dialogo_sw").dialog({
-		width: 250,  
-		height: 250,
-		title:"BORRAR ",
-		show: "scale", 
-		hide: "scale", 
-		resizable: "false", 
-		modal: "true", 
-		position: { my: "center", at: "center", of: '#center_diag' },
-		buttons: {
-			ACEPTAR: function() {
-				// ir al sitio oficial jquery.com
-				 borrar_sw(no_control,registro);
-				 $(this).dialog("close");
-		},
-			CANCELAR: function() {
-				// Ir al sitio oficial jqueryui.com
-				$(this).dialog( "close" );
-		}
-		}
-		});
-	  }
-	  
 	  /////////////////////funciones del div empresa
  function show_empresa(){//mostrar contendores empresa
 	$("#div_frm_empresa").slideToggle(1000);
@@ -1367,154 +1234,6 @@ function confirmar_social(no_control,registro){//preguntar borrado de empresa
 		}
 		});
 	  }  
-	  
-function dt_posgrado(no_control){//cargar datos academicos
-	try{
-            $("#div_dt_posgrado").hide();
-            $("#div_dt_posgrado").html('');
-            $("#img_cargando_posgrado").show();
-            $.post('ajax/dt_posgrado.php',{no_control:no_control})
-            .done(function(data){
-                 datos=$.parseJSON(data);   
-                 if(datos.respuesta==='1'){
-                    var p='<h2>Posgrado</h2>';            
-                    $('#div_dt_posgrado').append(p);
-                    p='<img tabindex="0" id="agregar_posgrado" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar pogrado" /> ';          
-                    $('#div_dt_posgrado').append(p);
-                    $.each(datos.posgrado,function(){
-                        var div=$('<div/>');
-                        p='<img tabindex="0" id="img_posgrado_borrar'+this.id_posgrado+'" src="Imagenes/cancelar.png"  title="ELIMINAR" class="eliminar"/>';
-                        div.append(p);
-                        p='<p>Posgrado:<b>'+this.nombre+'</b></p>';
-                        div.append(p);
-                        p='<p>Escuela:<b>'+this.escuela+'</b></p>';
-                        div.append(p);
-                        p='<p>titulado:<b>'+this.titulado+'</b></p>';
-                        div.append(p);
-                         p='<p>Tipo:<b>'+this.posgrado+'</b></p>'; 
-                        div.append(p);
-                        div.addClass('div_carrera');
-                        div.attr('id','div_posgrado'+this.id_posgrado);
-                        $('#div_dt_posgrado').append(div);
-                    });
-                    $("#img_cargando_posgrado").hide();
-                    $('#div_dt_posgrado').show();
-                 }else{
-                        var p='<h2>Posgrado</h2>';
-                        $('#div_dt_posgrado').append(p);
-                        p='<img tabindex="0" id="agregar_posgrado" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar posgrado" /> ';          
-                        $('#div_dt_posgrado').append(p);
-                        p='<p>Informe:'+datos.mensaje+'</p>'; 
-                        $('#div_dt_posgrado').append(p);
-                        $('#img_cargando_posgrado').hide();
-                        $('#div_dt_posgrado').show();
-                 }   
-                }).fail(function(jqXHR, textStatus, errorThrown){
-                  $("#img_cargando_posgrado").hide();
-                  $('#div_dt_posgrado').show(); 
-                  ajax_error(jqXHR,textStatus,$('#div_dt_posgrado'));
-                }); 
-        }catch(e){
-            var p='<h2>Posgrado</h2>';
-            p='<p>Informe:'+e+'</p>'; 
-            $('#div_dt_posgrado').append(p);
-            p='<img tabindex="0" id="agregar_posgrado" src="Imagenes/agregar.png" class="agregar_carrera"  title="Agregar posgrado" /> ';       
-            $('#div_dt_posgrado').append(p);
-            $('#img_cargando_posgrado').hide();
-            $('#div_dt_posgrado').show();
-        }
-	}	  
-	
-function borrar_posgrado(no_control,registro){//borrar empresa
-	try{
-            alert_Bloq('BORRANDO...',$('#alert_personales'));
-            $.post('ajax/borrar_posgrado.php',{registro:registro,no_control:no_control})
-            .done(function(response){
-                    respuesta = $.parseJSON(response);
-                    if(respuesta.respuesta == 'done'){
-                            alert_('BORRADO EXITOSO',$('#alert_personales'),280);
-                            setTimeout('$("#alert_personales").dialog( "close" );',1000);
-                            dt_posgrado(no_control);
-                    }
-                    else{
-                            $("#alert_personales").append('<p>Informe:'+datos.mensaje+'</p>');
-                            alert_("Error",$("#alert_personales"),250);
-                            setTimeout("$('#alert_personales').dialog('close');",2000);
-                    }
-                    }).
-            fail(function(jqXHR, textStatus, errorThrown){
-                ajax_error_alert(jqXHR,textStatus);
-            });//fin de done 
-        }catch(e){
-            $("#alert_personales").append('<p>Informe:'+e+'</p>');
-            alert_("Error",$("#alert_personales"),250);
-            setTimeout("$('#alert_personales').dialog('close');",2000);
-        }
-}		
-
-function confirmar_posgrado(no_control,registro){//preguntar borrado de empresa 
-   $("#div_borrar_posgrado").dialog({ 
-		width: 250,  
-		height: 250,
-		title:"BORRAR",
-		show: "scale", 
-		hide: "scale", 
-		resizable: "false", 
-		modal: "true", 
-		position: { my: "center", at: "center", of: '#center_diag' },
-		buttons: {
-			ACEPTAR: function() {
-				// ir al sitio oficial jquery.com
-				 $("#div_borrar_posgrado").dialog("close");
-				 borrar_posgrado(no_control,registro);
-		},
-			CANCELAR: function() {
-				// Ir al sitio oficial jqueryui.com
-				$(this).dialog( "close" );
-		}
-		}
-		});
-	  }
-	  
-function guardar_posgrado(no_control){//guardar nuevo idioma
-	try{
-            $("#img_enviar_posgrado").show();//img guardado
-            $("#frm_posgrado").hide();//ocular formulario
-            $.post('ajax/guardar_posgrado.php',{form:$('#frm_posgrado').serialize(),no_control:no_control})
-            .done(function(response){
-                    respuesta = $.parseJSON(response);
-                    if(respuesta.respuesta == 'done'){
-                            $("#img_enviar_posgrado").hide();
-                            limpiaForm($("#frm_posgrado")); 
-                            alert_('POSGRADO AGREGADO',$('#alert_academico'),300);
-                            show_posgrado();
-                            dt_posgrado(no_control);
-                            setTimeout('$("#frm_posgrado").show();',1500);
-                    }
-                    else{
-                            $("#img_enviar_posgrado").hide();
-                            limpiaForm($("#frm_posgrado")); 
-                            alert_(respuesta.mensaje,$("#alert_academico"),500);
-                            show_posgrado();
-                            setTimeout('$("#frm_posgrado").show();',1500);
-                    }
-                    }).
-            fail(function(jqXHR, textStatus, errorThrown){
-                $("#img_enviar_posgrado").hide();
-                limpiaForm($("#frm_posgrado")); 
-                show_posgrado();
-                setTimeout('$("#frm_posgrado").show();',1500);
-                ajax_error_alert(jqXHR,textStatus);
-            });//fin de done    
-        }catch(e){
-            $("#img_enviar_posgrado").hide();
-            limpiaForm($("#frm_posgrado")); 
-            alert_(respuesta.mensaje,$("#alert_academico"),500);
-            show_posgrado();
-            setTimeout('$("#frm_posgrado").show();',1500);
-        }
-	}//fin de function principal; 	  
-	
 function guardar_residencia(no_control){//guardar nuevo idioma
 	try{
            $("#img_enviar_residencia").show();//img guardado

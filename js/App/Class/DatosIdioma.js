@@ -11,7 +11,7 @@ var DatosIdioma={
 		var registro=this.dataset.registro;
 		var description=this.dataset.description;
 		// DatosAcademicos.confirmar(DatosAcademicos.no_control,registro);
-		confirmarEliminacion('Deseas borrar esta carrera ?'+description,DatosIdioma.deleteIdioma,DatosIdioma.no_control,registro)
+		confirmarEliminacion('Deseas borrar este idioma:' + description + '?' ,DatosIdioma.deleteIdioma,DatosIdioma.no_control,registro)
 	},
 	deleteIdioma:function(no_control,registro){//borrar carrera
 	try{
@@ -119,7 +119,7 @@ var DatosIdioma={
 		return  '<h2>Idiomas<img id="agregar_idioma" tabindex="0"  src="Imagenes/mask.png" class="symbol-add margin-both-sides-10"  title="Agregar Idioma" /></h2>';
 	},
 	templateTitleItems:function(){
-		return '<Div class="display-flex justify-between margin-sides-10 idiomas-div > div">'+
+		return '<Div class="display-flex justify-between margin-sides-10 idiomas-div">'+
 		'<Div>Idioma</Div>'+
 		'<Div>Habla</Div>'+
 		'<Div>Escritura</Div>'+

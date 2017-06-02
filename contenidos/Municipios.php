@@ -2,6 +2,7 @@
 include_once '../includes/db_connect.php';
 include '../includes/functions.php';
 $datos=array();
+sleep(2);
 $datos['respuesta']='0';
 $datos['mensaje']='Error en envío de datos';
 if(isset($_POST["elegido"])){

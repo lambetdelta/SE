@@ -2,7 +2,7 @@ var EventosForm={
 	no_control:null,
 	init:function(){
 		
-		$("#frm_posgrado").submit(EventosForm.sendPosgrado);
+		
 		$("#frm_empresa").submit(EventosForm.sendEmpresa);
 		$("#frm_social").submit(EventosForm.sendSocial);
 		$("#frm_residencia").submit(EventosForm.sendResidencia);

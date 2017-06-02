@@ -48,8 +48,8 @@ form input.egresado{/*Propiedades del input*/
     height:35px;
     text-align:center;
     position:relative;
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top:10px;
+    margin-bottom:10px;
     border-radius:5px;
     border: 1px solid#4CAF50; 
 }
@@ -111,20 +111,24 @@ input.adm:focus{
     background: #4CAF50 url('../Imagenes/index/egresado.png') no-repeat center;
     width: 128px;
     height: 128px;
-    text-align:center;
-    display: table;
-    float: right;
+    text-align: center;
     transition: 1s;
     cursor: pointer;
+    margin: auto;
+    display: flex;
+}
+#egresado:hover #span-egresado{
+    visibility:visible;
 }
 #adm{
     background:#FF5722 url('../Imagenes/index/adm.png') no-repeat center;
     width: 128px;
-    height: 128px;   
+    height: 128px;
     text-align: center;
-    display: table;
     transition: 1s;
     cursor: pointer;
+    margin: auto;
+    display: flex;
 }
 #adm:hover{
     background:#fbbe75 url('../Imagenes/index/adm_n.png') no-repeat center; 
@@ -148,8 +152,7 @@ input.adm:focus{
   outline: none ;
 }
 .titulo{
-    display: table-cell;
-    vertical-align: middle;
+    margin: auto;
     font-size: 21px;
     visibility: hidden; 
 }
@@ -163,7 +166,8 @@ input.adm:focus{
 }
 #div-col-info{
     position: relative;
-    text-align: center
+    text-align: center;
+    margin-top: 20px;
 }
 #div-col-info-texto{
     display: none;
@@ -171,5 +175,4 @@ input.adm:focus{
     color: #090;
     font-size: 1em;
     background-color: #FFF;
-    
 }

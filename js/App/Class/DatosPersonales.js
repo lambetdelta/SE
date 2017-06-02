@@ -47,7 +47,7 @@ var DatosPersonales={
     	DatosPersonales.StructureDatosEgresado=StructureDatosEgresado.init(egresado.no_control,
     		egresado.nombre,egresado.apellido_p,egresado.apellido_m,egresado.genero,
     		egresado.fecha_nacimiento,egresado.curp,egresado.email,egresado.ciudad,
-    		egresado.calle,egresado.numero_casa,egresado.cp,egresado.colonia,egresado.telefono);
+    		egresado.colonia,egresado.calle,egresado.numero_casa,egresado.cp,egresado.telefono);
     },
     handleResponse:function(data,no_control,msn_successful,msn_error){
 		datos=$.parseJSON(data);
@@ -108,9 +108,9 @@ var DatosPersonales={
 		'class="editar margin-both-sides-10" id="img_editar" title="EDITAR PERFIL" tabindex="0"/></h2>';
 	},
 	templateDatosPersonales:function(egresado){
-		return '<div class="display-flex data-personal"><div class="width-100">'+ 
+		return '<div class="display-flex form-format"><div class="width-100">'+ 
 		'<label>Nombre:<b>'+egresado.nombre+' '+egresado.apellido_p+' '
-		+egresado.apellido_m +'</b></label></div><div class="display-flex data-personal width-100 justify-between">'+
+		+egresado.apellido_m +'</b></label></div><div class="display-flex form-format width-100 justify-between">'+
 		'<label>CURP:<b>'+egresado.curp+'</b></label>'+
 		'<label>Género:<b>'+egresado.genero+'</b></label>'+
 		'<label>Teléfono:<b>'+egresado.telefono+'</b></label>'+

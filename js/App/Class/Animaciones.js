@@ -12,6 +12,7 @@ var Animaciones={
 		$("#imgfrm_cancelar_academicos").on('click keypress',Animaciones.showContenedorAcademicos);
 		$("#datos_academicos").on('click keypress','img.symbol-edit',Animaciones.showFormEdicionDatosAcademicos);
 		$("#datos_academicos").on('click keypress','#agregar_carrera',Animaciones.showContenedorAcademicos);
+		$("#div_dt_posgrado").on('click',"#agregar_posgrado",Animaciones.showFormPosgrado);
 	},
 	showContenedorPosgrado:function(e){
 		Animaciones.evaluarEvento(e,Animaciones.configurarImagenPosgrado,$(this))

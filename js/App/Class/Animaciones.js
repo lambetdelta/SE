@@ -13,9 +13,15 @@ var Animaciones={
 		$("#datos_academicos").on('click keypress','img.symbol-edit',Animaciones.showFormEdicionDatosAcademicos);
 		$("#datos_academicos").on('click keypress','#agregar_carrera',Animaciones.showContenedorAcademicos);
 		$("#div_dt_posgrado").on('click',"#agregar_posgrado",Animaciones.showFormPosgrado);
+		$("#div_dt_empresa").on('click keypress',"img.symbol-edit",Animaciones.showFormDatosEmpresa);
+		$("#div_dt_empresa").on('click keypress',"#agregar_empresa",Animaciones.showFormDatosEmpresa);
+		$("#img_cancelar_empresa").on('click keypress',Animaciones.showFormDatosEmpresa);
 	},
 	showContenedorPosgrado:function(e){
 		Animaciones.evaluarEvento(e,Animaciones.configurarImagenPosgrado,$(this))
+	},
+	showFormDatosEmpresa:function(e){
+		Animaciones.evaluarEvento(e,show_empresa,$(this));
 	},
 	showFormDatosEgresado:function(e){
 		Animaciones.evaluarEvento(e,show,$(this));

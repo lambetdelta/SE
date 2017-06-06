@@ -370,10 +370,7 @@ function primer_login($N_control,$mysqli) {//identificar primer ingreso de ususa
 		
 function dt_egresado($no_control,$mysqli){
     try{    
-        $query='select nombre,apellido_m,apellido_p,fecha_nacimiento,curp,genero,
-               telefono,email,ciudad_localidad,colonia,calle,numero_casa,cp,codigo_municipiofk,codigo_estadofk 
-                FROM datos_egresado
-               WHERE no_control='.$no_control.' limit 1';
+        $query='select datos_egresado.nombre,datos_egresado.apellido_m,datos_egresado.apellido_p,datos_egresado.fecha_nacimiento,datos_egresado.curp,datos_egresado.genero, datos_egresado.telefono,datos_egresado.email,datos_egresado.ciudad_localidad,datos_egresado.colonia,datos_egresado.calle,datos_egresado.numero_casa,datos_egresado.cp,datos_egresado.codigo_municipiofk,datos_egresado.codigo_estadofk,estado.nombre AS estado, municipio.nombre AS municipio FROM datos_egresado INNER JOIN estado ON estado.codigo_estado = datos_egresado.codigo_estadofk INNER JOIN municipio ON municipio.codigo_municipio = datos_egresado.codigo_municipiofk WHERE datos_egresado.no_control='.$no_control.' limit 1';
         if($resultado=$mysqli->query($query)){
             return $resultado; 
         }else 
@@ -737,7 +734,7 @@ function guardar_requisito($mysqli,$no_control,$codigo_empresafk,$requisito){//n
 
 function dt_empresa($no_control,$mysqli){
     try{
-        $query='select codigo_empresa,nombre,giro,email,puesto,web,año_ingreso from datos_empresa where no_controlfk='.$no_control.' limit 4';
+        $query='select codigo_empresa,nombre,giro,email,puesto,web,año_ingreso,nombre_jefe,telefono from datos_empresa where no_controlfk='.$no_control;
         if($resultado=$mysqli->query($query)){
             return $resultado;           
         }else

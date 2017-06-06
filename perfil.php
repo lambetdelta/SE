@@ -1,10 +1,14 @@
 <?php
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php'; 
+include 'includes/config/global.php';
+include 'includes/class/ManufactureView.php'; 
 sec_session_start();
 if($mysqli->connect_errno){
     header('Location: error_bd.php');
 }else{
+  $no_control = $_SESSION['No_control'];
+  $obj_view = new ManufactureView($no_control);
 ?>
 <?php if (login_check($mysqli) == true) : ?>
 <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
@@ -82,44 +86,6 @@ $("document").ready(function() {
 	//funciones click	
 	/*-----------personales--------*/
 	/*--------empresa-----*/
-	$("#div_dt_empresa").on('click',".agregar_carrera",function(){// click agregar empresa
-            $('#div_dt_empresa_editar').hide();
-            show_empresa();
-            $("#frm_empresa").fadeIn(2000);
-            document.getElementById('frm_empresa').dataset.registro=null;
-            setTimeout("$('#input-nombre-empresa').focus();",1000);
-        });
-        $("#div_dt_empresa").on('keypress',".agregar_carrera",function(e){// click agregar empresa
-            if(e.which===13){
-                $('#div_dt_empresa_editar').hide();
-                show_empresa();
-                $("#frm_empresa").fadeIn(2000);
-                document.getElementById('frm_empresa').dataset.registro=null;
-                setTimeout("$('#input-nombre-empresa').focus();",1000);
-            }
-        });
-	$("#div_dt_empresa").on('click',".editar_empresa",function(){//editar datos empresa
-            var id=$(this).attr('id');
-            id=id.slice(18);
-            $("#div_dt_empresa_editar").show();
-            show_empresa();
-            $("#frm_empresa").fadeIn(2000);
-            setTimeout("$('#input-nombre-empresa').focus();",1000);
-            dt_empresa_editar(no_control,id);
-            document.getElementById('frm_empresa').dataset.registro=id;
-        });
-        $("#div_dt_empresa").on('keypress',".editar_empresa",function(e){//editar datos empresa
-            if(e.which===13){
-                var id=$(this).attr('id');
-                id=id.slice(18);
-                $("#div_dt_empresa_editar").show();
-                show_empresa();
-                $("#frm_empresa").fadeIn(2000);
-                setTimeout("$('#input-nombre-empresa').focus();",1000);
-                dt_empresa_editar(no_control,id);
-                document.getElementById('frm_empresa').dataset.registro=id;
-            }
-        });
 	$("#div_dt_empresa").on('click',".elimnar_empresa",function(){//eliminar  empresa
             var id=$(this).attr('id');
             id=id.slice(18);
@@ -260,19 +226,6 @@ $("document").ready(function() {
                             $(this).remove();
                         }
 			});
-		//evento click
-		$("#img_cancelar_empresa").click(function() {
-                    $("#frm_empresa").fadeOut(2000);
-                    limpiaForm($("#frm_empresa"));
-                    show_empresa();    
-		});
-                $("#img_cancelar_empresa").keypress(function(e) {
-                    if(e.which===13){
-                        $("#frm_empresa").fadeOut(2000);
-                        limpiaForm($("#frm_empresa"));
-                        show_empresa();
-                    }    
-		});
 		$("#estado_empresa").change(function(){//cargar municipios
 			if($("#estado_empresa").val()!=='1')
                             cargar_municipios_empresa();
@@ -652,6 +605,7 @@ $("document").ready(function() {//evaluar passs
                     <div id="contenedor_Datos_Personales">
                          <img src="Imagenes/loading.svg"  class="cargando" id="cargando_frm"/>
                         <div id="contendedor_d1">
+                          <?php $obj_view->viewDatosEgresado(dt_egresado($no_control,$mysqli));?>
                         </div>
                     </div>
                 </div>
@@ -906,16 +860,16 @@ $("document").ready(function() {//evaluar passs
                     <div>
                       <label>Tipo de organismo</label><br>
                       <select  name="organismo"  id="organismo" title="Naturaleza de la empresa">
-                      <option value="Público" >Público</option>
-                      <option value="Privado">Privado</option>
-                      <option value="Social">Social</option>
+                      <option value="1" >Público</option>
+                      <option value="2">Privado</option>
+                      <option value="3">Social</option>
                     </select>
                     </div>
                     <div>
                       <label>Razón social</label><br>
                       <select  name="razon_social" id="razon_social"  title="Razón social">
-                        <option value="Persona moral"  title="EMPRESA">Persona moral</option>
-                        <option value="Persona física"  title="UNA SOLA PERSONA">Persona física</option>
+                        <option value="1"  title="EMPRESA">Persona moral</option>
+                        <option value="2"  title="UNA SOLA PERSONA">Persona física</option>
                       </select>
                     </div>
                     <div>
@@ -1200,6 +1154,7 @@ $("document").ready(function() {//evaluar passs
 <script type="text/javascript" src="js/App/Class/DatosPersonales.js"></script>
 <script type="text/javascript" src="js/App/Class/DatosIdioma.js"></script>
 <script type="text/javascript" src="js/App/Class/DatosPosgrado.js"></script>
+<script type="text/javascript" src="js/App/Class/DatosEmpresa.js"></script>
 <script type="text/javascript" src="js/App/Structure/StructureDatosEgresado.js"></script>
 <script type="text/javascript" src="js/App/Class/Toggle.js"></script>
 <script type="text/javascript">
@@ -1212,11 +1167,13 @@ $("document").ready(function() {//evaluar passs
         DatosPersonales.setNoControl(no_control);
         DatosIdioma.setNoControl(no_control);
         DatosPosgrado.setNoControl(no_control);
+        DatosEmpresa.setNoControl(no_control);
         DatosPersonales.requestDatosEgresado(no_control);
         DatosAcademicos.dt_academicos(no_control);
         DatosIdioma.requestDatosIdioma(no_control);
         DatosPosgrado.requestDatosPosgrado(no_control);
         DatosSoftware.dt_SW(no_control);
+        DatosEmpresa.requestDatosEmpresa(no_control);
         EventosForm.init();
         EventosForm.setNoControl(no_control);
         LimpiarForm.init();
@@ -1225,6 +1182,7 @@ $("document").ready(function() {//evaluar passs
         DatosPersonales.init();
         DatosIdioma.init();
         DatosPosgrado.init();
+        DatosEmpresa.init();
     });
 </script>  
 </html>    

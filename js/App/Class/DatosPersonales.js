@@ -105,7 +105,7 @@ var DatosPersonales={
 	},
 	templateTitle:function(){
 		return '<h2>DATOS PERSONALES<img src="Imagenes/edit-green-64-pri.png"' +
-		'class="editar margin-both-sides-10" id="img_editar" title="EDITAR PERFIL" tabindex="0"/></h2>';
+		'class="editar margin-both-sides-10" id="img_editar" title="Editar" tabindex="0"/></h2>';
 	},
 	templateDatosPersonales:function(egresado){
 		return '<div class="display-flex form-format"><div class="width-100">'+ 

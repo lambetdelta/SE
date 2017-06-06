@@ -54,24 +54,27 @@
       }
     });
   }
+  function show_empresa(){//mostrar contendores empresa
+    showForm('div_dt_empresa','div_frm_empresa');
+  }
   function show_dt_academicos(){//animaciones de los contenedores de los datos basicos de los egresados
-    showForm('datos_academicos','frm_datos_academicos')
+    showForm('datos_academicos','frm_datos_academicos');
 	};
 	
   function show_historial(){
-    showForm('div_dt_historial_empresa','div_frm_historial')
+    showForm('div_dt_historial_empresa','div_frm_historial');
 	};		
   function show_social(){
-    showForm('div_dt_social','div_frm_social')
+    showForm('div_dt_social','div_frm_social');
 	};		
   function show_posgrado(){
-    showForm('div_dt_posgrado','div_frm_posgrado')
+    showForm('div_dt_posgrado','div_frm_posgrado');
 	}	
   function show_SW(){
-    showForm('div_dt_software','div_frm_software')
+    showForm('div_dt_software','div_frm_software');
 	};	
   function show(){//animaciones de los contenedores de los datos basicos de los egresados
-    showForm('contenedor_Datos_Personales','contenedor_form_datos_personales')
+    showForm('contenedor_Datos_Personales','contenedor_form_datos_personales');
 	}
   function showForm(id_container,id_form){
     toggleElements(id_container,id_form);
@@ -103,7 +106,7 @@ function inicio(no_control){//animaciones de los contenedores de los datos basic
 	cargar_estados();
 	//dt_academicos(no_control);//solicitar datos academicos
 	//dt_idioma(no_control);
-	dt_empresa(no_control);
+	/*dt_empresa*/
 	dt_historial(no_control);
 	dt_social(no_control);
 		};		
@@ -477,10 +480,7 @@ var alert_=dialog;
 		});
 	  }			
 	  /////////////////////funciones del div empresa
- function show_empresa(){//mostrar contendores empresa
-	$("#div_frm_empresa").slideToggle(1000);
-	$("#div_dt_empresa").slideToggle(1000);
-	};
+
 	
 
 var select_=1;//agregar select	

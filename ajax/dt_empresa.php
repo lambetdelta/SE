@@ -1,7 +1,7 @@
 <?php
 
-include '../includes/conexion-bd-adm.php';
-include '../includes/functions_adm.php';
+include '../includes/db_connect.php';
+include '../includes/functions.php';
 
 $datos=Array();
 $datos['respuesta']='0';
